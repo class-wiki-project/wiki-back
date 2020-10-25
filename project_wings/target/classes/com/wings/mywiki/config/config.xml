@@ -4,7 +4,7 @@
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias alias="tvo" type="com.wings.mywiki.model.TestVO" />
+		<typeAlias alias="uvo" type="com.wings.mywiki.model.UserVO" />
 	</typeAliases>
 </configuration>
 

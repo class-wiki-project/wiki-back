@@ -6,11 +6,11 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class TestDao {
+public class UserDao {
 	@Autowired
 	private SqlSessionTemplate ss;
 
 	public int getCount() {
-		return ss.selectOne("test.count");
+		return ss.selectOne("user.count");
 	}
 }

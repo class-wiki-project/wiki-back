@@ -7,6 +7,8 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class TestVO {
-	private int id;
+public class UserVO {
+	private int user_id;
+	private String email,password,student_name;
+	private int student_number,auth;
 }
