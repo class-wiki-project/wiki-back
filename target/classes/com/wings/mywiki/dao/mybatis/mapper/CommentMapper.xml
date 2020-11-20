@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wings.mywiki.dao.mybatis.mapper.CommentMapper">
+
+	<resultMap id="commentResult"
+		type="com.wings.mywiki.model.CommentVO">
+		<result property="commentId" column="comment_id" />
+		<result property="boardId" column="board_id" />
+		<result property="userId" column="user_id" />
+		<result property="noticeDate" column="notice_date" />
+		<result property="commentText" column="comment_text" />
+	</resultMap>
+	
+	<insert id="inputComment" parameterType="HashMap">
+		<selectKey resultType="string" keyProperty="commentId" order="BEFORE">
+        	select MAX(comment_id)+1 from comment      
+    	</selectKey>    
+		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText})
+	</insert>
+	
+</mapper>
