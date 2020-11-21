@@ -39,18 +39,11 @@ public class WikiController {
 		return map;
 	}
 	
-	// wiki 수정 (text,id 받아와서 DB 값 수정)
-	//***과목 ID도 추가!!! (총 parameter 3개 필요)
-	@RequestMapping(value = "/editWiki", method = RequestMethod.POST, produces = "application/json; charset=utf8") //***PUT으로 수정!
+	// wiki 수정
+	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUT으로 수정!
 	public @ResponseBody HashMap<String, String> editWiki(@RequestBody HashMap<String, String> map) throws JsonParseException, JsonMappingException, IOException { //{key(id),value(text)}
-		//Iterator<Map.Entry<String,String>> entries = map.entrySet().iterator();
-		/*while(entries.hasNext()){
-			Entry<String, String> entry = (Entry<String,String>)entries.next();
-			System.out.println("key : " + entry.getKey() + " , value : " + entry.getValue());
-		}*/
-
 		if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
-			System.out.println("Updating product cannot be done!");
+			System.out.println("Updating wiki cannot be done!");
 		}else {
 			System.out.println("Success!!!");
 		}

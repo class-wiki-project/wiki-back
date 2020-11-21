@@ -48,7 +48,10 @@
 	<!-- 위키 내용 수정 -->
 	<update id="editWiki" parameterType="HashMap">
 		update classification
-		set text = #{text}
-		where classification_id=#{classificationId}
+		set text=#{text}
+		where classification_id=#{classificationId} 
+		and wiki_id=
+			(select wiki_id from wiki
+			where subject_id=#{subjectId})
 	</update>
 </mapper>
