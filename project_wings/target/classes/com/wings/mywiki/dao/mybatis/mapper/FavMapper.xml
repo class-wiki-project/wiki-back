@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wings.mywiki.dao.mybatis.mapper.FavMapper">
+  <cache />
+  
+  <resultMap id="resultMap_fav" type="com.wings.mywiki.model.FavVO">
+    <result property="favSubjectId" column="fav_subject_id" />
+	<result property="userId" column="user_id" />
+	<result property="subjectId" column="subject_id" />
+	<result property="subjectName" column="subject_name" />
+	<result property="iconName" column="icon_name" />
+	<result property="professor" column="professor" />
+</resultMap>
+  
+  
+  <insert id="insert">
+  INSERT INTO favorite (user_id, subject_id, subject_name, icon_name, 
+  professor) values (#{userId}, #{subjectId}, #{subjectName},
+   #{iconName}, #{professor}
+  )
+  </insert>
+  <select id="selectAll" resultMap="resultMap_fav">
+  	select * from 
+  	favorite where user_id=#{userId}
+  </select>
+  
+  <select id="selectAll2" resultMap="resultMap_fav">
+  	select * from 
+  	favorite where fav_subject_id=#{favSubjecId}
+  </select>
+  
+  <update id="update">
+  	update favorite set subject_id=#{subjectId}, subject_name=#{subjectName},
+  	 icon_name=#{iconName}, professor=#{professor} where fav_subject_id=#{favSubjectId}
+  </update>
+  
+  <delete id="delete">
+  	delete from favorite where fav_subject_id=#{favSubjectId}
+  </delete>
+</mapper>
