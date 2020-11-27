@@ -28,10 +28,10 @@
   
   <!-- 게시글 생성 -->
   <insert id="createPost">
-  INSERT INTO BOARD (USER_ID, SUBJECT_ID, TITLE, TEXT, 
-  CREATE_DATE, UPDATE_DATE, HIT_NUM, CATEGORY_ID
-  ) VALUES (#{userId}, #{subjectId}, #{title}, #{text},
-  #{createDate}, #{updateDate}, #{hitNum}), #{categoryId}
+  INSERT INTO BOARD (POST_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
+  CREATE_DATE, HIT_NUM
+  ) VALUES (#{postId}, #{userId}, #{subjectId}, , #{categoryId} #{title}, #{text},
+  #{createDate}, #{hitNum})
   </insert>
   
   <!-- 게시글 상세보기 -->

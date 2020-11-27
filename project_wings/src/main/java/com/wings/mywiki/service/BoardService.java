@@ -17,7 +17,7 @@ public interface BoardService {
 		//게시글 수정
 		public BoardVO updatePost(BoardVO vo);
 		//게시글 삭제
-		public BoardVO deletePost(int postId);
+		public void deletePost(int postId);
 		//특정 페이지에 해당하는 게시글 목록
 		public List<BoardVO> listAll(Criteria cri);
 		//게시글 조회수

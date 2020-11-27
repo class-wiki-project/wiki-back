@@ -17,7 +17,7 @@ public interface BoardDao {
 	//게시글 수정
 	public BoardVO updatePost(BoardVO vo) throws DataAccessException;
 	//게시글 삭제
-	public BoardVO deletePost(int postId) throws DataAccessException;
+	public void deletePost(int postId) throws DataAccessException;
 	//게시글 전체목록 조회
 	public List<BoardVO> listAll(Criteria cri) throws DataAccessException;
 	//게시글 조회수
