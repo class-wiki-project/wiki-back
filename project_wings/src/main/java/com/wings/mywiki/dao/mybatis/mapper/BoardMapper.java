@@ -11,13 +11,13 @@ import com.wings.mywiki.model.Criteria;
 
 public interface BoardMapper {
 		//게시글 작성
-		BoardVO createPost(BoardVO vo) throws DataAccessException;
+		void createPost(BoardVO vo) throws DataAccessException;
 		//게시글 상세보기
 		BoardVO viewPostDetail(int postId) throws DataAccessException;
 		//게시글 수정
-		BoardVO updatePost(BoardVO vo) throws DataAccessException;
+		void updatePost(BoardVO vo) throws DataAccessException;
 		//게시글 삭제
-		BoardVO deletePost(int postId) throws DataAccessException;
+		void deletePost(int postId) throws DataAccessException;
 		//특정 페이지에 해당하는 게시글 목록
 		List<BoardVO> listAll(Criteria cri) throws DataAccessException;
 		//게시글 조회수

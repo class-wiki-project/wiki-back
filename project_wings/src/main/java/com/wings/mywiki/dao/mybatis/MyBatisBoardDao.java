@@ -20,8 +20,7 @@ public class MyBatisBoardDao implements BoardDao {
 	private BoardMapper boardMapper;
 
 	@Override
-	public BoardVO createPost(BoardVO vo) throws DataAccessException {
-		return boardMapper.createPost(vo);
+	public void createPost(BoardVO vo) throws DataAccessException {
 		// TODO Auto-generated method stub
 		
 	}
@@ -33,15 +32,13 @@ public class MyBatisBoardDao implements BoardDao {
 	}
 
 	@Override
-	public BoardVO updatePost(BoardVO vo) throws DataAccessException {
+	public void updatePost(BoardVO vo) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return boardMapper.updatePost(vo);
 	}
 
 	@Override
-	public BoardVO deletePost(int postId) throws DataAccessException {
+	public void deletePost(int postId) throws DataAccessException {
 		// TODO Auto-generated method stub
-		return boardMapper.deletePost(postId);
 	}
 
 	@Override

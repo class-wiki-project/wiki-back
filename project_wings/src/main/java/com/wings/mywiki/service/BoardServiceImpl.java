@@ -22,9 +22,8 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 	
 	@Override
-	public BoardVO createPost(BoardVO vo) {
+	public void createPost(BoardVO vo) {
 		// TODO Auto-generated method stub
-		return boardDao.createPost(vo);
 	}
 
 	@Override
@@ -35,15 +34,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public BoardVO updatePost(BoardVO board) {
+	public void updatePost(BoardVO board) {
 		// TODO Auto-generated method stub
-		return boardDao.updatePost(board);
 	}
 
 	@Override
-	public BoardVO deletePost(int postId) {
+	public void deletePost(int postId) {
 		// TODO Auto-generated method stub
-		return boardDao.deletePost(postId);
 	}
 
 	@Override

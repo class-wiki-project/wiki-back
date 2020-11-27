@@ -11,13 +11,13 @@ import com.wings.mywiki.model.Criteria;
 
 public interface BoardService {
 	//게시글 작성
-		public BoardVO createPost(BoardVO vo);
+		public void createPost(BoardVO vo);
 		//게시글 상세보기
 		public BoardVO viewPostDetail(int postId);
 		//게시글 수정
-		public BoardVO updatePost(BoardVO vo);
+		public void updatePost(BoardVO vo);
 		//게시글 삭제
-		public BoardVO deletePost(int postId);
+		public void deletePost(int postId);
 		//특정 페이지에 해당하는 게시글 목록
 		public List<BoardVO> listAll(Criteria cri);
 		//게시글 조회수

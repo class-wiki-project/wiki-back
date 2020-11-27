@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
+<beans:beans xmlns="http://www.springframework.org/schema/beans" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -19,32 +20,9 @@
 		<property name="prefix" value="/WEB-INF/views/"/>
 		<property name="suffix" value=".jsp"/>
 	</bean>
-	
 
-	<!-- uncomment below to use custom messages instead of the default messages provided by Hibernate validator -->
-	
-<!-- 	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource">
-		<property name="basenames">
-			<list>
-				<value>messages.validation</value>
-			</list>
-		</property>
-		<property name="defaultEncoding" value="UTF-8" />
-	</bean> 
-	<bean id="loginInterceptor"
-		class="com.dongduk.myfancy.controller.LoginInterceptor"></bean>
-	
-	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/store/*" />
-			<mvc:mapping path="/store/*/*" />
-			<mvc:mapping path="/store/*/*/*" />
-			<ref bean="loginInterceptor"/>
-		</mvc:interceptor>
-	</mvc:interceptors> -->
-
-
+	<!-- CORS 설정 -->
+	<beans:import resource="cors-config.xml"/>
 	
 	
-</beans>
+</beans:beans>
