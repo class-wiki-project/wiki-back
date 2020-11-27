@@ -23,6 +23,5 @@
 
 	<!-- CORS 설정 -->
 	<beans:import resource="cors-config.xml"/>
-	
-	
+
 </beans:beans>
