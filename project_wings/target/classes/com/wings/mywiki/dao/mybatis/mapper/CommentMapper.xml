@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.wings.mywiki.dao.mybatis.mapper.CommentMapper">
+
+	<resultMap id="commentResult"
+		type="com.wings.mywiki.model.CommentVO">
+		<result property="commentId" column="comment_id" />
+		<result property="boardId" column="board_id" />
+		<result property="userId" column="user_id" />
+		<result property="noticeDate" column="notice_date" />
+		<result property="commentText" column="comment_text" />
+		<result property="subjectId" column="subject_id" />
+	</resultMap>
+	
+	<insert id="inputComment" parameterType="HashMap">
+		<selectKey resultType="string" keyProperty="commentId" order="BEFORE">
+        	select MAX(comment_id)+1 from comment      
+    	</selectKey>    
+		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText},#{subjectId})
+	</insert>
+	
+	<update id="updateComment" parameterType="HashMap">
+		update comment
+		set comment_text = #{commentText}
+		where comment_id=#{commentId} and board_id=#{boardId}
+		<!-- boardId 자체가 유일하기 때문에, subjectId 는 필요 X -->
+	</update>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete
+		from comment
+		where comment_id=#{commentId}
+	</delete>
+	
+	<select id="getComments" parameterType="int" resultMap="commentResult">
+		select * from comment
+		where board_id=#{boardId}
+	</select>
+</mapper>
