@@ -32,7 +32,7 @@ public class BoardController {
 	
 	// 게시글 목록보기
 	@GetMapping(value = "list")
-	public Map<Integer, List<BoardVO>> list(@RequestParam(value="categoryId") int categoryId, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount,
+	public List<BoardVO> list(@RequestParam(value="categoryId") int categoryId, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount,
 			Criteria cri, HttpServletResponse response) throws IOException {
 		
 		
@@ -48,15 +48,8 @@ public class BoardController {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
-		
-		// 게시물 총 갯수 가져오기
-		int total = boardServiceImpl.getTotalCount(cri);
-		
-		// 전체 게시물 수와 Paging 정보 전달을 위한 Map
-		Map<Integer, List<BoardVO>> map = new HashMap<Integer,List<BoardVO>>();
-		map.put(total, list);
-		
-		return map;
+
+		return list;
 	}
 	
 	// 게시글 작성처리
