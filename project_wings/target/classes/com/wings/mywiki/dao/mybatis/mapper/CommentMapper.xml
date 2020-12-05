@@ -12,14 +12,13 @@
 		<result property="userId" column="user_id" />
 		<result property="noticeDate" column="notice_date" />
 		<result property="commentText" column="comment_text" />
-		<result property="subjectId" column="subject_id" />
 	</resultMap>
 
 	<insert id="inputComment" parameterType="HashMap">
 		<selectKey resultType="string" keyProperty="commentId" order="BEFORE">
         	select MAX(comment_id)+1 from comment      
     	</selectKey>    
-		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText},#{subjectId})
+		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText})
 	</insert>
 
 	<update id="updateComment" parameterType="HashMap">
