@@ -4,8 +4,8 @@
 <mapper namespace="com.wings.mywiki.dao.mybatis.mapper.BoardMapper">
   <cache />
   
-  <resultMap id="resultMap1" type="com.wings.mywiki.model.BoardVO">
-	<result property="postId" column="POST_ID" />
+  <resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
+	<result property="boardId" column="BOARD_ID" />
 	<result property="userId" column="USER_ID" />
 	<result property="subjectId" column="SUBJECT_ID" />
 	<result property="categoryId" column="CATEGORY_ID" />
@@ -17,49 +17,60 @@
 </resultMap>
 
 <!-- 페이징 처리를 위한 함수. 특정 게시판 특정 페이지 데이터만 list -->
-  <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="resultMap1">
-  SELECT POST_ID, USER_ID, SUBJECT_ID, TITLE, TEXT, 
+  <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
+  SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
   CREATE_DATE, HIT_NUM
   FROM BOARD
   WHERE CATEGORY_ID = #{categoryId}
-  ORDER BY POST_ID DESC
+  <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
+  ORDER BY BOARD_ID DESC
   limit #{startIndex}, #{amount}
   </select>
   
   <!-- 게시글 생성 -->
-  <insert id="createPost">
-  INSERT INTO BOARD (POST_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
-  CREATE_DATE, HIT_NUM
-  ) VALUES (#{postId}, #{userId}, #{subjectId}, #{categoryId}, #{title}, #{text},
+  <insert id="createPost" parameterType="com.wings.mywiki.model.BoardVO" useGeneratedKeys="true" keyProperty="boardId" keyColumn="BOARD_ID">
+  INSERT INTO BOARD (USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
+  CREATE_DATE, HIT_NUM) VALUES (#{userId}, #{subjectId}, #{categoryId}, #{title}, #{text},
   #{createDate}, #{hitNum})
   </insert>
   
   <!-- 게시글 상세보기 -->
-  <select id="viewPostDetail" resultMap="resultMap1">
-  SELECT * FROM BOARD WHERE POST_ID = #{postId}
+  <select id="viewPostDetail" resultMap="BoardMap">
+  SELECT * FROM BOARD WHERE BOARD_ID = #{boardId}
   </select>
   
   <!-- 게시글 수정 -->
-  <update id="updatePost">
-  UPDATE BOARD SET TITLE = #{title}, TEXT = #{text}, UPDATE_DATE = #{updateDate}
-  WHERE POST_ID = #{postId}
+  <update id="updatePost" parameterType="com.wings.mywiki.model.BoardVO">
+  UPDATE BOARD 
+  <set> <!-- null이 아니거나 공백이 아닐 때 수정완료 -->
+  	<if test="title != null and title != ''"> TITLE = #{title},</if>
+  	<if test="text != null and text != ''">TEXT = #{text}, </if>
+  </set>UPDATE_DATE = #{updateDate}
+  WHERE BOARD_ID = #{boardId}
   </update>
   
   <!-- 게시판 조회수 변경 -->
   <update id="increaseViewCnt">
   UPDATE BOARD
   SET HIT_NUM = HIT_NUM + 1
-  WHERE POST_ID = #{postId}
+  WHERE BOARD_ID = #{boardId}
   </update>
   
   <!-- 게시물 삭제 -->
   <delete id="deletePost">
-  	DELETE FROM BOARD WHERE POST_ID = #{postId}
+  	DELETE FROM BOARD WHERE BOARD_ID = #{boardId}
   </delete>
   
   <!-- 해당 게시판 전체 게시물 갯수 계산 -->
   <select id="getTotalCount" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
-	select count(*) from BOARD WHERE CATEGORY_ID = #{categoryId}
-</select>
+	select count(*) from BOARD 
+    WHERE CATEGORY_ID = #{categoryId}
+  <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
+  </select>
+  
+  <!-- 전체 과목 불러오기 -->
+  <select id="getSubjectList" resultType="com.wings.mywiki.model.SubjectVO">
+	select * from SUBJECT
+  </select>
   
 </mapper>

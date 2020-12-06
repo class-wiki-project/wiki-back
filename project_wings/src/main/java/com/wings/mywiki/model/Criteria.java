@@ -12,4 +12,5 @@ public class Criteria {
 	private int page;
 	private int startIndex;
 	private int categoryId;
+	private Integer subjectId;
 }

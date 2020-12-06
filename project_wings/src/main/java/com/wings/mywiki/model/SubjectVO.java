@@ -9,7 +9,6 @@ import lombok.ToString;
 @ToString
 public class SubjectVO {
 	private int subjectId;
-	private int userId;	//¿Ü·¡Å°
 	private String subjectName,professor;
 	private int year,semester;
 }
