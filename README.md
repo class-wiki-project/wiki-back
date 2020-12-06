@@ -11,7 +11,7 @@
 <p align="center">
   <img src="./img/Spring.png">
   <img src="./img/mysql.png">
-  <img src="./img/mybatis.png">
+  <img src="./img/mybatis.jpg">
   <img src="./img/restapi.png">
 </p>
 
