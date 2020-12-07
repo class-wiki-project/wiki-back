@@ -34,10 +34,10 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/fav/*" />
-			<mvc:mapping path="/board/inputComment" />
+
 			<mvc:mapping path="/board/updateComment" />
 			<mvc:mapping path="/board/deleteComment" />
-			<mvc:mapping path="/wiki/editWiki" />
+
 			<ref bean="LoginIntercepter" />
 		</mvc:interceptor>
 	</mvc:interceptors>
