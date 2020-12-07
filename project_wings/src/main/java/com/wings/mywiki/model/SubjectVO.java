@@ -11,4 +11,5 @@ public class SubjectVO {
 	private int subjectId;
 	private String subjectName,professor;
 	private int year,semester;
+	
 }

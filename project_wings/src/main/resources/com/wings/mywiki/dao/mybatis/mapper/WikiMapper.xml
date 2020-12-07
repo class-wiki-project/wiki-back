@@ -51,5 +51,5 @@
 		and wiki_id=
 			(select wiki_id from wiki
 			where subject_id=#{subjectId})
-	</update>
+	</update> 
 </mapper> 
