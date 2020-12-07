@@ -13,11 +13,11 @@ import com.wings.mywiki.model.SubjectVO;
 
 public interface BoardMapper {
 		//게시글 작성
-		void createPost(BoardVO board) throws DataAccessException;
+		int createPost(HashMap<String, Object> map) throws DataAccessException;
 		//게시글 상세보기
 		BoardVO viewPostDetail(int postId) throws DataAccessException;
 		//게시글 수정
-		void updatePost(BoardVO board) throws DataAccessException;
+		void updatePost(HashMap<String, Object> map) throws DataAccessException;
 		//게시글 삭제
 		void deletePost(int postId) throws DataAccessException;
 		//특정 페이지에 해당하는 게시글 목록
@@ -28,4 +28,6 @@ public interface BoardMapper {
 		int getTotalCount(Criteria cri) throws DataAccessException;
 		//전체 과목 불러오기
 		List<SubjectVO> getSubjectList() throws DataAccessException;
+		//해당 Board 객체 불러오기
+		BoardVO getBoard(int boardId) throws DataAccessException;
 }

@@ -24,7 +24,8 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 	
 	@Override
-	public void createPost(BoardVO board) {
+	public int createPost(HashMap<String, Object> map) {
+		return boardDao.createPost(map);
 		// TODO Auto-generated method stub
 	}
 
@@ -36,7 +37,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void updatePost(BoardVO board) {
+	public void updatePost(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 	}
 
@@ -58,7 +59,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getTotalCount(Criteria cri) throws DataAccessException {
+	public int getTotalCount(Criteria cri) {
 		// TODO Auto-generated method stub
 		return boardDao.getTotalCount(cri);
 	}
@@ -67,6 +68,12 @@ public class BoardServiceImpl implements BoardService {
 	public List<SubjectVO> getSubjectList() {
 		// TODO Auto-generated method stub
 		return boardDao.getSubjectList();
+	}
+
+	@Override
+	public BoardVO getBoard(int boardId){
+		// TODO Auto-generated method stub
+		return boardDao.getBoard(boardId);
 	}
 	
 	

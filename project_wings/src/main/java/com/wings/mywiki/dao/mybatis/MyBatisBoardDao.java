@@ -23,9 +23,9 @@ public class MyBatisBoardDao implements BoardDao {
 	private BoardMapper boardMapper;
 
 	@Override
-	public void createPost(BoardVO board) throws DataAccessException {
+	public int createPost(HashMap<String, Object> map) throws DataAccessException {
+		return boardMapper.createPost(map);
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class MyBatisBoardDao implements BoardDao {
 	}
 
 	@Override
-	public void updatePost(BoardVO board) throws DataAccessException {
+	public void updatePost(HashMap<String, Object> map) throws DataAccessException {
 		// TODO Auto-generated method stub
 	}
 
@@ -68,5 +68,11 @@ public class MyBatisBoardDao implements BoardDao {
 	public List<SubjectVO> getSubjectList() throws DataAccessException {
 		// TODO Auto-generated method stub
 		return boardMapper.getSubjectList();
+	}
+
+	@Override
+	public BoardVO getBoard(int boardId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return boardMapper.getBoard(boardId);
 	}
 }

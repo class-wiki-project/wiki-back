@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.ClassificationVO;
 import com.wings.mywiki.model.Criteria;
+import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.WikiVO;
 import com.wings.mywiki.service.BoardServiceImpl;
 import com.wings.mywiki.service.CommentServiceImpl;
@@ -68,19 +69,34 @@ public class BoardController {
 		return map;
 	}
 	
+	// 게시글 작성 폼 불러오기
+	@GetMapping(value = "insert")
+	@ResponseStatus(HttpStatus.OK)
+	public List<SubjectVO> getPostForm(HttpServletResponse response) throws IOException {
+			
+		List<SubjectVO> subject = boardServiceImpl.getSubjectList();
+		if (subject != null) { // subjectList를 성공적으로 받아오면
+			System.out.println("Getting subjectList success!!!");
+		}
+		else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		}
+		
+		return subject;
+	}
+	
 	// 게시글 작성처리
 	@PostMapping(value = "insert")
 	@ResponseStatus(HttpStatus.CREATED)
-	public BoardVO insert(@RequestBody BoardVO board, HttpServletResponse response) throws IOException {
+	public HashMap<String, Object> insert(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 		
-		boardServiceImpl.createPost(board);
-		if (board == null) {
-			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			return null;
+		if (boardServiceImpl.createPost(map) == 1) { // 성공 1, 실패 0
+			System.out.println("board 게시물 " + map.get("userId") + " created.");
 		}
-		
-		System.out.println("board " + board.getBoardId() + " created.");
-		return board;
+		else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		}
+		return map;
 	}
 	
 	// 게시글 상세보기 -> 상세보기 클릭하면 조회 수 증가
@@ -107,23 +123,23 @@ public class BoardController {
 	// 게시글 수정
 	@PutMapping(value = "update")
 	@ResponseStatus(HttpStatus.OK)
-	public HashMap<String, Object> update(@RequestBody BoardVO board, HttpServletResponse response) throws IOException {
+	public HashMap<String, Object> update(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 			
 			
-			boardServiceImpl.updatePost(board);
-			if (board == null) {
+			boardServiceImpl.updatePost(map);
+			if (map == null) {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			}
 			
-			System.out.println("post " + board.getBoardId() + " updated.");
+			System.out.println("post " + map.get("boardId") + " updated.");
 			
-			HashMap<String, Object> map = new HashMap<String, Object>();
+			HashMap<String, Object> update = new HashMap<String, Object>();
 			// 해당 게시글 객체
-			map.put("BoardVO", board);
+			update.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
 			// 해당 게시글에 해당하는 모든 댓글 불러오기 
-			map.put("CommentMap", commentServiceImpl.getComments(board.getBoardId()));
+			update.put("CommentMap", commentServiceImpl.getComments((int)map.get("boardId")));
 			
-			return map;
+			return update;
 	}
 	
 	// 게시글 삭제

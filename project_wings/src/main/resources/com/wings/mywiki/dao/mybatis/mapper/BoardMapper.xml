@@ -28,10 +28,12 @@
   </select>
   
   <!-- 게시글 생성 -->
-  <insert id="createPost" parameterType="com.wings.mywiki.model.BoardVO" useGeneratedKeys="true" keyProperty="boardId" keyColumn="BOARD_ID">
-  INSERT INTO BOARD (USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
-  CREATE_DATE, HIT_NUM) VALUES (#{userId}, #{subjectId}, #{categoryId}, #{title}, #{text},
-  #{createDate}, #{hitNum})
+  <insert id="createPost" parameterType="HashMap">
+  	<selectKey resultType="integer" keyProperty="boardId" order="BEFORE">
+        	SELECT MAX(BOARD_ID)+1 FROM BOARD      
+    </selectKey>  
+  	INSERT INTO BOARD VALUES (#{boardId}, #{title}, #{text}, #{createDate}, #{updateDate}, 
+  	#{userId}, #{subjectId}, #{categoryId}, #{hitNum,jdbcType=INTEGER})
   </insert>
   
   <!-- 게시글 상세보기 -->
@@ -40,13 +42,14 @@
   </select>
   
   <!-- 게시글 수정 -->
-  <update id="updatePost" parameterType="com.wings.mywiki.model.BoardVO">
+  <update id="updatePost" parameterType="HashMap">
   UPDATE BOARD 
-  <set> <!-- null이 아니거나 공백이 아닐 때 수정완료 -->
-  	<if test="title != null and title != ''"> TITLE = #{title},</if>
+  SET
+  	<!-- null이 아니거나 공백이 아닐 때 수정완료 -->
+  	<if test="title != null and title != ''">TITLE = #{title}, </if>
   	<if test="text != null and text != ''">TEXT = #{text}, </if>
-  </set>UPDATE_DATE = #{updateDate}
-  WHERE BOARD_ID = #{boardId}
+  UPDATE_DATE = curdate()
+  WHERE BOARD_ID = #{boardId} AND USER_ID = #{userId}
   </update>
   
   <!-- 게시판 조회수 변경 -->
@@ -70,7 +73,13 @@
   
   <!-- 전체 과목 불러오기 -->
   <select id="getSubjectList" resultType="com.wings.mywiki.model.SubjectVO">
-	select * from SUBJECT
+	select * from SUBJECTS
+  </select>
+  
+  <!-- 해당 Board 객체 불러오기 -->
+   <select id="getBoard" parameterType="int" resultMap="BoardMap">
+	SELECT * FROM BOARD
+	WHERE BOARD_ID = #{boardId}
   </select>
   
 </mapper>

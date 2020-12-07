@@ -13,11 +13,11 @@ import com.wings.mywiki.model.SubjectVO;
 
 public interface BoardService {
 	//게시글 작성
-		public void createPost(BoardVO board);
+		public int createPost(HashMap<String, Object> map);
 		//게시글 상세보기
 		public BoardVO viewPostDetail(int postId);
 		//게시글 수정
-		public void updatePost(BoardVO board);
+		public void updatePost(HashMap<String, Object> map);
 		//게시글 삭제
 		public void deletePost(int postId);
 		//특정 페이지에 해당하는 게시글 목록
@@ -28,4 +28,6 @@ public interface BoardService {
 		public int getTotalCount(Criteria cri);
 		//전체 과목 불러오기
 		public List<SubjectVO> getSubjectList();
+		//해당 Board 객체 불러오기
+		public BoardVO getBoard(int boardId);
 }

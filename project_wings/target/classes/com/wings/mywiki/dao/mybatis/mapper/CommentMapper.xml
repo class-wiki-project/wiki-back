@@ -19,7 +19,7 @@
 		<selectKey resultType="string" keyProperty="commentId" order="BEFORE">
         	select MAX(comment_id)+1 from comment      
     	</selectKey>    
-		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText},#{subjectId})
+		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText})
 	</insert>
 
 	<update id="updateComment" parameterType="HashMap">
