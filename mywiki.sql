@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 CREATE TABLE `board` (
-  `post_id` int(11) NOT NULL AUTO_INCREMENT,
+  `board_id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(400) NOT NULL,
   `text` varchar(1000) DEFAULT NULL,
   `create_date` date NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE `board` (
   `subject_id` int(11) DEFAULT NULL,
   `category_id` int(11) NOT NULL,
   `hit_num` int(11) NOT NULL,
-  PRIMARY KEY (`post_id`),
+  PRIMARY KEY (`board_id`),
   KEY `user_id` (`user_id`),
   KEY `subject_id` (`subject_id`),
   KEY `category_id` (`category_id`),
@@ -92,14 +92,14 @@ CREATE TABLE IF NOT EXISTS `favorite` (
 
 CREATE TABLE `comment` (
   `comment_id` int(11) NOT NULL AUTO_INCREMENT,
-  `post_id` int(11) NOT NULL,
+  `board_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
   `notice_date` timestamp(5) NOT NULL,
   `comment_text` varchar(600) DEFAULT NULL,
   PRIMARY KEY (`comment_id`),
   KEY `user_id` (`user_id`),
   KEY `comment_ibfk_1` (`post_id`),
-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`post_id`) REFERENCES `board` (`post_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`board_id`) REFERENCES `board` (`post_id`),
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
@@ -141,12 +141,12 @@ INSERT INTO `mywiki`.`category` (`category_id`, `category_name`) VALUES ('2', '�
 --
 -- `board`
 --
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('1', '실행이 안되는데요', '이거 실행 안되는데 하신분?', '2019-11-13 21:22:00', '2020-11-13 21:22:00', '1', '2', '1', '3');
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('2', '이거 어케 품?', '하나도 모르겠음', '2020-04-11 18:19:20', '2020-04-11 18:19:20', '2', '1', '1', '20');
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('3', '도와줘요ㅠㅠ', '글쓰기 하나도 못해요', '2020-05-02 13:00:33', '2020-05-12 17:00:33', '3', '5', '1', '13');
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`subject_id`, `category_id`, `hit_num`) VALUES ('4', '아ㅏㅏ하기싫다', 'ㅏㅏㅏㅏㅏㅏㅏ', '2020-09-16 00:33:12', '2020-09-16 00:33:12', '4', '2', '23');
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('5', '알고르즘 교수님', '대머리', '2020-12-03 20:20:54', '2020-12-03 20:20:54', '3', '2', '35');
-INSERT INTO `mywiki`.`board` (`post_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`category_id`, `hit_num`) VALUES ('6', '자체휴강', '자체휴강했당^,^', '2020-09-28 10:30:11', '2020-09-28 10:30:11', '2', '2', '22');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('1', '실행이 안되는데요', '이거 실행 안되는데 하신분?', '2019-11-13 21:22:00', '2020-11-13 21:22:00', '1', '2', '1', '3');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('2', '이거 어케 품?', '하나도 모르겠음', '2020-04-11 18:19:20', '2020-04-11 18:19:20', '2', '1', '1', '20');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('3', '도와줘요ㅠㅠ', '글쓰기 하나도 못해요', '2020-05-02 13:00:33', '2020-05-12 17:00:33', '3', '5', '1', '13');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('4', '아ㅏㅏ하기싫다', 'ㅏㅏㅏㅏㅏㅏㅏ', '2020-09-16 00:33:12', '2020-09-16 00:33:12', '4', '2', '23');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('5', '알고르즘 교수님', '대머리', '2020-12-03 20:20:54', '2020-12-03 20:20:54', '3', '2', '35');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`category_id`, `hit_num`) VALUES ('6', '자체휴강', '자체휴강했당^,^', '2020-09-28 10:30:11', '2020-09-28 10:30:11', '2', '2', '22');
 
 --
 -- `<classification>`
@@ -173,6 +173,6 @@ INSERT INTO `mywiki`.`favorite` (`fav_subject_id`, `user_id`, `subject_id`, `sub
 -- comment
 --
 
-INSERT INTO `mywiki`.`comment` (`comment_id`, `post_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('1', '1', '3', '2019-11-13 22:22:00', '잘모르겠네여 잘해결해보시길');
-INSERT INTO `mywiki`.`comment` (`comment_id`, `post_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('2', '4', '2', '2020-09-16 00:36:12', '나ㅏㅏㅏㅏ도');
-INSERT INTO `mywiki`.`comment` (`comment_id`, `post_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('3', '4', '4', '2020-09-16 00:39:12', '낼 시험2개ㅠㅜㅜㅠ');
+INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('1', '1', '3', '2019-11-13 22:22:00', '잘모르겠네여 잘해결해보시길');
+INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('2', '4', '2', '2020-09-16 00:36:12', '나ㅏㅏㅏㅏ도');
+INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('3', '4', '4', '2020-09-16 00:39:12', '낼 시험2개ㅠㅜㅜㅠ');
