@@ -30,7 +30,7 @@ public class CommentController {
 
 		return map;
 	}
-
+	
 	// ´ñ±Û ¼öÁ¤
 	@RequestMapping(value = "/updateComment", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
 	public @ResponseBody HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
