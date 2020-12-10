@@ -14,6 +14,7 @@
 		<result property="commentText" column="comment_text" />
 	</resultMap>
 
+
 	<insert id="inputComment" parameterType="HashMap">
 		<selectKey resultType="integer" keyProperty="commentId" order="BEFORE">
         	select MAX(comment_id)+1 from comment      
