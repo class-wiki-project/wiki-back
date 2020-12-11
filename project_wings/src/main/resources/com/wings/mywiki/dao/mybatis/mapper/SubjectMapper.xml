@@ -18,7 +18,7 @@
    semester) values ( #{subjectName}, #{professor}, #{year}, #{semester}
   )
   </insert>
-  <select id="selectAll" resultMap="resultMap_fav">
+  <select id="selectAll" resultMap="resultMap_sub">
   	select * from 
   	subjects
   </select>
