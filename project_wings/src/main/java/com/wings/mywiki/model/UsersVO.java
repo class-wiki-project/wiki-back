@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class UsersVO {
 	private int userId;
-	private String email,password,studentName,univName;
-	private int studentNumber,auth;
+	private String email,password,studentName,univName,studentNumber;
+	private int auth;
 }
