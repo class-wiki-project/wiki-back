@@ -12,7 +12,6 @@
 		<result property="professor" column="professor" />
 		<result property="year" column="subject_year" />
 		<result property="semester" column="semester" />
-		<result property="userId" column="user_id" />
 	</resultMap>
 
 	<select id="getAllSubjectByName" parameterType="String" resultMap="subjectResult">
