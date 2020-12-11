@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class UserOutVO implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int userId;
 	public int getUserId() {
 		return userId;

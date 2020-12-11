@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class WikiVO {
+	private static final long serialVersionUID = 1L;
 	private int wikiId;
 	private int subjectId;		//¿Ü·¡Å°
 	private String updateDate;

@@ -10,6 +10,10 @@ import lombok.ToString;
 @ToString
 public class BoardVO implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int postId;
 	private int userId;	// �ܷ�Ű
 	private int subjectId;	// �ܷ�Ű

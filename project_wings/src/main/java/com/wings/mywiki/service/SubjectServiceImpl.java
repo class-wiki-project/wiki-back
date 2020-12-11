@@ -4,10 +4,12 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.wings.mywiki.dao.SubjectDao;
 import com.wings.mywiki.model.SubjectVO;
 
+@Service
 public class SubjectServiceImpl implements SubjectService{
 
 	@Autowired

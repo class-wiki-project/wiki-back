@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LoginVO {
+	private static final long serialVersionUID = 1L;
 	private String email;
 	private String password;
 }

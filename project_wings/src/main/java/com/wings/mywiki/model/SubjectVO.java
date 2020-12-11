@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SubjectVO {
+	private static final long serialVersionUID = 1L;
 	private int subjectId;
 	private String subjectName,professor;
 	private int year,semester;

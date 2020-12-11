@@ -8,6 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Criteria {
+	private static final long serialVersionUID = 1L;
 	private int amount;
 	private int page;
 	private int startIndex;
