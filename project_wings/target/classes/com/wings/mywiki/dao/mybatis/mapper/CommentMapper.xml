@@ -38,5 +38,6 @@
 	<select id="getComments" parameterType="int" resultMap="commentResult">
 		select * from comment
 		where board_id=#{boardId}
+		ORDER BY notice_date DESC
 	</select>
 </mapper> 

@@ -5,7 +5,7 @@
   <cache />
   
   <resultMap id="resultMap1" type="com.wings.mywiki.model.BoardVO">
-	<result property="postId" column="POST_ID" />
+	<result property="boardId" column="board_id" />
 	<result property="userId" column="USER_ID" />
 	<result property="subjectId" column="SUBJECT_ID" />
 	<result property="categoryId" column="CATEGORY_ID" />
@@ -18,25 +18,25 @@
 
 <!-- 페이징 처리를 위한 함수. 특정 게시판 특정 페이지 데이터만 list -->
   <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="resultMap1">
-  SELECT POST_ID, USER_ID, SUBJECT_ID, TITLE, TEXT, 
+  SELECT board_id, USER_ID, SUBJECT_ID, TITLE, TEXT, 
   CREATE_DATE, HIT_NUM
   FROM BOARD
   WHERE CATEGORY_ID = #{categoryId}
-  ORDER BY POST_ID DESC
+  ORDER BY board_id DESC
   limit #{startIndex}, #{amount}
   </select>
   
   <!-- 게시글 생성 -->
   <insert id="createPost">
-  INSERT INTO BOARD (POST_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
+  INSERT INTO BOARD (board_id, USER_ID, SUBJECT_ID, CATEGORY_ID, TITLE, TEXT, 
   CREATE_DATE, HIT_NUM
-  ) VALUES (#{postId}, #{userId}, #{subjectId}, #{categoryId}, #{title}, #{text},
+  ) VALUES (#{boardId}, #{userId}, #{subjectId}, #{categoryId}, #{title}, #{text},
   #{createDate}, #{hitNum})
   </insert>
   
   <!-- 게시글 상세보기 -->
   <select id="viewPostDetail" resultMap="resultMap1">
-  SELECT * FROM BOARD WHERE POST_ID = #{postId}
+  SELECT * FROM BOARD WHERE board_id = #{postId}
   </select>
   
   <!-- 게시글 수정 -->
