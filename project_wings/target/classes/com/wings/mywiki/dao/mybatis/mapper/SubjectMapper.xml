@@ -8,7 +8,7 @@
     <result property="SubjectId" column="subject_id" />
 	<result property="subjectName" column="subject_name" />
 	<result property="professor" column="professor" />
-	<result property="year" column="year" />
+	<result property="year" column="subject_year" />
 	<result property="semester" column="semester" />
 </resultMap>
   
