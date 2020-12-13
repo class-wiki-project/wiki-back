@@ -1,7 +1,16 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/wings/mywiki/controller/FavController.java=UTF-8
+<<<<<<< HEAD
+=======
+encoding//src/main/java/com/wings/mywiki/controller/SubjectController.java=UTF-8
+>>>>>>> refs/remotes/origin/develop
 encoding//src/main/java/com/wings/mywiki/controller/UsersController.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/dao/mybatis/MyBatisWikiDao.java=UTF-8
+encoding//src/main/java/com/wings/mywiki/model/BoardVO.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/model/ClassificationVO.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/model/CommentVO.java=UTF-8
+<<<<<<< HEAD
 encoding//src/main/java/com/wings/mywiki/service/BoardServiceImpl.java=UTF-8
+=======
+encoding//src/main/java/com/wings/mywiki/model/WikiVO.java=UTF-8
+>>>>>>> refs/remotes/origin/develop

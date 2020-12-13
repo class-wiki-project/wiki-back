@@ -22,7 +22,6 @@ import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.FavService;
 
 @Controller
-@CrossOrigin(origins="*", allowedHeaders="*")
 public class FavController {
 	@Autowired
 	private FavService favService;

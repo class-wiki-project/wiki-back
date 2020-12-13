@@ -11,9 +11,9 @@ import lombok.ToString;
 public class BoardVO implements Serializable {
 	
 	private int boardId;
-	private int userId;	// �ܷ�Ű
-	private int subjectId;	// �ܷ�Ű
-	private int categoryId;	// �ܷ�Ű
+	private int userId;	// 외래키
+	private int subjectId;	// 외래키
+	private int categoryId;	// 외래키
 	private String title,text,createDate,updateDate;
 	private int hitNum;
 }

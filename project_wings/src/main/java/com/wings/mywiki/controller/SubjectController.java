@@ -26,7 +26,7 @@ public class SubjectController {
 	@Autowired
 	private SubjectService subService;
 	
-	//1) ÀüÃ¼ °ú¸ñ Á¶È¸
+	//1) ï¿½ï¿½Ã¼ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È¸
 	@RequestMapping(value = "/api/subject/select", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> select() throws IOException {
@@ -38,37 +38,37 @@ public class SubjectController {
 		return map;
 	}
 	
-	// 2) °ú¸ñ Á¤º¸ ¼öÁ¤ÇÏ±â
+	// 2) ê³¼ëª© ì •ë³´ ìˆ˜ì •í•˜ê¸°
 	@RequestMapping(value = "/api/subject/update", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> update(SubjectVO subjectVO) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		subService.update(subjectVO);
-		map.put("msg", "¼öÁ¤ÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "ìˆ˜ì •ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 		
 		
 		return map;
 	}
-	// 3) °ú¸ñ Ãß°¡ÇÏ±â
+	// 3) ê³¼ëª© ì¶”ê°€í•˜ê¸°
 	@RequestMapping(value = "/api/subject/insert", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> insert(SubjectVO subjectVO) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		subService.insert(subjectVO);
-		map.put("msg", "Ãß°¡µÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		
 		return map;
 	}
-	// 4) °ú¸ñ »èÁ¦ÇÏ±â
+	// 4) ê³¼ëª© ì‚­ì œí•˜ê¸°
 	@RequestMapping(value = "/api/subject/delete", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> delete(int subjectId) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		subService.delete(subjectId);
-		map.put("msg", "»èÁ¦°¡ ¿Ï·áµÇ¾ú½À´Ï´Ù");
+		map.put("msg", "ì‚­ì œê°€ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤");
 		
 		
 		return map;

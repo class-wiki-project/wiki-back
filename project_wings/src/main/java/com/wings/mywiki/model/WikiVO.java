@@ -11,6 +11,6 @@ import lombok.ToString;
 @ToString
 public class WikiVO implements Serializable {
 	private int wikiId;
-	private int subjectId;		//�ܷ�Ű
+	private int subjectId;		//외래키
 	private String updateDate;
 }
