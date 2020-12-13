@@ -14,20 +14,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wings.mywiki.model.CommentVO;
 import com.wings.mywiki.service.CommentService;
+import com.wings.mywiki.service.UsersService;
 
 @Controller
 @RequestMapping("/board")
 public class CommentController {
 	@Autowired
 	private CommentService commentService;
-	
+
 	//¸ðµç ´ñ±Û º¸±â
-	@RequestMapping(value = "/getComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@RequestMapping(value = "/showComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
 	@ResponseBody
 	public HashMap<String, Object> getComments(@RequestParam int boardId) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		List<CommentVO> commentList= commentService.getComments(boardId);
 		map.put("commentList", commentList);
+		System.out.println(commentList);
 		return map;
 	}
 
@@ -39,8 +41,10 @@ public class CommentController {
 		} else {
 			System.out.println("Success!!!");
 		}
-
-		return map;
+		HashMap<String, Object> commentMap = new HashMap<String, Object>();
+		List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
+		commentMap.put("commentList", commentList);
+		return commentMap;
 	}
 	
 	// ´ñ±Û ¼öÁ¤
@@ -51,8 +55,10 @@ public class CommentController {
 		} else {
 			System.out.println("Success!!!");
 		}
-
-		return map;
+		HashMap<String, Object> commentMap = new HashMap<String, Object>();
+		List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
+		commentMap.put("commentList", commentList);
+		return commentMap;
 	}
 
 	// ´ñ±Û »èÁ¦

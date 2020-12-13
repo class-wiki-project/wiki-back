@@ -317,18 +317,12 @@
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
-			
-			<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-war-plugin</artifactId>
-					<version>2.4</version>
-					<configuration>
-						<warSourceDirectory>src/main/webapp</warSourceDirectory>
-						<warName>sample</warName>
-						<failOnMissingWebXml>false</failOnMissingWebXml>
-					</configuration>
-			</plugin>
 				
+				<!-- 배포를 위한 war파일 설정 -->
+			<plugin>
+          		<artifactId>maven-war-plugin</artifactId>
+         		 <version>3.2.2</version>
+       		 </plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
