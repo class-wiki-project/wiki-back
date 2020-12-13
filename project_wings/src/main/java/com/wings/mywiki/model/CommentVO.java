@@ -11,6 +11,6 @@ import lombok.ToString;
 @ToString
 public class CommentVO implements Serializable {
 	private int commentId;
-	private int boardId,userId,subjectId;	//외래키
+	private int boardId,userId;	//외래키
 	private String noticeDate,commentText;
 }

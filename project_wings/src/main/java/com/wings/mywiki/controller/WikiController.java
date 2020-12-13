@@ -23,6 +23,7 @@ import com.wings.mywiki.service.WikiService;
 public class WikiController {
 	@Autowired
 	private WikiService WikiService;
+	private boolean flag=false;
 
 	//wiki 페이지 보여 줌
 	@RequestMapping(value = "/showWiki", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -42,13 +43,33 @@ public class WikiController {
 	// wiki 수정
 	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUT으로 수정!
 	public @ResponseBody HashMap<String, String> editWiki(@RequestBody HashMap<String, String> map) throws JsonParseException, JsonMappingException, IOException { //{key(id),value(text)}
-		if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
-			System.out.println("Updating wiki cannot be done!");
+		/*synchronized (map) {
+			try {
+				if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
+					System.out.println("Updating wiki cannot be done!");
+				}
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
+		}*/
+		
+		if(flag==true) {
+			System.out.println("fail!!!");
+			HashMap<String, String> failMap = new HashMap<>();
+			failMap.put("fail", "already in use");
+			
+			return failMap;
 		}else {
-			System.out.println("Success!!!");
+			flag=true;
+			
+			if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
+				System.out.println("Updating wiki cannot be done!");
+			}else {
+				System.out.println("Success!!!");
+			}
+			flag=false;
+			
+			return map;
 		}
-
-		//프론트한테 wiki, classification 정보 다시 넘겨줘야 함
-		return map;
 	}
 }

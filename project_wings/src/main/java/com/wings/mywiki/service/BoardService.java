@@ -26,8 +26,6 @@ public interface BoardService {
 		public void increaseViewCnt(int postId);
 		//게시글 전체 데이터수
 		public int getTotalCount(Criteria cri);
-		//전체 과목 불러오기
-		public List<SubjectVO> getSubjectList();
 		//해당 Board 객체 불러오기
 		public BoardVO getBoard(int boardId);
 }

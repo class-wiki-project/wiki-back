@@ -12,14 +12,14 @@
 		<result property="userId" column="user_id" />
 		<result property="noticeDate" column="notice_date" />
 		<result property="commentText" column="comment_text" />
-		<result property="subjectId" column="subject_id" />
 	</resultMap>
 
+
 	<insert id="inputComment" parameterType="HashMap">
-		<selectKey resultType="string" keyProperty="commentId" order="BEFORE">
+		<selectKey resultType="integer" keyProperty="commentId" order="BEFORE">
         	select MAX(comment_id)+1 from comment      
     	</selectKey>    
-		insert into comment values (#{commentId},#{boardId},#{userId},curdate(),#{commentText})
+		insert into comment values (#{commentId},#{boardId},#{userId},NOW(),#{commentText})
 	</insert>
 
 	<update id="updateComment" parameterType="HashMap">
@@ -38,5 +38,6 @@
 	<select id="getComments" parameterType="int" resultMap="commentResult">
 		select * from comment
 		where board_id=#{boardId}
+		ORDER BY notice_date DESC
 	</select>
 </mapper> 

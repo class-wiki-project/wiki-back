@@ -12,7 +12,13 @@
 	<result property="auth" column="auth" />
 	<result property="univName" column="univ_name" />
 </resultMap>
-  
+  <resultMap id="resultMap_users2" type="com.wings.mywiki.model.UserOutVO">
+	<result property="userId" column="user_id" />
+	<result property="email" column="email" />
+	<result property="studentName" column="student_name" />
+	<result property="studentNumber" column="student_number" />
+	<result property="univName" column="univ_name" />
+</resultMap>
   
   <insert id="insert">
   INSERT INTO users (user_id, email, password, student_name,
@@ -21,12 +27,12 @@
   #{univName})
   </insert>
   <select id="selectAll" resultMap="resultMap_users">
-  	select * from 
+  	select user_id, email, student_name, student_number, univ_name from 
   	users
   </select>
   
-  <select id="selectOne" resultMap="resultMap_users">
-  	select * from users 
+  <select id="selectOne" resultMap="resultMap_users2">
+  	select user_id, email, student_name, student_number, univ_name from users 
   	where user_id=#{userId}
   </select>
   

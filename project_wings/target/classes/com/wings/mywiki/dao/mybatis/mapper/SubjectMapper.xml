@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.wings.mywiki.dao.mybatis.mapper.SubjectMapper">
+  <cache />
+  
+  <resultMap id="resultMap_sub" type="com.wings.mywiki.model.SubjectVO">
+    <result property="SubjectId" column="subject_id" />
+	<result property="subjectName" column="subject_name" />
+	<result property="professor" column="professor" />
+	<result property="year" column="subject_year" />
+	<result property="semester" column="semester" />
+</resultMap>
+  
+  
+  <insert id="insert">
+  INSERT INTO favorite ( subject_name, professor, year,
+   semester) values ( #{subjectName}, #{professor}, #{year}, #{semester}
+  )
+  </insert>
+  <select id="selectAll" resultMap="resultMap_sub">
+  	select * from 
+  	subjects
+  </select>
+  
+  <update id="update">
+  	update subjects set subject_name=#{subjectName},
+  	 professor=#{professor}, year=#{year}, semester=#{semester}
+  	  where subject_id=#{subjectId}
+  </update>
+  
+  <delete id="delete">
+  	delete from subjects where subject_id=#{subjectId}
+  </delete>
+
+</mapper>

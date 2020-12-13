@@ -26,8 +26,6 @@ public interface BoardMapper {
 		void increaseViewCnt(int postId) throws DataAccessException;
 		//전체 게시글 갯수 계산
 		int getTotalCount(Criteria cri) throws DataAccessException;
-		//전체 과목 불러오기
-		List<SubjectVO> getSubjectList() throws DataAccessException;
 		//해당 Board 객체 불러오기
 		BoardVO getBoard(int boardId) throws DataAccessException;
 }

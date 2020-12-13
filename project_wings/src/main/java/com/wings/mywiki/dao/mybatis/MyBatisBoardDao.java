@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.wings.mywiki.dao.BoardDao;
 import com.wings.mywiki.dao.mybatis.mapper.BoardMapper;
 import com.wings.mywiki.dao.mybatis.mapper.CommentMapper;
+import com.wings.mywiki.dao.mybatis.mapper.SubjectMapper;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.SubjectVO;
@@ -62,12 +63,6 @@ public class MyBatisBoardDao implements BoardDao {
 	public int getTotalCount(Criteria cri) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return boardMapper.getTotalCount(cri);
-	}
-
-	@Override
-	public List<SubjectVO> getSubjectList() throws DataAccessException {
-		// TODO Auto-generated method stub
-		return boardMapper.getSubjectList();
 	}
 
 	@Override

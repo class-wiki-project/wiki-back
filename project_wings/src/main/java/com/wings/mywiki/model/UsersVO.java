@@ -10,7 +10,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class UsersVO implements Serializable {
+
 	private int userId;
-	private String email,password,studentName,univName;
-	private int studentNumber,auth;
+	private String email,password,studentName,univName,studentNumber;
+	private int auth;
 }

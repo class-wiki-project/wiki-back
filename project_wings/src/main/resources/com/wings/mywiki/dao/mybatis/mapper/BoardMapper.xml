@@ -3,7 +3,7 @@
 
 <mapper namespace="com.wings.mywiki.dao.mybatis.mapper.BoardMapper">
   <cache />
-  
+
   <resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
 	<result property="boardId" column="BOARD_ID" />
 	<result property="userId" column="USER_ID" />
@@ -70,12 +70,7 @@
     WHERE CATEGORY_ID = #{categoryId}
   <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
   </select>
-  
-  <!-- 전체 과목 불러오기 -->
-  <select id="getSubjectList" resultType="com.wings.mywiki.model.SubjectVO">
-	select * from SUBJECTS
-  </select>
-  
+ 
   <!-- 해당 Board 객체 불러오기 -->
    <select id="getBoard" parameterType="int" resultMap="BoardMap">
 	SELECT * FROM BOARD

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,21 +26,21 @@ public class FavController {
 	@Autowired
 	private FavService favService;
 	
-	//Áñ°ÜÃ£±â Ãß°¡ÇÏ±â
+	//ì¦ê²¨ì°¾ê¸° ì¶”ê°€í•˜ê¸°
 	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> insert(@RequestBody FavVO favVO,
 										HttpServletResponse response
 										) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("¹ŞÀº ÁñÃ£°ú¸ñid: " + favVO.getFavSubjectId());
+		System.out.println("ë°›ì€ ì¦ì°¾ê³¼ëª©id: " + favVO.getFavSubjectId());
 		favService.insert(favVO);
 		map.put("favorite", favService.selectAll(favVO.getUserId()));
-		map.put("msg", "Áñ°ÜÃ£±â¿¡ Ãß°¡µÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "ì¦ê²¨ì°¾ê¸°ì— ì¶”ê°€ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		return map;
 	}
 	
-	//Áñ°ÜÃ£±â ¼öÁ¤ÇÏ±â
+	//ì¦ê²¨ì°¾ê¸° ìˆ˜ì •í•˜ê¸°
 	@RequestMapping(value = "/api/fav/update", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> update(@RequestBody FavVO favVO,
@@ -49,11 +50,11 @@ public class FavController {
 		
 		favService.update(favVO);
 		map.put("favorite", favService.selectAll(favVO.getUserId()));
-		map.put("msg", "Áñ°ÜÃ£±â°¡ ¼öÁ¤µÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "ì¦ê²¨ì°¾ê¸°ê°€ ìˆ˜ì •ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		return map;
 	}
 	
-	//Áñ°ÜÃ£±â »èÁ¦ÇÏ±â
+	//ì¦ê²¨ì°¾ê¸° ì‚­ì œí•˜ê¸°
 	@RequestMapping(value = "/api/fav/delete", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> delete(@RequestParam(value="favSubjectId") int favSubjectId,
@@ -65,7 +66,7 @@ public class FavController {
 		FavVO temp = favService.selectAll2(favSubjectId);
 		if(temp != null) {
 		map.put("favorite", favService.selectAll(temp.getUserId()));
-		map.put("msg", "Áñ°ÜÃ£±â°¡ »èÁ¦µÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "ì¦ê²¨ì°¾ê¸°ê°€ ì‚­ì œë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		return map;
 	}

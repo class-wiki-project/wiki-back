@@ -5,12 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.LoginVO;
+import com.wings.mywiki.model.UserOutVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.FavService;
 import com.wings.mywiki.service.UsersService;
@@ -32,7 +36,9 @@ public class UsersController {
 	private UsersService userService;
 	@Autowired
 	private FavService favService;
-	//¸ŞÀÎ ÆäÀÌÁö
+	
+	private BCryptPasswordEncoder pwdEncoder;
+	//ë©”ì¸ í˜ì´ì§€
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> main(HttpServletResponse response,
@@ -42,43 +48,60 @@ public class UsersController {
 		session = request.getSession();
 		if(session.getAttribute("LOGIN")!=null) {
 			UsersVO user = (UsersVO)session.getAttribute("LOGIN");
-			map.put("user", userService.selectOne(user.getUserId()));
+			UserOutVO put_user = new UserOutVO();
+			put_user.setEmail(user.getEmail());
+			put_user.setStudentName(user.getStudentName());
+			put_user.setStudentNumber(user.getStudentNumber());
+			put_user.setUnivName(user.getUnivName());
+			put_user.setUserId(user.getUserId());
+			map.put("user", put_user);
 			map.put("favorite", favService.selectAll(user.getUserId()));
 			
 		}
 		return map;
 	}	
-	
-	//È¸¿ø°¡ÀÔ
+	//
+	//íšŒì›ê°€ì…
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> register(@RequestBody UsersVO userVO,
 			HttpServletResponse response) throws IOException {
-		userService.insert(userVO);
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put("msg", "È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+		String tmp = userVO.getPassword();
+		System.out.println(tmp);
+		pwdEncoder = new BCryptPasswordEncoder();
+		String pwd = pwdEncoder.encode(tmp);
+		System.out.println(pwd);
+		
+		userVO.setPassword(pwd);
+		userService.insert(userVO);
+		
+		
+		map.put("msg", "íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
 		return map;
 	}	
 	
-	//È¸¿ø °¡ÀÔ½Ã id Áßº¹ Ã¼Å©
+	//íšŒì› ê°€ì…ì‹œ id ì¤‘ë³µ ì²´í¬
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> emailCheck(@RequestParam String email,
 			HttpServletResponse response) throws IOException {
 
 		Map<String, Object> map = new HashMap<String, Object>();
+		
+		
 		if(userService.checkId(email) == 1) {
-			map.put("msg", "ÀÌ¹Ì Á¸ÀçÇÏ´Â E-mail ÀÔ´Ï´Ù.");
+			map.put("msg", "ì´ë¯¸ ì¡´ì¬í•˜ëŠ” E-mail ì…ë‹ˆë‹¤.");
 			
 		}
 		else {
-		map.put("msg", "»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+		map.put("msg", "ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë””ì…ë‹ˆë‹¤.");
 		}
 		
 		return map;
 	}	
-	//·Î±×ÀÎ Ã³¸®
+	//ë¡œê·¸ì¸ ì²˜ë¦¬
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> Login(@RequestBody LoginVO loginVO,
@@ -86,15 +109,26 @@ public class UsersController {
 		UsersVO check = userService.checkLogin(loginVO.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		
+		pwdEncoder = new BCryptPasswordEncoder();
+		String pwd = pwdEncoder.encode(loginVO.getPassword());
+		System.out.println(pwd);
+		System.out.println(check.getPassword());
 		if(check != null) {
-			if(check.getPassword().equals(loginVO.getPassword())) {
+			if(pwdEncoder.matches(loginVO.getPassword(),check.getPassword())) {
 			session.setAttribute("LOGIN", check);
-			map.put("users", check);
+			UserOutVO put_user = new UserOutVO();
+			put_user.setEmail(check.getEmail());
+			put_user.setStudentName(check.getStudentName());
+			put_user.setStudentNumber(check.getStudentNumber());
+			put_user.setUnivName(check.getUnivName());
+			put_user.setUserId(check.getUserId());
+			
+			map.put("users", put_user);
 			map.put("favorite", favService.selectAll(check.getUserId()));
-			map.put("msg", "·Î±×ÀÎÀÌ µÇ¾ú½À´Ï´Ù.");
+			map.put("msg", "ë¡œê·¸ì¸ì´ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			else {
-				map.put("msg", "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				map.put("msg", "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 		
@@ -102,22 +136,24 @@ public class UsersController {
 	}	
 	
 	
-	//·Î±×¾Æ¿ô Ã³¸® ¿äÃ».
+	//ë¡œê·¸ì•„ì›ƒ ì²˜ë¦¬ ìš”ì²­.
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object>  logout(HttpSession session) {
-		System.out.println("/user/logout ¿äÃ»!");
+		System.out.println("/user/logout ìš”ì²­!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		
 		if(user != null) {
 			session.removeAttribute("LOGIN");
 			session.invalidate();
-			map.put("msg", "·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù.");
+			map.put("msg", "ë¡œê·¸ì•„ì›ƒ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		
 		return map;
 		
 	}
-	
 }
+	
+	
+	

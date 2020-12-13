@@ -26,9 +26,9 @@ import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.WikiVO;
 import com.wings.mywiki.service.BoardServiceImpl;
 import com.wings.mywiki.service.CommentServiceImpl;
+import com.wings.mywiki.service.SubjectServiceImpl;
 @RestController
 @RequestMapping("/board/*")
-@CrossOrigin(origins="*", allowedHeaders="*")
 public class BoardController {
 	
 	//@RequestBody: json을 객체로
@@ -39,6 +39,9 @@ public class BoardController {
 	
 	@Autowired
 	private CommentServiceImpl commentServiceImpl;
+	
+	@Autowired
+	private SubjectServiceImpl subjectServiceImpl;
 	
 	// 게시글 목록보기
 	@GetMapping(value = "list")
@@ -74,7 +77,7 @@ public class BoardController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<SubjectVO> getPostForm(HttpServletResponse response) throws IOException {
 			
-		List<SubjectVO> subject = boardServiceImpl.getSubjectList();
+		List<SubjectVO> subject = subjectServiceImpl.selectAll();
 		if (subject != null) { // subjectList를 성공적으로 받아오면
 			System.out.println("Getting subjectList success!!!");
 		}

@@ -65,12 +65,6 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public List<SubjectVO> getSubjectList() {
-		// TODO Auto-generated method stub
-		return boardDao.getSubjectList();
-	}
-
-	@Override
 	public BoardVO getBoard(int boardId){
 		// TODO Auto-generated method stub
 		return boardDao.getBoard(boardId);

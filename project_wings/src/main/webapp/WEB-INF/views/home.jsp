@@ -12,7 +12,7 @@
 
 </head>
 <body>
-	<h1> Hello wingwiki!</h1>
+	<h1> Hello wingswiki!</h1>
 	<input type="text" id="message" />
 	<input type="button" id="sendBtn" value="내말이들리니"/>
 	<div id="messageArea"></div>

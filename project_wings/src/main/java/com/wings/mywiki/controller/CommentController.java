@@ -2,12 +2,14 @@ package com.wings.mywiki.controller;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wings.mywiki.model.CommentVO;
@@ -18,6 +20,16 @@ import com.wings.mywiki.service.CommentService;
 public class CommentController {
 	@Autowired
 	private CommentService commentService;
+	
+	//¸ðµç ´ñ±Û º¸±â
+	@RequestMapping(value = "/getComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
+	@ResponseBody
+	public HashMap<String, Object> getComments(@RequestParam int boardId) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<CommentVO> commentList= commentService.getComments(boardId);
+		map.put("commentList", commentList);
+		return map;
+	}
 
 	// ´ñ±Û ÀÔ·Â
 	@RequestMapping(value = "/inputComment", method = RequestMethod.POST, produces = "application/json; charset=utf8")
@@ -30,7 +42,7 @@ public class CommentController {
 
 		return map;
 	}
-
+	
 	// ´ñ±Û ¼öÁ¤
 	@RequestMapping(value = "/updateComment", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
 	public @ResponseBody HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
