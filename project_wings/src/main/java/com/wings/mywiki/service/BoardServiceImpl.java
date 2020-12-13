@@ -1,5 +1,6 @@
 package com.wings.mywiki.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.wings.mywiki.dao.BoardDao;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.Criteria;
+import com.wings.mywiki.model.SubjectVO;
 
 @Service
 @Transactional
@@ -22,19 +24,19 @@ public class BoardServiceImpl implements BoardService {
 	private BoardDao boardDao;
 	
 	@Override
-	public void createPost(BoardVO vo) {
+	public int createPost(HashMap<String, Object> map) {
+		return boardDao.createPost(map);
 		// TODO Auto-generated method stub
 	}
 
 	@Override
 	public BoardVO viewPostDetail(int postId) {
-		// 상세보기 클릭하면 +1
 		boardDao.increaseViewCnt(postId);
 		return boardDao.viewPostDetail(postId);
 	}
 
 	@Override
-	public void updatePost(BoardVO board) {
+	public void updatePost(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
 	}
 
@@ -56,9 +58,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int getTotalCount(Criteria cri) throws DataAccessException {
+	public int getTotalCount(Criteria cri) {
 		// TODO Auto-generated method stub
 		return boardDao.getTotalCount(cri);
+	}
+
+	@Override
+	public BoardVO getBoard(int boardId){
+		// TODO Auto-generated method stub
+		return boardDao.getBoard(boardId);
 	}
 	
 	

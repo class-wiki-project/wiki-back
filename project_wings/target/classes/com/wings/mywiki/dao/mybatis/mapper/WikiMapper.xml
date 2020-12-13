@@ -10,9 +10,8 @@
 		<result property="subjectId" column="subject_id" />
 		<result property="subjectName" column="subject_name" />
 		<result property="professor" column="professor" />
-		<result property="year" column="year" />
+		<result property="year" column="subject_year" />
 		<result property="semester" column="semester" />
-		<result property="userId" column="user_id" />
 	</resultMap>
 
 	<resultMap id="classificationResult"
@@ -27,7 +26,6 @@
 
 	<resultMap id="wikiResult"
 		type="com.wings.mywiki.model.WikiVO">
-		<result property="classificationId" column="classification_id" />
 		<result property="wikiId" column="wiki_id" />
 		<result property="updateDate" column="update_date" />
 		<result property="subjectId" column="subject_id" />
@@ -53,5 +51,5 @@
 		and wiki_id=
 			(select wiki_id from wiki
 			where subject_id=#{subjectId})
-	</update>
+	</update> 
 </mapper> 

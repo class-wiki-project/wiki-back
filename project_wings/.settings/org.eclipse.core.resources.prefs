@@ -1,4 +1,6 @@
 eclipse.preferences.version=1
+encoding//src/main/java/com/wings/mywiki/controller/FavController.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/dao/mybatis/MyBatisWikiDao.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/model/ClassificationVO.java=UTF-8
 encoding//src/main/java/com/wings/mywiki/model/CommentVO.java=UTF-8
+encoding//src/main/java/com/wings/mywiki/service/BoardServiceImpl.java=UTF-8

@@ -1,11 +1,14 @@
+  
 package com.wings.mywiki.service;
 
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Service;
 
 import com.wings.mywiki.model.FavVO;
 
+@Service
 public interface FavService {
 	//»ðÀÔ
 			public void insert(FavVO favVO) throws DataAccessException;

@@ -10,14 +10,13 @@
 		<result property="subjectId" column="subject_id" />
 		<result property="subjectName" column="subject_name" />
 		<result property="professor" column="professor" />
-		<result property="year" column="year" />
+		<result property="year" column="subject_year" />
 		<result property="semester" column="semester" />
-		<result property="userId" column="user_id" />
 	</resultMap>
 
 	<select id="getAllSubjectByName" parameterType="String" resultMap="subjectResult">
-		select * from subject
+		select * from subjects
 		where subject_name LIKE CONCAT('%', #{subjectName}, '%')
-		order by year
+		order by subject_year
 	</select>
 </mapper> 

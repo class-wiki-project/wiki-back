@@ -38,4 +38,5 @@
   <delete id="delete">
   	delete from favorite where fav_subject_id=#{favSubjectId}
   </delete>
+
 </mapper>

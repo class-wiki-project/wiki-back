@@ -1,27 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/beans" 
+<beans:beans
+	xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:beans="http://www.springframework.org/schema/beans"
 	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/websocket http://www.springframework.org/schema/websocket/spring-websocket.xsd">
 
+	<!-- 웹소켓설정 -->
+	<websocket:handlers>
+		<websocket:mapping handler="echoHandler" path="/echo" />
+		<!-- WebSocket Handshake : 웹소켓 핸들러 클래스(echoHandler)가 호출되기전에 HttpSession에 접속하여  -->
+        <!-- '이용자 아이디를 추출하는 기능' 등을 인터셉터가 수행하도록 설정 -->
+        	<websocket:handshake-interceptors>
+        		<beans:bean class="org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor"/>
+        	</websocket:handshake-interceptors>
+		<websocket:sockjs />
+	</websocket:handlers>
+	<beans:bean id="echoHandler" class="com.wings.mywiki.controller.WebSocketChatController"></beans:bean>
+	
+	<!-- 기본 controller -->
 	<context:component-scan base-package="com.wings.mywiki.controller"/>  
 
 	<mvc:annotation-driven />
 
 	<mvc:default-servlet-handler />
-	
-	<mvc:view-controller path="/index" view-name="index" />
-	
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix" value="/WEB-INF/views/"/>
-		<property name="suffix" value=".jsp"/>
+
+	<mvc:view-controller path="/index"
+		view-name="index" />
+		
+	<bean id="LoginIntercepter"
+      class="com.wings.mywiki.intercepter.LoginIntercepter"/>
+
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
 	</bean>
 
 	<!-- CORS 설정 -->
-	<beans:import resource="cors-config.xml"/>
+	<beans:import resource="cors-config.xml" />
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/api/fav/*" />
+			<mvc:mapping path="/board/insert" />
+			<mvc:mapping path="/board/update" />
+			<mvc:mapping path="/board/delete" />
+			<mvc:mapping path="/board/inputComment" />
+			<mvc:mapping path="/board/updateComment" />
+			<mvc:mapping path="/board/deleteComment" />
+			<mvc:mapping path="/wiki/editWiki" />
+			<ref bean="LoginIntercepter" /> 
+		</mvc:interceptor>
+	</mvc:interceptors>
 
 </beans:beans>

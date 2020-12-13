@@ -15,5 +15,4 @@ public class FavVO implements Serializable{
 	private String subjectName;
 	private String iconName;
 	private String professor;
-
 }
