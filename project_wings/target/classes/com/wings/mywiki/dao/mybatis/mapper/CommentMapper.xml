@@ -14,18 +14,31 @@
 		<result property="commentText" column="comment_text" />
 	</resultMap>
 
+	<resultMap id="usersResult"
+		type="com.wings.mywiki.model.UsersVO">
+		<result property="userId" column="user_id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="studentName" column="student_name" />
+		<result property="studentNumber" column="student_number" />
+		<result property="auth" column="auth" />
+		<result property="univName" column="univ_name" />
+	</resultMap>
 
 	<insert id="inputComment" parameterType="HashMap">
-		<selectKey resultType="integer" keyProperty="commentId" order="BEFORE">
-        	select MAX(comment_id)+1 from comment      
-    	</selectKey>    
-		insert into comment values (#{commentId},#{boardId},#{userId},NOW(),#{commentText})
+		<selectKey resultType="integer" keyProperty="commentId"
+			order="BEFORE">
+			select MAX(comment_id)+1 from comment
+		</selectKey>
+		insert into comment values
+		(#{commentId},#{boardId},#{userId},NOW(),#{commentText})
 	</insert>
 
 	<update id="updateComment" parameterType="HashMap">
 		update comment
 		set comment_text = #{commentText}
-		where comment_id=#{commentId} and board_id=#{boardId}
+		where
+		comment_id=#{commentId} and board_id=#{boardId}
 		<!-- boardId 자체가 유일하기 때문에, subjectId 는 필요 X -->
 	</update>
 
@@ -34,9 +47,15 @@
 		from comment
 		where comment_id=#{commentId}
 	</delete>
+	
+	<select id="getUserName" resultMap="usersResult">
+		select * from users
+	</select>
 
-	<select id="getComments" parameterType="int" resultMap="commentResult">
-		select * from comment
+	<select id="getComments" parameterType="int" resultType="HashMap">
+		select
+		comment_id,board_id,c.user_id,notice_date,comment_text,u.student_name
+		from comment as c JOIN users as u ON (c.user_id=u.user_id)
 		where board_id=#{boardId}
 		ORDER BY notice_date DESC
 	</select>
