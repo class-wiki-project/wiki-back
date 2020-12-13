@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wings.mywiki.model.CommentVO;
 import com.wings.mywiki.service.CommentService;
+import com.wings.mywiki.service.UsersService;
 
 @Controller
 @RequestMapping("/board")
@@ -40,7 +41,6 @@ public class CommentController {
 		} else {
 			System.out.println("Success!!!");
 		}
-
 		HashMap<String, Object> commentMap = new HashMap<String, Object>();
 		List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
 		commentMap.put("commentList", commentList);
@@ -55,7 +55,6 @@ public class CommentController {
 		} else {
 			System.out.println("Success!!!");
 		}
-
 		HashMap<String, Object> commentMap = new HashMap<String, Object>();
 		List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
 		commentMap.put("commentList", commentList);

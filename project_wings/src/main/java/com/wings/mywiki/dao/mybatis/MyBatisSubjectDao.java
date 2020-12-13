@@ -39,5 +39,4 @@ public class MyBatisSubjectDao implements SubjectDao{
 		// TODO Auto-generated method stub
 		subjectMapper.delete(SubjectId);
 	}
-
 }

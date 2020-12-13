@@ -10,6 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class LoginVO implements Serializable {
+
 	private String email;
 	private String password;
 }

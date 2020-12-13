@@ -38,7 +38,7 @@ public class UsersController {
 	private FavService favService;
 	
 	private BCryptPasswordEncoder pwdEncoder;
-	//¸ŞÀÎ ÆäÀÌÁö
+	//ë©”ì¸ í˜ì´ì§€
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> main(HttpServletResponse response,
@@ -60,8 +60,7 @@ public class UsersController {
 		}
 		return map;
 	}	
-	//
-	//È¸¿ø°¡ÀÔ
+	//íšŒì›ê°€ì…
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> register(@RequestBody UsersVO userVO,
@@ -78,11 +77,12 @@ public class UsersController {
 		userService.insert(userVO);
 		
 		
-		map.put("msg", "È¸¿ø°¡ÀÔÀÌ ¿Ï·áµÇ¾ú½À´Ï´Ù.");
+		map.put("msg", "íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.");
+
 		return map;
 	}	
 	
-	//È¸¿ø °¡ÀÔ½Ã id Áßº¹ Ã¼Å©
+	//íšŒì› ê°€ì…ì‹œ id ì¤‘ë³µ ì²´í¬
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> emailCheck(@RequestParam String email,
@@ -92,16 +92,17 @@ public class UsersController {
 		
 		
 		if(userService.checkId(email) == 1) {
-			map.put("msg", "ÀÌ¹Ì Á¸ÀçÇÏ´Â E-mail ÀÔ´Ï´Ù.");
+			map.put("msg", "ì´ë¯¸ ì¡´ì¬í•˜ëŠ” E-mail ì…ë‹ˆë‹¤.");
 			
 		}
 		else {
-		map.put("msg", "»ç¿ë°¡´ÉÇÑ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+		map.put("msg", "ì‚¬ìš©ê°€ëŠ¥í•œ ì•„ì´ë””ì…ë‹ˆë‹¤.");
 		}
 		
 		return map;
 	}	
-	//·Î±×ÀÎ Ã³¸®
+	
+	//ë¡œê·¸ì¸ ì²˜ë¦¬
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> Login(@RequestBody LoginVO loginVO,
@@ -125,10 +126,10 @@ public class UsersController {
 			
 			map.put("users", put_user);
 			map.put("favorite", favService.selectAll(check.getUserId()));
-			map.put("msg", "·Î±×ÀÎÀÌ µÇ¾ú½À´Ï´Ù.");
+			map.put("msg", "ë¡œê·¸ì¸ì´ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 			}
 			else {
-				map.put("msg", "¾ÆÀÌµğ¿Í ºñ¹Ğ¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù.");
+				map.put("msg", "ì•„ì´ë””ì™€ ë¹„ë°€ë²ˆí˜¸ê°€ ì¼ì¹˜í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
 			}
 		}
 		
@@ -136,18 +137,18 @@ public class UsersController {
 	}	
 	
 	
-	//·Î±×¾Æ¿ô Ã³¸® ¿äÃ».
+	//ë¡œê·¸ì•„ì›ƒ ì²˜ë¦¬ ìš”ì²­.
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object>  logout(HttpSession session) {
-		System.out.println("/user/logout ¿äÃ»!");
+		System.out.println("/user/logout ï¿½ï¿½ï§£ï¿½!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		
 		if(user != null) {
 			session.removeAttribute("LOGIN");
 			session.invalidate();
-			map.put("msg", "·Î±×¾Æ¿ô µÇ¾ú½À´Ï´Ù.");
+			map.put("msg", "ë¡œê·¸ì•„ì›ƒ ë˜ì—ˆìŠµë‹ˆë‹¤.");
 		}
 		
 		return map;

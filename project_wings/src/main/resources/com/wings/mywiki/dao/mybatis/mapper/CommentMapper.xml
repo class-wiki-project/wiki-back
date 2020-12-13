@@ -27,16 +27,19 @@
 
 
 	<insert id="inputComment" parameterType="HashMap">
-		<selectKey resultType="integer" keyProperty="commentId" order="BEFORE">
-        	select MAX(comment_id)+1 from comment      
-    	</selectKey>    
-		insert into comment values (#{commentId},#{boardId},#{userId},NOW(),#{commentText})
+		<selectKey resultType="integer" keyProperty="commentId"
+			order="BEFORE">
+			select MAX(comment_id)+1 from comment
+		</selectKey>
+		insert into comment values
+		(#{commentId},#{boardId},#{userId},NOW(),#{commentText})
 	</insert>
 
 	<update id="updateComment" parameterType="HashMap">
 		update comment
 		set comment_text = #{commentText}
-		where comment_id=#{commentId} and board_id=#{boardId}
+		where
+		comment_id=#{commentId} and board_id=#{boardId}
 		<!-- boardId 자체가 유일하기 때문에, subjectId 는 필요 X -->
 	</update>
 

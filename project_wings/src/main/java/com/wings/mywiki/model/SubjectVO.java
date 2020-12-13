@@ -10,9 +10,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class SubjectVO implements Serializable {
-
 	private int subjectId;
 	private String subjectName,professor;
 	private int year,semester;
-	
 }
