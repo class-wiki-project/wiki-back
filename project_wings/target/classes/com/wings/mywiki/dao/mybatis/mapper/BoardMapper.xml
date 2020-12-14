@@ -3,9 +3,10 @@
 
 <mapper namespace="com.wings.mywiki.dao.mybatis.mapper.BoardMapper">
   <cache />
-
-  <resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
-	<result property="boardId" column="BOARD_ID" />
+	
+	
+	<resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
+	<id property="boardId" column="BOARD_ID" />
 	<result property="userId" column="USER_ID" />
 	<result property="subjectId" column="SUBJECT_ID" />
 	<result property="categoryId" column="CATEGORY_ID" />
@@ -14,14 +15,32 @@
 	<result property="createDate" column="CREATE_DATE" />
 	<result property="updateDate" column="UPDATE_DATE" />
 	<result property="hitNum" column="HIT_NUM" />
-</resultMap>
+	</resultMap>
+	
+  <resultMap id="BoardDetailMap" type="com.wings.mywiki.model.BoardVO" extends="BoardMap">
+	<!-- 1 : 다 관계의 경우 데이터 매핑시켜준다. 
+			association => 1 : 1 관계 
+			collection => 1 : 다 관계 (한명의 유저가 작성한 글 목록)
+			일반 컬럼과 pk 구분 가능 pk 칼럼에게는 result 아닌 id 사용
+		-->
+	<association javaType="UsersVO" property="usersVO">
+		<id property="userId" column="user_id" />
+		<result property="email" column="email" />
+		<result property="password" column="password" />
+		<result property="studentName" column="student_name" />
+		<result property="studentNumber" column="student_number" />
+		<result property="auth" column="auth" />
+		<result property="univName" column="univ_name" />
+	</association>
+ </resultMap>
+
 
 <!-- 페이징 처리를 위한 함수. 특정 게시판 특정 페이지 데이터만 list -->
   <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
-  SELECT BOARD_ID, USERS.USER_ID, USERS.STUDENT_NAME, SUBJECT_ID, CATEGORY_ID, 
+  SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, 
   TITLE, TEXT, CREATE_DATE, HIT_NUM
-  FROM BOARD JOIN USERS ON USERS.USER_ID = BOARD.USER_ID
-  WHERE BOARD.CATEGORY_ID = #{categoryId}
+  FROM BOARD
+  WHERE CATEGORY_ID = #{categoryId}
   <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
   ORDER BY BOARD_ID DESC
   limit #{startIndex}, #{amount}
@@ -37,8 +56,12 @@
   </insert>
   
   <!-- 게시글 상세보기 -->
-  <select id="viewPostDetail" resultMap="BoardMap">
-  SELECT * FROM BOARD WHERE BOARD_ID = #{boardId}
+  <select id="viewPostDetail" parameterType="int" resultMap="BoardDetailMap">
+  SELECT B.BOARD_ID, B.SUBJECT_ID, B.CATEGORY_ID, B.USER_ID,
+  B.TITLE, B.TEXT, B.CREATE_DATE, B.UPDATE_DATE, B.HIT_NUM,
+  U.USER_ID, U.STUDENT_NUMBER, U.STUDENT_NAME, U.AUTH, U.UNIV_NAME
+  FROM BOARD B, USERS U
+  WHERE B.USER_ID = U.USER_ID AND BOARD_ID = #{boardId}
   </select>
   
   <!-- 게시글 수정 -->

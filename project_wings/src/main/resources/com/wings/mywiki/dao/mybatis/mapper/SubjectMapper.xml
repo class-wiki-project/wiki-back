@@ -5,7 +5,7 @@
   <cache />
   
   <resultMap id="resultMap_sub" type="com.wings.mywiki.model.SubjectVO">
-    <result property="SubjectId" column="subject_id" />
+    <result property="subjectId" column="subject_id" />
 	<result property="subjectName" column="subject_name" />
 	<result property="professor" column="professor" />
 	<result property="year" column="subject_year" />

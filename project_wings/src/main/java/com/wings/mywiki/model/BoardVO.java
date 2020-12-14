@@ -16,4 +16,5 @@ public class BoardVO implements Serializable {
 	private int categoryId;	// 외래키
 	private String title,text,createDate,updateDate;
 	private int hitNum;
+	private UsersVO usersVO;
 }
