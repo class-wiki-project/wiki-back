@@ -39,7 +39,7 @@ public class UsersController {
 	
 	private BCryptPasswordEncoder pwdEncoder;
 	//메인 페이지
-	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> main(HttpServletResponse response,
 										HttpServletRequest request,
@@ -59,14 +59,14 @@ public class UsersController {
 			
 		}
 		return map;
-	}	
+	}
 	//회원가입
-	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> register(@RequestBody UsersVO userVO,
-			HttpServletResponse response) throws IOException {
+	public Map<String, Object> userRegister(@RequestBody UsersVO userVO,
+			HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+		System.out.println("됬네");
 		String tmp = userVO.getPassword();
 		System.out.println(tmp);
 		pwdEncoder = new BCryptPasswordEncoder();
@@ -78,20 +78,19 @@ public class UsersController {
 		
 		
 		map.put("msg", "회원가입이 완료되었습니다.");
-
 		return map;
 	}	
 	
 	//회원 가입시 id 중복 체크
-	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> emailCheck(@RequestParam String email,
-			HttpServletResponse response) throws IOException {
-
+	public Map<String, Object> emailCheck(@RequestBody LoginVO loginVO,
+				HttpServletResponse response) {
+		System.out.println(loginVO.getEmail());
+		System.out.println("이게진짜임");
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		
-		if(userService.checkId(email) == 1) {
+		if(userService.checkId(loginVO.getEmail()) == 1) {
 			map.put("msg", "이미 존재하는 E-mail 입니다.");
 			
 		}
@@ -101,9 +100,8 @@ public class UsersController {
 		
 		return map;
 	}	
-	
 	//로그인 처리
-	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> Login(@RequestBody LoginVO loginVO,
 			HttpServletResponse response, HttpSession session) throws IOException {
@@ -138,10 +136,10 @@ public class UsersController {
 	
 	
 	//로그아웃 처리 요청.
-	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object>  logout(HttpSession session) {
-		System.out.println("/user/logout ��泥�!");
+		System.out.println("/user/logout 요청!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		
@@ -155,3 +153,6 @@ public class UsersController {
 		
 	}
 }
+	
+	
+	
