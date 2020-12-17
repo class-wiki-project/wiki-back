@@ -1,9 +1,13 @@
 package com.wings.mywiki.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +25,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.ClassificationVO;
+import com.wings.mywiki.model.CommentVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.WikiVO;
 import com.wings.mywiki.service.BoardServiceImpl;
 import com.wings.mywiki.service.CommentServiceImpl;
 import com.wings.mywiki.service.SubjectServiceImpl;
+
 @RestController
 @RequestMapping("/board/*")
 public class BoardController {
@@ -117,8 +123,19 @@ public class BoardController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		// 해당 게시글 객체
 		map.put("BoardVO", board);
-		// 해당 게시글에 해당하는 모든 댓글 불러오기 
-		map.put("CommentMap", commentServiceImpl.getComments(boardId));
+		
+		List<CommentVO> commentList= commentServiceImpl.getComments(boardId);
+	      for(Object vo : commentList) {
+	    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
+	    		  if (element.getKey().equals("notice_date")) {
+	    			  Date date = (Date) element.getValue();
+	    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    			  String noticeDate = format.format(date);
+	    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
+	    		  }
+	          }
+	      }
+	      map.put("commentMap", commentList);
 		
 		return map;
 	}
@@ -139,8 +156,19 @@ public class BoardController {
 			HashMap<String, Object> update = new HashMap<String, Object>();
 			// 해당 게시글 객체
 			update.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
-			// 해당 게시글에 해당하는 모든 댓글 불러오기 
-			update.put("CommentMap", commentServiceImpl.getComments((int)map.get("boardId")));
+			
+			List<CommentVO> commentList= commentServiceImpl.getComments((int)map.get("boardId"));
+		      for(Object vo : commentList) {
+		    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
+		    		  if (element.getKey().equals("notice_date")) {
+		    			  Date date = (Date) element.getValue();
+		    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		    			  String noticeDate = format.format(date);
+		    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
+		    		  }
+		          }
+		      }
+		      map.put("commentMap", commentList);
 			
 			return update;
 	}

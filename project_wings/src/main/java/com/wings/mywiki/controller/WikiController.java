@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +24,7 @@ import com.wings.mywiki.service.WikiService;
 public class WikiController {
 	@Autowired
 	private WikiService WikiService;
-	private boolean flag=false;
+	//private boolean flag=false;
 
 	//wiki 페이지 보여 줌
 	@RequestMapping(value = "/showWiki", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
@@ -53,7 +54,13 @@ public class WikiController {
 			}
 		}*/
 		
-		if(flag==true) {
+		if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
+			System.out.println("Updating wiki cannot be done!");
+		}else {
+			System.out.println("Success!!!");
+		}
+		
+		/*if(flag==true) {
 			System.out.println("fail!!!");
 			HashMap<String, String> failMap = new HashMap<>();
 			failMap.put("fail", "already in use");
@@ -70,6 +77,8 @@ public class WikiController {
 			flag=false;
 			
 			return map;
-		}
+			}
+			*/
+			return map;
 	}
 }
