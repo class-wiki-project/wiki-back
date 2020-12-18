@@ -29,16 +29,7 @@ public class CommentController {
    public HashMap<String, Object> getComments(@RequestParam int boardId) {
       HashMap<String, Object> map = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments(boardId);
-      for(Object vo : commentList) {
-    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-    		  if (element.getKey().equals("notice_date")) {
-    			  Date date = (Date) element.getValue();
-    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    			  String noticeDate = format.format(date);
-    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-    		  }
-          }
-      }
+      changeClass(commentList);
       map.put("commentList", commentList);
 
       return map;
@@ -54,16 +45,7 @@ public class CommentController {
       }
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
-      for(Object vo : commentList) {
-    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-    		  if (element.getKey().equals("notice_date")) {
-    			  Date date = (Date) element.getValue();
-    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    			  String noticeDate = format.format(date);
-    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-    		  }
-          }
-      }
+      changeClass(commentList);
       commentMap.put("commentList", commentList);
       
       return commentMap;
@@ -79,16 +61,7 @@ public class CommentController {
       }
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
-      for(Object vo : commentList) {
-    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-    		  if (element.getKey().equals("notice_date")) {
-    			  Date date = (Date) element.getValue();
-    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    			  String noticeDate = format.format(date);
-    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-    		  }
-          }
-      }
+      changeClass(commentList);
       commentMap.put("commentList", commentList);
   
       return commentMap;
@@ -108,19 +81,24 @@ public class CommentController {
 
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList = commentService.getComments(boardId);
-      for(Object vo : commentList) {
-    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-    		  if (element.getKey().equals("notice_date")) {
-    			  Date date = (Date) element.getValue();
-    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    			  String noticeDate = format.format(date);
-    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-    		  }
-          }
-      }
+      changeClass(commentList);
       commentMap.put("commentList", commentList);
 
       //삭제 후 변경 된 comments들 반환
       return commentMap;
+   }
+   
+   public List<CommentVO> changeClass(List<CommentVO> commentList){
+	   for(Object vo : commentList) {
+	    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
+	    		  if (element.getKey().equals("notice_date")) {
+	    			  Date date = (Date) element.getValue();
+	    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    			  String noticeDate = format.format(date);
+	    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
+	    		  }
+	          }
+	      }
+	   return commentList;
    }
 }
