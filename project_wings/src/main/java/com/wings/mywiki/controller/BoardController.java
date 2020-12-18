@@ -100,12 +100,16 @@ public class BoardController {
 	public HashMap<String, Object> insert(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 		
 		if (boardServiceImpl.createPost(map) == 1) { // 성공 1, 실패 0
-			System.out.println("board 게시물 " + map.get("userId") + " created.");
+			System.out.println(map.get("userId") + "의 게시물 created.");
 		}
 		else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
-		return map;
+		System.out.println(map.get("boardId") + " 게시물 created.");
+		HashMap<String, Object> insert = new HashMap<String, Object>();
+		insert.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
+
+		return insert;
 	}
 	
 	// 게시글 상세보기 -> 상세보기 클릭하면 조회 수 증가
@@ -125,16 +129,6 @@ public class BoardController {
 		map.put("BoardVO", board);
 		
 		List<CommentVO> commentList= commentServiceImpl.getComments(boardId);
-	      for(Object vo : commentList) {
-	    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-	    		  if (element.getKey().equals("notice_date")) {
-	    			  Date date = (Date) element.getValue();
-	    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    			  String noticeDate = format.format(date);
-	    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-	    		  }
-	          }
-	      }
 	      map.put("commentMap", commentList);
 		
 		return map;
@@ -146,29 +140,19 @@ public class BoardController {
 	public HashMap<String, Object> update(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 			
 			
-			boardServiceImpl.updatePost(map);
-			if (map == null) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			}
-			
-			System.out.println("post " + map.get("boardId") + " updated.");
+		if (boardServiceImpl.updatePost(map) == 1) { // 성공 1, 실패 0
+			System.out.println("board 게시물 " + map.get("boardId") + " updated.");
+		}
+		else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+		}
 			
 			HashMap<String, Object> update = new HashMap<String, Object>();
 			// 해당 게시글 객체
 			update.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
 			
 			List<CommentVO> commentList= commentServiceImpl.getComments((int)map.get("boardId"));
-		      for(Object vo : commentList) {
-		    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-		    		  if (element.getKey().equals("notice_date")) {
-		    			  Date date = (Date) element.getValue();
-		    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		    			  String noticeDate = format.format(date);
-		    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
-		    		  }
-		          }
-		      }
-		      map.put("commentMap", commentList);
+		    update.put("commentMap", commentList);
 			
 			return update;
 	}

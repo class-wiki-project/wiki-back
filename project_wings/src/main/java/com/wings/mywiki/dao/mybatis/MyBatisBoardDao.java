@@ -36,7 +36,8 @@ public class MyBatisBoardDao implements BoardDao {
 	}
 
 	@Override
-	public void updatePost(HashMap<String, Object> map) throws DataAccessException {
+	public int updatePost(HashMap<String, Object> map) throws DataAccessException {
+		return boardMapper.updatePost(map);
 		// TODO Auto-generated method stub
 	}
 

@@ -59,12 +59,20 @@
 		where comment_id=#{commentId}
 	</delete>
 	
-
+	<!-- 모든 댓글 받아오기 -->
 	<select id="getComments" parameterType="int" resultType="HashMap">
 		select
 		comment_id,board_id,c.user_id,notice_date,comment_text,u.student_name
 		from comment as c JOIN users as u ON (c.user_id=u.user_id)
 		where board_id=#{boardId}
 		ORDER BY notice_date DESC
+	</select>
+
+	<!-- 하나의 댓글 받아오기 -->
+	<select id="getComment" parameterType="int" resultType="HashMap">
+		select
+		comment_id,board_id,c.user_id,notice_date,comment_text,u.student_name
+		from comment as c JOIN users as u ON (c.user_id=u.user_id)
+		where comment_id=#{commentId}
 	</select>
 </mapper> 

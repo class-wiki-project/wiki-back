@@ -10,4 +10,5 @@ public interface CommentDao {
 	public int updateComment(HashMap<String, Object> map);
 	public int deleteComment(int commentId);
 	public List<CommentVO> getComments(int boardId);
+	public HashMap<String, Object> getComment(int boardId);
 }
