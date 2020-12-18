@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd">
 
 	<mvc:cors>
-		<mvc:mapping path="/**" allowed-origins="http://localhost:8080/mywiki/" allowed-headers="*"
+		<mvc:mapping path="/**" allowed-origins="http://localhost:3000/" allowed-headers="*"
 		allowed-methods="GET, PUT, POST, DELETE" allow-credentials="true" max-age="3600" />
 	</mvc:cors>
 
