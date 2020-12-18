@@ -17,7 +17,7 @@ public interface BoardService {
 		//게시글 상세보기
 		public BoardVO viewPostDetail(int postId);
 		//게시글 수정
-		public void updatePost(HashMap<String, Object> map);
+		public int updatePost(HashMap<String, Object> map);
 		//게시글 삭제
 		public void deletePost(int postId);
 		//특정 페이지에 해당하는 게시글 목록

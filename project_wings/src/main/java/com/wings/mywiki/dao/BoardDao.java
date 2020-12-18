@@ -17,7 +17,7 @@ public interface BoardDao {
 	//게시글 상세보기
 	public BoardVO viewPostDetail(int postId) throws DataAccessException;
 	//게시글 수정
-	public void updatePost(HashMap<String, Object> map) throws DataAccessException;
+	public int updatePost(HashMap<String, Object> map) throws DataAccessException;
 	//게시글 삭제
 	public void deletePost(int postId) throws DataAccessException;
 	//게시글 전체목록 조회

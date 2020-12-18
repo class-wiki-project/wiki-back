@@ -35,4 +35,9 @@ public class CommentServiceImpl implements CommentService{
 	public List<CommentVO> getComments(int boardId) {
 		return commentDao.getComments(boardId);
 	}
+
+	@Override
+	public HashMap<String, Object> getComment(int boardId) {
+		return commentDao.getComment(boardId);
+	}
 } 

@@ -36,7 +36,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void updatePost(HashMap<String, Object> map) {
+	public int updatePost(HashMap<String, Object> map) {
+		return boardDao.updatePost(map);
 		// TODO Auto-generated method stub
 	}
 

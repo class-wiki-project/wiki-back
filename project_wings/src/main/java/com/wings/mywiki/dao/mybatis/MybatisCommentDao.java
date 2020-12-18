@@ -34,4 +34,9 @@ public class MybatisCommentDao implements CommentDao{
 	public List<CommentVO> getComments(int boardId) {
 		return commentMapper.getComments(boardId);
 	}
+
+	@Override
+	public HashMap<String, Object> getComment(int boardId) {
+		return commentMapper.getComment(boardId);
+	}
 }
