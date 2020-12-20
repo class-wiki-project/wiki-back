@@ -1,5 +1,6 @@
 package com.wings.mywiki.model;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -18,7 +19,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentVO {
+public class CommentVO implements Serializable{
    private int commentId;
    private int boardId,userId;
    private String commentText;
