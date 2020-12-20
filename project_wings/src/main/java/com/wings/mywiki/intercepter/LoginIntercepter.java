@@ -17,7 +17,7 @@ public class LoginIntercepter extends HandlerInterceptorAdapter {
 		System.out.println("즐겨찾기 인터셉터 발동!");
 		HttpSession session = request.getSession();
 		
-		if(session.getAttribute("login") == null) {
+		if(session.getAttribute("LOGIN") == null) {
 			System.out.println("회원 인증 실패!");
 			
 			
