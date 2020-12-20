@@ -38,7 +38,8 @@ public class UsersController {
 	private FavService favService;
 	
 	private BCryptPasswordEncoder pwdEncoder;
-	//메인 페이지
+	
+	// 메인 페이지
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> main(HttpServletResponse response,
@@ -60,13 +61,13 @@ public class UsersController {
 		}
 		return map;
 	}
-	//회원가입
+	
+	// 회원가입
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> userRegister(@RequestBody UsersVO userVO,
 			HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("됬네");
 		String tmp = userVO.getPassword();
 		System.out.println(tmp);
 		pwdEncoder = new BCryptPasswordEncoder();
@@ -77,30 +78,30 @@ public class UsersController {
 		userService.insert(userVO);
 		
 		
-		map.put("msg", "회원가입이 완료되었습니다.");
+		map.put("msg", "Success Register");
 		return map;
 	}	
 	
-	//회원 가입시 id 중복 체크
+	// Email Redundancy check
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> emailCheck(@RequestBody LoginVO loginVO,
 				HttpServletResponse response) {
 		System.out.println(loginVO.getEmail());
-		System.out.println("이게진짜임");
+		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		if(userService.checkId(loginVO.getEmail()) == 1) {
-			map.put("msg", "이미 존재하는 E-mail 입니다.");
+			map.put("msg", "Already exists Email");
 			
 		}
 		else {
-		map.put("msg", "사용가능한 아이디입니다.");
+		map.put("msg", "Available EMAIL ID");
 		}
 		
 		return map;
 	}	
-	//로그인 처리
+	//濡�洹몄�� 泥�由�
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> Login(@RequestBody LoginVO loginVO,
@@ -109,9 +110,6 @@ public class UsersController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		pwdEncoder = new BCryptPasswordEncoder();
-		String pwd = pwdEncoder.encode(loginVO.getPassword());
-		System.out.println(pwd);
-		System.out.println(check.getPassword());
 		if(check != null) {
 			if(pwdEncoder.matches(loginVO.getPassword(),check.getPassword())) {
 			session.setAttribute("LOGIN", check);
@@ -123,11 +121,11 @@ public class UsersController {
 			put_user.setUserId(check.getUserId());
 			
 			map.put("users", put_user);
-			map.put("favorite", favService.selectAll(check.getUserId()));
-			map.put("msg", "로그인이 되었습니다.");
+			map.put("favorites", favService.selectAll(check.getUserId()));
+			map.put("msg", "Login success");
 			}
 			else {
-				map.put("msg", "아이디와 비밀번호가 일치하지 않습니다.");
+				map.put("msg", "ID and Password not match");
 			}
 		}
 		
@@ -135,18 +133,18 @@ public class UsersController {
 	}	
 	
 	
-	//로그아웃 처리 요청.
+	//Logout
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object>  logout(HttpSession session) {
-		System.out.println("/user/logout 요청!");
+		System.out.println("/user/logout accepted!");
 		Map<String, Object> map = new HashMap<String, Object>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		
 		if(user != null) {
 			session.removeAttribute("LOGIN");
 			session.invalidate();
-			map.put("msg", "로그아웃 되었습니다.");
+			map.put("msg", "Logout success");
 		}
 		
 		return map;

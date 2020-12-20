@@ -26,7 +26,7 @@ public class SubjectController {
 	@Autowired
 	private SubjectService subService;
 	
-	//1) ��ü ���� ��ȸ
+	//1) 과목 정보 가져오기
 	@RequestMapping(value = "/api/subject/select", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> select() throws IOException {

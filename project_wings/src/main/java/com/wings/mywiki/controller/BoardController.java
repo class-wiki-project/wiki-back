@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,12 +24,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.WebUtils;
 
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.ClassificationVO;
 import com.wings.mywiki.model.CommentVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.SubjectVO;
+import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.model.WikiVO;
 import com.wings.mywiki.service.BoardServiceImpl;
 import com.wings.mywiki.service.CommentServiceImpl;
@@ -81,8 +85,9 @@ public class BoardController {
 	// 게시글 작성 폼 불러오기
 	@GetMapping(value = "insert")
 	@ResponseStatus(HttpStatus.OK)
-	public List<SubjectVO> getPostForm(HttpServletResponse response) throws IOException {
+	public List<SubjectVO> getPostForm(HttpSession session, HttpServletResponse response) throws IOException {
 			
+		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		List<SubjectVO> subject = subjectServiceImpl.selectAll();
 		if (subject != null) { // subjectList를 성공적으로 받아오면
 			System.out.println("Getting subjectList success!!!");
@@ -106,6 +111,7 @@ public class BoardController {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 		System.out.println(map.get("boardId") + " 게시물 created.");
+		
 		HashMap<String, Object> insert = new HashMap<String, Object>();
 		insert.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
 
