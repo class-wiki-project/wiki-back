@@ -48,7 +48,7 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/api/fav/*" />
- 			<mvc:mapping path="/board/insert" />
+			<mvc:mapping path="/board/insert" />
 			<mvc:mapping path="/board/update" />
 			<mvc:mapping path="/board/delete" />
 			<mvc:mapping path="/board/inputComment" />

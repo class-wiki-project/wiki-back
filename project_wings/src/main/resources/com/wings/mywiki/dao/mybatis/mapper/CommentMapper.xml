@@ -62,7 +62,8 @@
 	<!-- 모든 댓글 받아오기 -->
 	<select id="getComments" parameterType="int" resultType="HashMap">
 		select
-		comment_id,board_id,c.user_id,notice_date,comment_text,u.student_name
+		comment_id as commentId,board_id as boardId,c.user_id as userId,notice_date as noticeDate,
+		comment_text as commentText,u.student_name as studentName
 		from comment as c JOIN users as u ON (c.user_id=u.user_id)
 		where board_id=#{boardId}
 		ORDER BY notice_date DESC
@@ -71,7 +72,8 @@
 	<!-- 하나의 댓글 받아오기 -->
 	<select id="getComment" parameterType="int" resultType="HashMap">
 		select
-		comment_id,board_id,c.user_id,notice_date,comment_text,u.student_name
+		comment_id as commentId,board_id as boardId,c.user_id as userId,notice_date as noticeDate,
+		comment_text as commentText,u.student_name as studentName
 		from comment as c JOIN users as u ON (c.user_id=u.user_id)
 		where comment_id=#{commentId}
 	</select>

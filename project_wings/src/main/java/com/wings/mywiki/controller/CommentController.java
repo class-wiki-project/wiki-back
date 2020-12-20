@@ -1,7 +1,6 @@
 package com.wings.mywiki.controller;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -93,11 +92,11 @@ public class CommentController {
    public List<CommentVO> changeClass(List<CommentVO> commentList){
 	   for(Object vo : commentList) {
 	    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
-	    		  if (element.getKey().equals("notice_date")) {
+	    		  if (element.getKey().equals("noticeDate")) {
 	    			  Date date = (Date) element.getValue();
 	    			  SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	    			  String noticeDate = format.format(date);
-	    			  ((HashMap<String, Object>) vo).put("notice_date",noticeDate);
+	    			  ((HashMap<String, Object>) vo).put("noticeDate",noticeDate);
 	    		  }
 	          }
 	      }
