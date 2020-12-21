@@ -120,10 +120,10 @@ CREATE TABLE `report`(
 -- `users`
 --
 
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`) VALUES ('1', 'elice123@naver.com', 'elice123', '김태연', '1891012', '2', '한국대학교');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`) VALUES ('2', 'bob222@naver.com', 'bob222', '박윤호', '1642022', '2', '한국대학교');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '1784062', '2', '한국대학교');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '190817', '2', '한국대학교');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('1', 'elice123@naver.com', 'elice123', '김태연', '1891012', '2', '한국대학교',0);
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('2', 'bob222@naver.com', 'bob222', '박윤호', '1642022', '2', '한국대학교',2);
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '1784062', '2', '한국대학교',1);
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '190817', '2', '한국대학교',0);
 
 --
 -- `subjects`
