@@ -28,8 +28,27 @@ public class MyBatisAdminDao implements AdminDao{
 
 	@Override
 	public int createNotice(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return boardMapper.createPost(map);
+	}
+
+	@Override
+	public void updateReportedNum(int reportUserId) {
+		adminMapper.updateReportedNum(reportUserId);
+	}
+
+	@Override
+	public int getReportedNum(int reportUserId) {
+		return adminMapper.getReportedNum(reportUserId);
+	}
+
+	@Override
+	public void deleteUser(int reportUserId) {
+		adminMapper.deleteUser(reportUserId);
+	}
+
+	@Override
+	public void deleteReport(int reportId) {
+		adminMapper.deleteReport(reportId);
 	}
 
 }

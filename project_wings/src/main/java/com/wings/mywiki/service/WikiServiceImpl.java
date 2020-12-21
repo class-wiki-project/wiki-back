@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.wings.mywiki.dao.WikiDao;
 import com.wings.mywiki.model.ClassificationVO;
+import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.WikiVO;
 
 @Service
@@ -29,5 +30,10 @@ public class WikiServiceImpl implements WikiService{
 	//
 	public int editWiki(HashMap<String, String> map) {
 		return wikiDao.editWiki(map);
+	}
+	
+	@Override
+	public SubjectVO getSubject(int subjectId) {
+		return wikiDao.getSubject(subjectId);
 	}
 }

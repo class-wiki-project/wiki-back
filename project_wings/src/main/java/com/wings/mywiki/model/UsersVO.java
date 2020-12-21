@@ -13,5 +13,5 @@ public class UsersVO implements Serializable {
 
 	private int userId;
 	private String email,password,studentName,univName,studentNumber;
-	private int auth;
+	private int auth,reportedNum;
 }
