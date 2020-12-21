@@ -29,8 +29,27 @@ public class AdminServiceImpl implements AdminService{
 
 	@Override
 	public int createNotice(HashMap<String, Object> map) {
-		// TODO Auto-generated method stub
 		return boardDao.createPost(map);
+	}
+
+	@Override
+	public void updateReportedNum(int reportUserId) {
+		adminDao.updateReportedNum(reportUserId);
+	}
+
+	@Override
+	public int getReportedNum(int reportUserId) {
+		return adminDao.getReportedNum(reportUserId);
+	}
+
+	@Override
+	public void deleteUser(int reportUserId) {
+		adminDao.deleteUser(reportUserId);
+	}
+
+	@Override
+	public void deleteReport(int reportId) {
+		adminDao.deleteReport(reportId);
 	}
 
 }

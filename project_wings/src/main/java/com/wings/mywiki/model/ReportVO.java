@@ -17,8 +17,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportVO implements Serializable{
-	private int reportId;
-	private String reportUserEmail,reportedUserEmail,reportContent;
+	private int reportId,reportUserId,reportedUserId;
+	private String reportContent;
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	private LocalDateTime reportedDate;
 }
