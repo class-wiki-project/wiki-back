@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `student_number` varchar(100) DEFAULT NULL,
   `auth` int NOT NULL,
   `univ_name` varchar(100) NOT NULL,
+  `reported_num` INT(11),
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
@@ -103,6 +104,17 @@ CREATE TABLE `comment` (
   CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
+CREATE TABLE `report`(
+    `report_id` int(11) NOT NULL AUTO_INCREMENT,
+    `report_user_id` int(11) NOT NULL,
+    `reported_user_id` int(11) NOT NULL,
+    `report_content` varchar(600) DEFAULT NULL,
+    `reported_date` datetime NOT NULL,
+	PRIMARY KEY (`report_id`),
+    FOREIGN KEY (`report_user_id`) REFERENCES `users` (`user_id`),
+    FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`)
+);
+
 
 --
 -- `users`
@@ -176,3 +188,15 @@ INSERT INTO `mywiki`.`favorite` (`fav_subject_id`, `user_id`, `subject_id`, `sub
 INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('1', '1', '3', '2019-11-13 22:22:00', '잘모르겠네여 잘해결해보시길');
 INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('2', '4', '2', '2020-09-16 00:36:12', '나ㅏㅏㅏㅏ도');
 INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_date`, `comment_text`) VALUES ('3', '4', '4', '2020-09-16 00:39:12', '낼 시험2개ㅠㅜㅜㅠ');
+
+--
+-- `report`
+--
+
+INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('1', '1', '3', '게시글을 도배 함', '2020-12-03 12:33:11');
+INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('2', '1', '2', '광고성 글을 올렸습니다', '2020-12-21 18:11:45');
+INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('3', '2', '3', '비방 글', '2020-12-21 20:20:33');
+
+
+ALTER TABLE `mywiki`.`users` 
+ADD COLUMN `reported_num` INT(11);
