@@ -28,7 +28,7 @@ public class WikiServiceImpl implements WikiService{
 	}
 
 	//
-	public int editWiki(HashMap<String, String> map) {
+	public int editWiki(HashMap<String, Object> map) {
 		return wikiDao.editWiki(map);
 	}
 	

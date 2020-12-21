@@ -45,22 +45,15 @@ public class WikiController {
 
 	// wiki 수정
 	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUT으로 수정!
-	public @ResponseBody HashMap<String, String> editWiki(@RequestBody HashMap<String, String> map) throws JsonParseException, JsonMappingException, IOException { //{key(id),value(text)}
-		/*synchronized (map) {
-			try {
-				if (WikiService.editWiki(map) == 0) { // 성공:1, 실패:0
-					System.out.println("Updating wiki cannot be done!");
-				}
-			}catch (Exception e) {
-				e.printStackTrace();
-			}
-		}*/
-		
+	public @ResponseBody HashMap<String, Object> editWiki(@RequestBody HashMap<String, Object> map){
 		if (wikiService.editWiki(map) == 0) { // 성공:1, 실패:0
 			System.out.println("Updating wiki cannot be done!");
 		}else {
 			System.out.println("Success!!!");
 		}
+		
+		SubjectVO subjectVO = wikiService.getSubject((int) map.get("subjectId"));
+		map.put("subjectVO", subjectVO);
 		
 		/*if(flag==true) {
 			System.out.println("fail!!!");
