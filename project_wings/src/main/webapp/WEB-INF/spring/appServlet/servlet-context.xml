@@ -51,10 +51,10 @@
 			<mvc:mapping path="/board/insert" />
 			<mvc:mapping path="/board/update" />
 			<mvc:mapping path="/board/delete" />
-			<!-- <mvc:mapping path="/board/inputComment" />
+			<mvc:mapping path="/board/inputComment" />
 			<mvc:mapping path="/board/updateComment" />
-			<mvc:mapping path="/board/deleteComment" /> -->
-			<mvc:mapping path="/wiki/editWiki" /> 
+			<mvc:mapping path="/board/deleteComment" />
+			<mvc:mapping path="/wiki/editWiki" />
 			<ref bean="LoginIntercepter" /> 
 		</mvc:interceptor>
 	</mvc:interceptors>
