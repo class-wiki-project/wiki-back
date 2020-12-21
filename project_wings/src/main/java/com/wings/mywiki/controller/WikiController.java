@@ -23,7 +23,7 @@ public class WikiController {
 	private WikiService wikiService;
 	//private boolean flag=false;
 
-	//wiki ÆäÀÌÁö º¸¿© ÁÜ
+	//wiki í˜ì´ì§€ ë³´ì—¬ ì¤Œ
 	@RequestMapping(value = "/showWiki", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public HashMap<String, Object> showWiki(@RequestParam int subjectId) {
@@ -31,7 +31,7 @@ public class WikiController {
 		List<ClassificationVO> classificationList = wikiService.getClassification(wikiVO.getWikiId());
 		SubjectVO subjectVO = wikiService.getSubject(subjectId);
 
-		// JsonÀ¸·Î ³Ñ±â±â
+		// Jsonìœ¼ë¡œ ë„˜ê¸°ê¸°
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("wikiVO", wikiVO);
 		map.put("classificationList", classificationList);
@@ -40,10 +40,10 @@ public class WikiController {
 		return map;
 	}
 
-	// wiki ¼öÁ¤
-	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUTÀ¸·Î ¼öÁ¤!
+	// wiki ìˆ˜ì •
+	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUTï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½!
 	public @ResponseBody HashMap<String,String> editWiki(@RequestBody HashMap<String, String> map){
-		if (wikiService.editWiki(map) == 0) { // ¼º°ø:1, ½ÇÆĞ:0
+		if (wikiService.editWiki(map) == 0) { // ì„±ê³µ:1, ì‹¤íŒ¨:0
 			System.out.println("Updating wiki cannot be done!");
 		}else {
 			System.out.println("Success!!!");
@@ -58,7 +58,7 @@ public class WikiController {
 		}else {
 			flag=true;
 			
-			if (WikiService.editWiki(map) == 0) { // ¼º°ø:1, ½ÇÆĞ:0
+			if (WikiService.editWiki(map) == 0) { ì„±ê³µ:1, ì‹¤íŒ¨:0
 				System.out.println("Updating wiki cannot be done!");
 			}else {
 				System.out.println("Success!!!");

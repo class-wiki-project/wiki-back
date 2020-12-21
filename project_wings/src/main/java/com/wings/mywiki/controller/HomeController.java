@@ -26,15 +26,15 @@ public class HomeController {
 		return "home";
 	}
 
-	// ¸ŞÀÎÈ­¸é¿¡¼­ °ú¸ñ¸í °Ë»ö
+	// ë©”ì¸í™”ë©´ì—ì„œ ê³¼ëª©ëª… ê²€ìƒ‰
 	@RequestMapping(value = "/searchSubject", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public HashMap<String, Object> searchSubject(@RequestParam String searchName){
 		List<SubjectVO> subjectList = homeService.getAllSubjectByName(searchName);
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		String emp = "°Ë»ö °á°ú°¡ ¾ø½À´Ï´Ù";
+		String emp = "ê²€ìƒ‰ ê²°ê³¼ê°€ ì—†ìŠµë‹ˆë‹¤";
 		
-		if(subjectList.isEmpty()) {	//°á°ú°¡ ¾ø´Ù¸é
+		if(subjectList.isEmpty()) {	//ê²°ê³¼ê°€ ì—†ë‹¤ë©´
 			map.put("empty", emp);
 		}else {
 			map.put("subjectList", subjectList);

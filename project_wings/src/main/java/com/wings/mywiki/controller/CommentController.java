@@ -23,7 +23,7 @@ public class CommentController {
    @Autowired
    private CommentService commentService;
 
-   //¸ğµç ´ñ±Û º¸±â
+ //ëª¨ë“  ëŒ“ê¸€ ë³´ê¸°
    @RequestMapping(value = "/showComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
    @ResponseBody
    public HashMap<String, Object> getComments(@RequestParam int boardId) {
@@ -35,10 +35,10 @@ public class CommentController {
       return map;
    }
 
-   // ´ñ±Û ÀÔ·Â
+// ëŒ“ê¸€ ì…ë ¥
    @RequestMapping(value = "/inputComment", method = RequestMethod.POST, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> inputComment(@RequestBody HashMap<String, Object> map) {
-	   if (commentService.inputComment(map) == 0) { // ¼º°ø:1, ½ÇÆĞ:0
+	   if (commentService.inputComment(map) == 0) { // ì„±ê³µ:1, ì‹¤íŒ¨:0
          System.out.println("inputing comment cannot be done!");
       } else {
          System.out.println("Success!!!");
@@ -51,10 +51,10 @@ public class CommentController {
       return commentMap;
    }
    
-   // ´ñ±Û ¼öÁ¤
+// ëŒ“ê¸€ ìˆ˜ì •
    @RequestMapping(value = "/updateComment", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
-      if (commentService.updateComment(map) == 0) { // ¼º°ø:1, ½ÇÆĞ:0
+      if (commentService.updateComment(map) == 0) { // ì„±ê³µ:1, ì‹¤íŒ¨:0
          System.out.println("Updating comment cannot be done!");
       } else {
          System.out.println("Success!!!");
@@ -67,13 +67,13 @@ public class CommentController {
       return commentMap;
    }
 
-   // ´ñ±Û »èÁ¦
+// ëŒ“ê¸€ ì‚­ì œ
    @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> deleteComment(@RequestBody HashMap<String, Object> map) {
       int commentId = (int) map.get("commentId");
       int boardId = (int) map.get("boardId");
 
-      if (commentService.deleteComment(commentId) == 0) { // ¼º°ø:1, ½ÇÆĞ:0
+      if (commentService.deleteComment(commentId) == 0) { // ì„±ê³µ:1, ì‹¤íŒ¨:0
          System.out.println("deleting comment cannot be done!");
       } else {
          System.out.println("Success!!!");
@@ -85,7 +85,7 @@ public class CommentController {
 
       commentMap.put("commentList", commentList);
 
-      //»èÁ¦ ÈÄ º¯°æ µÈ commentsµé ¹İÈ¯
+    //ì‚­ì œ í›„ ë³€ê²½ ëœ commentsë“¤ ë°˜í™˜
       return commentMap;
    }
    
