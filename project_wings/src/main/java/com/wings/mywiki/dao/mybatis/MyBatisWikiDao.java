@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.wings.mywiki.dao.WikiDao;
 import com.wings.mywiki.dao.mybatis.mapper.WikiMapper;
 import com.wings.mywiki.model.ClassificationVO;
+import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.dao.mybatis.mapper.WikiMapper;
 import com.wings.mywiki.model.WikiVO;
 
@@ -30,5 +31,10 @@ public class MyBatisWikiDao implements WikiDao{
 	//wiki ¼öÁ¤
 	public int editWiki(HashMap<String, String> map) {	
 		return wikiMapper.editWiki(map);
+	}
+
+	@Override
+	public SubjectVO getSubject(int subjectId) {
+		return wikiMapper.getSubject(subjectId);
 	}
 }

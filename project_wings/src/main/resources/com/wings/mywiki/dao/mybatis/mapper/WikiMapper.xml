@@ -52,4 +52,11 @@
 			(select wiki_id from wiki
 			where subject_id=#{subjectId})
 	</update> 
+	
+	<!-- 과목 정보 가져 옴 -->
+	<select id="getSubject" resultMap="subjectResult">
+		select * from subjects
+		where subject_id=#{subjectId}
+	</select>
+	
 </mapper> 
