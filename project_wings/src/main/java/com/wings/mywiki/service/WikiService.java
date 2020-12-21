@@ -13,6 +13,6 @@ import com.wings.mywiki.model.WikiVO;
 public interface WikiService {
 	public WikiVO getWiki(int subjectId);
 	public List<ClassificationVO> getClassification(int wikiId);
-	public int editWiki(HashMap<String, Object> map);
+	public int editWiki(HashMap<String, String> map);
 	public SubjectVO getSubject(int subjectId);
 }

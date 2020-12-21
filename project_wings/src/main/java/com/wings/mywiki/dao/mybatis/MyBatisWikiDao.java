@@ -29,7 +29,7 @@ public class MyBatisWikiDao implements WikiDao{
 	}
 
 	//wiki ¼öÁ¤
-	public int editWiki(HashMap<String, Object> map) {	
+	public int editWiki(HashMap<String, String> map) {	
 		return wikiMapper.editWiki(map);
 	}
 

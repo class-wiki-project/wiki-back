@@ -23,44 +23,54 @@ import com.wings.mywiki.service.BoardService;
 public class AdminController {
 	@Autowired
 	private AdminService adminService;
-	
+
 	@Autowired
 	private BoardService boardService;
-	
-	//모든 신고 내용 보기
-	 @GetMapping("getAllReports")
-	 @ResponseStatus(HttpStatus.OK)
-	 public HashMap<String, Object> getAllReports() {
-	      HashMap<String, Object> map = new HashMap<String, Object>();
-	      List<ReportVO> reportList= adminService.getAllReports();
-	      map.put("reportList", reportList);
 
-	      return map;
-	   }
-	 
-	 // 공지사항 등록
+	// 모든 신고 내용 보기
+	@GetMapping("getAllReports")
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> getAllReports() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		List<ReportVO> reportList = adminService.getAllReports();
+		map.put("reportList", reportList);
+
+		return map;
+	}
+	
+	//신고 접수
+	@PostMapping("approveReport")
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> approveReport() {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		
+
+		return map;
+	}
+
+	// 공지사항 등록
 	@PostMapping(value = "insert")
 	@ResponseStatus(HttpStatus.CREATED)
-	public HashMap<String, Object> insertNotice(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws Exception {
+	public HashMap<String, Object> insertNotice(@RequestBody HashMap<String, Object> map, HttpServletResponse response)
+			throws Exception {
 		if (adminService.createNotice(map) == 1) { // 성공 1, 실패 0
 			System.out.println(map.get("userId") + "의 공지사항 created.");
-		}
-		else {
+		} else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
-		
+
 		HashMap<String, Object> insert = new HashMap<String, Object>();
-		insert.put("Notice", boardService.getBoard((int)map.get("boardId")));
+		insert.put("Notice", boardService.getBoard((int) map.get("boardId")));
 
 		return insert;
 	}
-	
+
 	// 모든 유저 조회
 	@GetMapping("getAllUsers")
-	 @ResponseStatus(HttpStatus.OK)
-	 public HashMap<String, Object> getAllUsers() {
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> getAllUsers() {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-	      return map;
-	   }
+		return map;
+	}
 }
