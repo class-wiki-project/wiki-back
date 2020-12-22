@@ -23,57 +23,57 @@ public class CommentController {
    @Autowired
    private CommentService commentService;
 
- //모든 댓글 보기
+ //紐⑤뱺 �뙎湲� 蹂닿린
    @RequestMapping(value = "/showComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
    @ResponseBody
    public HashMap<String, Object> getComments(@RequestParam int boardId) {
       HashMap<String, Object> map = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments(boardId);
-      changeClass(commentList);
+      //changeClass(commentList);
       map.put("commentList", commentList);
 
       return map;
    }
 
-// 댓글 입력
+// �뙎湲� �엯�젰
    @RequestMapping(value = "/inputComment", method = RequestMethod.POST, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> inputComment(@RequestBody HashMap<String, Object> map) {
-	   if (commentService.inputComment(map) == 0) { // 성공:1, 실패:0
+	   if (commentService.inputComment(map) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("inputing comment cannot be done!");
       } else {
          System.out.println("Success!!!");
       }
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
-      changeClass(commentList);
+      //changeClass(commentList);
       commentMap.put("commentList", commentList);
 		  
       return commentMap;
    }
    
-// 댓글 수정
+// �뙎湲� �닔�젙
    @RequestMapping(value = "/updateComment", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
-      if (commentService.updateComment(map) == 0) { // 성공:1, 실패:0
+      if (commentService.updateComment(map) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("Updating comment cannot be done!");
       } else {
          System.out.println("Success!!!");
       }
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments((int) map.get("boardId"));
-      changeClass(commentList);
+      //changeClass(commentList);
       commentMap.put("commentList", commentList);
   
       return commentMap;
    }
 
-// 댓글 삭제
+// �뙎湲� �궘�젣
    @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE, produces = "application/json; charset=utf8")
    public @ResponseBody HashMap<String, Object> deleteComment(@RequestBody HashMap<String, Object> map) {
       int commentId = (int) map.get("commentId");
       int boardId = (int) map.get("boardId");
 
-      if (commentService.deleteComment(commentId) == 0) { // 성공:1, 실패:0
+      if (commentService.deleteComment(commentId) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("deleting comment cannot be done!");
       } else {
          System.out.println("Success!!!");
@@ -81,14 +81,15 @@ public class CommentController {
 
       HashMap<String, Object> commentMap = new HashMap<String, Object>();
       List<CommentVO> commentList = commentService.getComments(boardId);
-      changeClass(commentList);
+      //changeClass(commentList);
 
       commentMap.put("commentList", commentList);
 
-    //삭제 후 변경 된 comments들 반환
+    //�궘�젣 �썑 蹂�寃� �맂 comments�뱾 諛섑솚
       return commentMap;
    }
    
+   /*
    public List<CommentVO> changeClass(List<CommentVO> commentList){
 	   for(Object vo : commentList) {
 	    	  for(Entry<String, Object> element : ((HashMap<String, Object>) vo).entrySet()){
@@ -102,4 +103,5 @@ public class CommentController {
 	      }
 	   return commentList;
    }
+   */
 }

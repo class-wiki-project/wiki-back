@@ -23,7 +23,6 @@ public class CommentVO implements Serializable{
    private int commentId;
    private int boardId,userId;
    private String commentText;
-   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-   private LocalDateTime noticeDate;
+   private String noticeDate;
    private String studentName;
 }
