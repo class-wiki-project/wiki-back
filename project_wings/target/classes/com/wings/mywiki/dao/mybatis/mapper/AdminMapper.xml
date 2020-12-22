@@ -32,6 +32,18 @@
 		SELECT * FROM report
 	</select>
 	
+	<!-- 신고 번호로 신고자 id 가져 옴 -->
+	<select id="getReportUserId">
+		select report_user_id from report
+		where report_id=#{reportId}
+	</select>
+	
+	<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
+	<select id="getReportedUserId">
+		select reported_user_id from report
+		where report_id=#{reportId}
+	</select>
+	
 	<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->
 	<update id="updateReportedNum" parameterType="int">
 		update users

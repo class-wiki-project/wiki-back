@@ -42,14 +42,16 @@ public class AdminController {
 	@PostMapping("approveReport")
 	@ResponseStatus(HttpStatus.OK)
 	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map) {
-		int reportUserId = (int) map.get("reportUserId");
+		//int reportUserId = adminService.getReportUserId(map.get("reportId"));
+		int reportedUserId = adminService.getReportedUserId((int)map.get("reportId"));
+		
 		// 신고 된 사람의 신고 된 횟수 +1
-		adminService.updateReportedNum(reportUserId);
+		adminService.updateReportedNum(reportedUserId);
 		
 		//신고 된 횟수 가져 옴
-		int reportedNum = adminService.getReportedNum(reportUserId);
+		int reportedNum = adminService.getReportedNum(reportedUserId);
 		if (reportedNum>=5) {	//신고 된 횟수가 5회 이상이면 탈퇴 조취
-			adminService.deleteUser(reportUserId);
+			adminService.deleteUser(reportedUserId);
 		}
 		
 		//신고 리스트에서 삭제

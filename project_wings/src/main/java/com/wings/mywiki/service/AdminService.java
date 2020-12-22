@@ -11,4 +11,5 @@ public interface AdminService {
 	public int getReportedNum(int reportUserId);
 	public void deleteUser(int reportUserId);
 	public void deleteReport(int reportId);
+	public int getReportedUserId(int reportId);
 }

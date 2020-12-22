@@ -51,4 +51,9 @@ public class MyBatisAdminDao implements AdminDao{
 		adminMapper.deleteReport(reportId);
 	}
 
+	@Override
+	public int getReportedUserId(int reportId) {
+		return adminMapper.getReportedUserId(reportId);
+	}
+
 }

@@ -52,4 +52,9 @@ public class AdminServiceImpl implements AdminService{
 		adminDao.deleteReport(reportId);
 	}
 
+	@Override
+	public int getReportedUserId(int reportId) {
+		return adminDao.getReportedUserId(reportId);
+	}
+
 }
