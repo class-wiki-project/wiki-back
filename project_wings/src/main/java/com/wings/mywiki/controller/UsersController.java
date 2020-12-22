@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -41,6 +43,8 @@ public class UsersController {
 	
 	private BCryptPasswordEncoder pwdEncoder;
 	
+	private static Logger logger = LoggerFactory.getLogger(UsersController.class);
+	
 	// 메인 페이지
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -59,8 +63,11 @@ public class UsersController {
 			put_user.setUserId(user.getUserId());
 			map.put("user", put_user);
 			map.put("favorites", favService.selectAll(user.getUserId()));
-			
 		}
+		
+		logger.info("세션 아이디: " + session.getId());
+		logger.info("세션 check: " + String.valueOf(session.getAttribute("LOGIN")));
+		
 		return map;
 	}
 	
@@ -133,6 +140,9 @@ public class UsersController {
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED); //401에러
 			}
 		}
+		
+		logger.info("세션 아이디: " + session.getId());
+		logger.info("세션 check: " + String.valueOf(session.getAttribute("LOGIN")));
 		
 		return map;
 	}	
