@@ -41,8 +41,8 @@ import com.wings.mywiki.service.SubjectServiceImpl;
 @RequestMapping("/board/*")
 public class BoardController {
 	
-	//@RequestBody: jsonÀ» °´Ã¼·Î
-	//@ResponseBody: °´Ã¼¸¦ jsonÀ¸·Î
+	//@RequestBody: jsonì„ ê°ì²´ë¡œ
+		//@ResponseBody: ê°ì²´ë¥¼ jsonìœ¼ë¡œ
 	
 	@Autowired
 	private BoardServiceImpl boardServiceImpl;
@@ -53,26 +53,26 @@ public class BoardController {
 	@Autowired
 	private SubjectServiceImpl subjectServiceImpl;
 	
-	// °Ô½Ã±Û ¸ñ·Ïº¸±â
+	// ê²Œì‹œê¸€ ëª©ë¡ë³´ê¸°
 	@GetMapping(value = "list")
 	public HashMap<String, Object> list(@RequestParam(value="subjectId", required=false) Integer subjectId, @RequestParam(value="categoryId") int categoryId, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount,
 			Criteria cri, HttpServletResponse response) throws IOException {
 		
-		// ÆÄ¶ó¹ÌÅÍ °ªÀ¸·Î criteria ¼³Á¤
+		// íŒŒë¼ë¯¸í„° ê°’ìœ¼ë¡œ criteria ì„¤ì •
 		cri.setAmount(amount); cri.setPage(page); cri.setCategoryId(categoryId); cri.setSubjectId(subjectId);
-		//ÇØ´çÆäÀÌÁö ½ÃÀÛ ÀÎµ¦½º ¼³Á¤
+		//í•´ë‹¹í˜ì´ì§€ ì‹œì‘ ì¸ë±ìŠ¤ ì„¤ì •
 		cri.setStartIndex((page-1)*amount); 
 		
 		System.out.println("/board/list?subjectId=" + cri.getSubjectId() + "&categoryId=" + categoryId + "&page=" + page + "&amount=" + cri.getAmount() + "&startIndex=" + cri.getStartIndex() +" request accepted");
 		
-		// ÇØ´ç °Ô½ÃÆÇ ÀüÃ¼ °Ô½Ã±Û ºÒ·¯¿À±â
+		// í•´ë‹¹ ê²Œì‹œíŒ ì „ì²´ ê²Œì‹œê¸€ ë¶ˆëŸ¬ì˜¤ê¸°
 		List<BoardVO> boardList = boardServiceImpl.listAll(cri);
 		
 		if (boardList == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}
-		// ÇØ´ç °Ô½ÃÆÇ ÀüÃ¼ °Ô½Ã±Û ¼ö ºÒ·¯¿À±â
+		// í•´ë‹¹ ê²Œì‹œíŒ ì „ì²´ ê²Œì‹œê¸€ ìˆ˜ ë¶ˆëŸ¬ì˜¤ê¸°
 		int totalCount = boardServiceImpl.getTotalCount(cri);
 
 		HashMap<String, Object> map = new HashMap<String, Object>();
@@ -82,14 +82,14 @@ public class BoardController {
 		return map;
 	}
 	
-	// °Ô½Ã±Û ÀÛ¼º Æû ºÒ·¯¿À±â
+	// ê²Œì‹œê¸€ ì‘ì„± í¼ ë¶ˆëŸ¬ì˜¤ê¸°
 	@GetMapping(value = "insert")
 	@ResponseStatus(HttpStatus.OK)
 	public List<SubjectVO> getPostForm(HttpSession session, HttpServletResponse response) throws IOException {
 			
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		List<SubjectVO> subject = subjectServiceImpl.selectAll();
-		if (subject != null) { // subjectList¸¦ ¼º°øÀûÀ¸·Î ¹Ş¾Æ¿À¸é
+		if (subject != null) { // subjectListë¥¼ ì„±ê³µì ìœ¼ë¡œ ë°›ì•„ì˜¤ë©´
 			System.out.println("Getting subjectList success!!!");
 		}
 		else {
@@ -99,18 +99,17 @@ public class BoardController {
 		return subject;
 	}
 	
-	// °Ô½Ã±Û ÀÛ¼ºÃ³¸®
+	// ê²Œì‹œê¸€ ì‘ì„±ì²˜ë¦¬
 	@PostMapping(value = "insert")
 	@ResponseStatus(HttpStatus.CREATED)
 	public HashMap<String, Object> insert(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 		
-		if (boardServiceImpl.createPost(map) == 1) { // ¼º°ø 1, ½ÇÆĞ 0
-			System.out.println(map.get("userId") + "ÀÇ °Ô½Ã¹° created.");
+		if (boardServiceImpl.createPost(map) == 1) { // ì„±ê³µ 1, ì‹¤íŒ¨ 0
+			System.out.println(map.get("userId") + "ê²Œì‹œë¬¼ created.");
 		}
 		else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
-		System.out.println(map.get("boardId") + " °Ô½Ã¹° created.");
 		
 		HashMap<String, Object> insert = new HashMap<String, Object>();
 		insert.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
@@ -118,12 +117,12 @@ public class BoardController {
 		return insert;
 	}
 	
-	// °Ô½Ã±Û »ó¼¼º¸±â -> »ó¼¼º¸±â Å¬¸¯ÇÏ¸é Á¶È¸ ¼ö Áõ°¡
+	// ê²Œì‹œê¸€ ìƒì„¸ë³´ê¸° -> ìƒì„¸ë³´ê¸° í´ë¦­í•˜ë©´ ì¡°íšŒ ìˆ˜ ì¦ê°€
 	@GetMapping(value = "viewDetail")
 	public HashMap<String, Object> viewDetail(@RequestParam(value="boardId") int boardId, HttpServletResponse response) throws IOException {
 		System.out.println("/board/viewDetail?=" + boardId + " request accepted");
 		
-		// Æ¯Á¤ °Ô½Ã±Û »ó¼¼º¸±â (Á¶È¸¼ö Áõ°¡ ±â´É Æ÷ÇÔ)
+		// íŠ¹ì • ê²Œì‹œê¸€ ìƒì„¸ë³´ê¸° (ì¡°íšŒìˆ˜ ì¦ê°€ ê¸°ëŠ¥ í¬í•¨)
 		BoardVO board = boardServiceImpl.viewPostDetail(boardId);
 		if (board == null) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -131,7 +130,7 @@ public class BoardController {
 		}
 		
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		// ÇØ´ç °Ô½Ã±Û °´Ã¼
+		// í•´ë‹¹ ê²Œì‹œê¸€ ê°ì²´
 		map.put("BoardVO", board);
 		
 		List<CommentVO> commentList= commentServiceImpl.getComments(boardId);
@@ -140,21 +139,21 @@ public class BoardController {
 		return map;
 	}
 	
-	// °Ô½Ã±Û ¼öÁ¤
+	// ê²Œì‹œê¸€ ìˆ˜ì •
 	@PutMapping(value = "update")
 	@ResponseStatus(HttpStatus.OK)
 	public HashMap<String, Object> update(@RequestBody HashMap<String, Object> map, HttpServletResponse response) throws IOException {
 			
 			
-		if (boardServiceImpl.updatePost(map) == 1) { // ¼º°ø 1, ½ÇÆĞ 0
-			System.out.println("board °Ô½Ã¹° " + map.get("boardId") + " updated.");
+		if (boardServiceImpl.updatePost(map) == 1) { // ì„±ê³µ 1, ì‹¤íŒ¨ 0
+			System.out.println("board ï¿½Ô½Ã¹ï¿½ " + map.get("boardId") + " updated.");
 		}
 		else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
 			
 			HashMap<String, Object> update = new HashMap<String, Object>();
-			// ÇØ´ç °Ô½Ã±Û °´Ã¼
+			// í•´ë‹¹ ê²Œì‹œê¸€ ê°ì²´
 			update.put("BoardVO", boardServiceImpl.getBoard((int)map.get("boardId")));
 			
 			List<CommentVO> commentList= commentServiceImpl.getComments((int)map.get("boardId"));
@@ -163,7 +162,7 @@ public class BoardController {
 			return update;
 	}
 	
-	// °Ô½Ã±Û »èÁ¦
+	// ê²Œì‹œê¸€ ì‚­ì œ
 	@DeleteMapping(value = "delete")
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@RequestParam(value="boardId") int boardId, HttpServletResponse response) throws IOException {

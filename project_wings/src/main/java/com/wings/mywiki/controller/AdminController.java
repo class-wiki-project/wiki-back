@@ -27,7 +27,11 @@ public class AdminController {
 	@Autowired
 	private BoardService boardService;
 
+<<<<<<< HEAD
 	// ∏µÁ Ω≈∞Ì ≥ªøÎ ∫∏±‚
+=======
+	// Î™®Îì† Ïã†Í≥† ÎÇ¥Ïö© Î≥¥Í∏∞
+>>>>>>> 2dd8b3379e7909800f7c5810f7de0e2186988c9d
 	@GetMapping("getAllReports")
 	@ResponseStatus(HttpStatus.OK)
 	public HashMap<String, Object> getAllReports() {
@@ -38,6 +42,7 @@ public class AdminController {
 		return reportMap;
 	}
 	
+<<<<<<< HEAD
 	//Ω≈∞Ì Ω¬¿Œ & ∞≈∫Œ
 	@PostMapping("approveReport")
 	@ResponseStatus(HttpStatus.OK)
@@ -57,6 +62,23 @@ public class AdminController {
 			}
 		}
 		//Ω≈∞Ì ∏ÆΩ∫∆Æø°º≠ ªË¡¶
+=======
+	//Ïã†Í≥† Ï†ëÏàò
+	@PostMapping("approveReport")
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map) {
+		int reportUserId = (int) map.get("reportUserId");
+		// Ïã†Í≥† Îêú ÏÇ¨ÎûåÏùò Ïã†Í≥† Îêú ÌöüÏàò +1
+		adminService.updateReportedNum(reportUserId);
+		
+		//Ïã†Í≥† Îêú ÌöüÏàò Í∞ÄÏ†∏ Ïò¥
+		int reportedNum = adminService.getReportedNum(reportUserId);
+		if (reportedNum>=5) {	//Ïã†Í≥† Îêú ÌöüÏàòÍ∞Ä 5Ìöå Ïù¥ÏÉÅÏù¥Î©¥ ÌÉàÌá¥ Ï°∞Ï∑®
+			adminService.deleteUser(reportUserId);
+		}
+		
+		//Ïã†Í≥† Î¶¨Ïä§Ìä∏ÏóêÏÑú ÏÇ≠Ï†ú
+>>>>>>> 2dd8b3379e7909800f7c5810f7de0e2186988c9d
 		adminService.deleteReport((int) map.get("reportId"));
 		
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
@@ -66,13 +88,36 @@ public class AdminController {
 		return reportMap;
 	}
 	
+<<<<<<< HEAD
 	// ∞¯¡ˆªÁ«◊ µÓ∑œ
+=======
+	//Ïã†Í≥† Ï†ëÏàò Í±∞Î∂Ä
+	@PostMapping("rejectReport")
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> rejectReport(@RequestBody HashMap<String, Object> map) {
+		//Ïã†Í≥† Î¶¨Ïä§Ìä∏ÏóêÏÑú ÏÇ≠Ï†ú
+		adminService.deleteReport((int) map.get("reportId"));
+		
+		HashMap<String, Object> reportMap = new HashMap<String, Object>();
+		List<ReportVO> reportList = adminService.getAllReports();
+		reportMap.put("reportList", reportList);
+
+		return reportMap;
+	}
+
+	// Í≥µÏßÄÏÇ¨Ìï≠ Îì±Î°ù
+>>>>>>> 2dd8b3379e7909800f7c5810f7de0e2186988c9d
 	@PostMapping(value = "insert")
 	@ResponseStatus(HttpStatus.CREATED)
 	public HashMap<String, Object> insertNotice(@RequestBody HashMap<String, Object> map, HttpServletResponse response)
 			throws Exception {
+<<<<<<< HEAD
 		if (adminService.createNotice(map) == 1) { // º∫∞¯ 1, Ω«∆– 0
 			System.out.println(map.get("userId") + "¿« ∞¯¡ˆªÁ«◊ created.");
+=======
+		if (adminService.createNotice(map) == 1) { // ÏÑ±Í≥µ 1, Ïã§Ìå® 0
+			System.out.println(map.get("userId") + "Ïùò Í≥µÏßÄÏÇ¨Ìï≠ created.");
+>>>>>>> 2dd8b3379e7909800f7c5810f7de0e2186988c9d
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 		}
@@ -83,7 +128,11 @@ public class AdminController {
 		return insert;
 	}
 
+<<<<<<< HEAD
 	// ∏µÁ ¿Ø¿˙ ¡∂»∏
+=======
+	// Î™®Îì† Ïú†Ï†Ä Ï°∞Ìöå
+>>>>>>> 2dd8b3379e7909800f7c5810f7de0e2186988c9d
 	@GetMapping("getAllUsers")
 	@ResponseStatus(HttpStatus.OK)
 	public HashMap<String, Object> getAllUsers() {

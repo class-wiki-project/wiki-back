@@ -15,32 +15,32 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 @RequestMapping("/echo") 
 public class WebSocketChatController extends TextWebSocketHandler {
     
-	//¼¼¼Ç ¸®½ºÆ®
+	//ì„¸ì…˜ ë¦¬ìŠ¤íŠ¸
     private List<WebSocketSession> sessionList = new ArrayList<WebSocketSession>();
 
     private static Logger logger = LoggerFactory.getLogger(WebSocketChatController.class);
 
-    //Å¬¶óÀÌ¾ğÆ®°¡ ¿¬°á µÇ¾úÀ» ¶§ ½ÇÇà
+    //í´ë¼ì´ì–¸íŠ¸ê°€ ì—°ê²° ë˜ì—ˆì„ ë•Œ ì‹¤í–‰
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         sessionList.add(session);
-        logger.info("{} ¿¬°áµÊ", session.getId()); 
+        logger.info("{} ì—°ê²°ë¨", session.getId()); 
     }
 
-    //Å¬¶óÀÌ¾ğÆ®°¡ À¥¼ÒÄÏ ¼­¹ö·Î ¸Ş½ÃÁö¸¦ Àü¼ÛÇßÀ» ¶§ ½ÇÇà
+  //í´ë¼ì´ì–¸íŠ¸ê°€ ì›¹ì†Œì¼“ ì„œë²„ë¡œ ë©”ì‹œì§€ë¥¼ ì „ì†¡í–ˆì„ ë•Œ ì‹¤í–‰
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        logger.info("{}·Î ºÎÅÍ {} ¹ŞÀ½", session.getId(), message.getPayload());
-        //¸ğµç À¯Àú¿¡°Ô ¸Ş¼¼Áö Ãâ·Â
-        for(WebSocketSession sess : sessionList) {
-            sess.sendMessage(new TextMessage(session.getId() + "´ÔÀÇ ¸» : " + message.getPayload()));
+    	logger.info("{}ë¡œ ë¶€í„° {} ë°›ìŒ", session.getId(), message.getPayload());
+    	//ëª¨ë“  ìœ ì €ì—ê²Œ ë©”ì„¸ì§€ ì¶œë ¥
+    	for(WebSocketSession sess : sessionList) {
+            sess.sendMessage(new TextMessage(session.getId() + "ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ : " + message.getPayload()));
         }
     }
 
-    //Å¬¶óÀÌ¾ğÆ® ¿¬°áÀ» ²÷¾úÀ» ¶§ ½ÇÇà
+  //í´ë¼ì´ì–¸íŠ¸ ì—°ê²°ì„ ëŠì—ˆì„ ë•Œ ì‹¤í–‰
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
         sessionList.remove(session);
-        logger.info("{} ¿¬°á ²÷±è.", session.getId());
+        logger.info("{} ì—°ê²° ëŠê¹€.", session.getId());
     }
 }
