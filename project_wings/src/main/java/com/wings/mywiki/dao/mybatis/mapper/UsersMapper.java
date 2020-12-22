@@ -1,5 +1,6 @@
 package com.wings.mywiki.dao.mybatis.mapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -23,4 +24,5 @@ public interface UsersMapper {
 	int checkId(String email) throws DataAccessException;
 	//로그인 체크
 	UsersVO checkLogin(String email) throws DataAccessException;
+	int report(HashMap<String, Object> map);
 }

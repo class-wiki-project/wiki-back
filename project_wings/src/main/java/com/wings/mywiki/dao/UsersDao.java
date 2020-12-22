@@ -1,5 +1,6 @@
 package com.wings.mywiki.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -15,4 +16,5 @@ public interface UsersDao {
 		public int ViewCount() throws DataAccessException;
 		public int checkId(String email) throws DataAccessException;
 		public UsersVO checkLogin(String email) throws DataAccessException;
+		public int report(HashMap<String, Object> map);
 }

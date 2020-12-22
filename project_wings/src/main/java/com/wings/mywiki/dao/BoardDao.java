@@ -20,4 +20,5 @@ public interface BoardDao {
 	public void increaseViewCnt(int postId) throws DataAccessException;
 	public int getTotalCount(Criteria cri) throws DataAccessException;
 	public BoardVO getBoard(int boardId) throws DataAccessException;
+	public int getUserIdByBoardId(int boardId);
 }

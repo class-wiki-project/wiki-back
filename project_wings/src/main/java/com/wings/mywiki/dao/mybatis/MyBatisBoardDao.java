@@ -71,4 +71,9 @@ public class MyBatisBoardDao implements BoardDao {
 		// TODO Auto-generated method stub
 		return boardMapper.getBoard(boardId);
 	}
+
+	@Override
+	public int getUserIdByBoardId(int boardId) {
+		return boardMapper.getUserIdByBoardId(boardId);
+	}
 }

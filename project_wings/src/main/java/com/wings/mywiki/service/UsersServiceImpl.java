@@ -1,5 +1,6 @@
 package com.wings.mywiki.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -58,6 +59,11 @@ public class UsersServiceImpl implements UsersService{
 	public UsersVO checkLogin(String email) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return usersDao.checkLogin(email);
+	}
+
+	@Override
+	public int report(HashMap<String, Object> map) {
+		return usersDao.report(map);
 	}
 
 }

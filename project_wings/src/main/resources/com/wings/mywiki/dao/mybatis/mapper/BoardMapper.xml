@@ -31,6 +31,7 @@
 		<result property="studentNumber" column="student_number" />
 		<result property="auth" column="auth" />
 		<result property="univName" column="univ_name" />
+		<result property="reportedNum" column="reported_num" />
 	</association>
  </resultMap>
 
@@ -98,6 +99,12 @@
    <select id="getBoard" parameterType="int" resultMap="BoardMap">
 	SELECT * FROM BOARD
 	WHERE BOARD_ID = #{boardId}
+  </select>
+  
+  <!-- 신고) boardId로 userId 찾기 -->
+  <select id="getUserIdByBoardId" parameterType="int" resultType="int">
+  	select user_id from board
+  	where board_id=#{boardId}
   </select>
   
 </mapper>
