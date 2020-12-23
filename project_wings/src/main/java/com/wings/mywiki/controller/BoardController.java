@@ -42,7 +42,7 @@ import com.wings.mywiki.service.SubjectServiceImpl;
 public class BoardController {
 	
 	//@RequestBody: json을 객체로
-		//@ResponseBody: 객체를 json으로
+	//@ResponseBody: 객체를 json으로
 	
 	@Autowired
 	private BoardServiceImpl boardServiceImpl;
@@ -167,15 +167,15 @@ public class BoardController {
 	@ResponseStatus(HttpStatus.OK)
 	public void delete(@RequestParam(value="boardId") int boardId, HttpServletResponse response) throws IOException {
 			
-		try {
-			boardServiceImpl.deletePost(boardId);
+		if (boardServiceImpl.deletePost(boardId) == 1) { // 성공 1, 실패 0
 			System.out.println("board " + boardId + " deleted.");
 				
-			} catch (Exception e) {
-				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			}
-			
 		}
+		else {
+				response.sendError(HttpServletResponse.SC_FORBIDDEN); //403 에런
+		}
+			
+	}
 	
 	
 }

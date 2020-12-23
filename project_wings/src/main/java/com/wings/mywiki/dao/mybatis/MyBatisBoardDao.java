@@ -42,8 +42,9 @@ public class MyBatisBoardDao implements BoardDao {
 	}
 
 	@Override
-	public void deletePost(int postId) throws DataAccessException {
+	public int deletePost(int postId) throws DataAccessException {
 		// TODO Auto-generated method stub
+		return boardMapper.deletePost(postId);
 	}
 
 	@Override

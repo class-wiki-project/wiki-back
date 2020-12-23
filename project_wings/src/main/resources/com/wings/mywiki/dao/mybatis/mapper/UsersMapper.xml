@@ -37,7 +37,7 @@
 
 	<insert id="insert">
 		INSERT INTO users (user_id, email, password, student_name,
-		student_number, auth, univ_name) values (#{userId},
+		student_number, auth, univ_name, reported_num) values (#{userId},
 		#{email}, #{password}, #{studentName}, #{studentNumber}, 1,
 		#{univName},0)
 	</insert>
