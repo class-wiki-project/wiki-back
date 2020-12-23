@@ -7,7 +7,7 @@
 	
 	<resultMap id="reportResult"
 		type="com.wings.mywiki.model.ReportVO">
-		<result property="reportId" column="report_id" />
+		<id property="reportId" column="report_id" />
 		<result property="reportUserId" column="report_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportContent" column="report_content" />
@@ -16,7 +16,7 @@
 	
 	<resultMap id="usersResult"
 		type="com.wings.mywiki.model.UsersVO">
-		<result property="userId" column="user_id" />
+		<id property="userId" column="user_id" />
 		<result property="email" column="email" />
 		<result property="password" column="password" />
 		<result property="studentName" column="student_name" />
@@ -26,6 +26,17 @@
 		<result property="reportedNum" column="reported_num" />
 	</resultMap>
 	
+	<resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
+	<id property="boardId" column="BOARD_ID" />
+	<result property="userId" column="USER_ID" />
+	<result property="subjectId" column="SUBJECT_ID" />
+	<result property="categoryId" column="CATEGORY_ID" />
+	<result property="title" column="TITLE" />
+	<result property="text" column="TEXT" />
+	<result property="createDate" column="CREATE_DATE" />
+	<result property="updateDate" column="UPDATE_DATE" />
+	<result property="hitNum" column="HIT_NUM" />
+	</resultMap>
 	
 	<!-- 모든 신고 내용 보기 -->
 	<select id="getAllReports" resultMap="reportResult">
@@ -45,6 +56,23 @@
 		where user_id=#{reportedUserId}
 	</select>
 	
+	<!-- 유저 목록 가져오기 -->
+	<select id="getAllUsers" parameterType="com.wings.mywiki.model.Criteria" resultMap="usersResult">
+		select * from users
+		ORDER BY USER_ID DESC
+	  	limit #{startIndex}, #{amount}
+	</select>
+	
+	<!-- 해당 유저 게시글 목록 가져오기 -->
+	<select id="getUsersPost" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
+	  SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, 
+	  TITLE, TEXT, CREATE_DATE, HIT_NUM
+	  FROM BOARD
+	  WHERE USER_ID = #{userId}
+	  ORDER BY BOARD_ID DESC
+	  limit #{startIndex}, #{amount}
+    </select>
+	
 	<!-- 유저 탈퇴 시킴 -->
 	<delete id="deleteUser" parameterType="int">
 		delete from users 
@@ -56,4 +84,15 @@
 		delete from report 
 		where report_id=#{reportId}
 	</delete>
+	
+	<!-- 해당 유저의 전체 게시물 수 계산 -->
+  <select id="getTotalCountByUserId" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+	select count(*) from BOARD 
+    WHERE USER_ID = #{userId}
+  </select>
+  
+  <!-- 해당 유저의 전체 게시물 수 계산 -->
+  <select id="getUserTotal" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+	select count(*) from USERS 
+  </select>
 </mapper> 
