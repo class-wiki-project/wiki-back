@@ -119,9 +119,10 @@ public class UsersController {
 		String ck = pwdEncoder.encode(loginVO.getEmail());
 		System.out.println(loginVO.getPassword());
 		System.out.println(check.getPassword());
-		// Cookie cookie = new Cookie("set-cookie", ck);
-		// response.addCookie(cookie);
-		response.setHeader("Set-Cookie", ck+"; HttpOnly; path=/; SameSite=Strict");
+		Cookie cookie = new Cookie("Set-Cookie", ck);
+		cookie.setPath("/");   
+		cookie.setSecure(false);
+		response.addCookie(cookie);
 		if(check != null) {
 			if(pwdEncoder.matches(loginVO.getPassword(),check.getPassword())) {
 			
