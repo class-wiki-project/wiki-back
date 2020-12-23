@@ -20,5 +20,6 @@ public interface AdminDao {
 	public List<BoardVO> getUsersPost(Criteria cri);
 	public int getTotalCountByUserId(Criteria cri);
 	public int getUserTotal(Criteria cri);
+	public int getReportedUserId(int reportId);
 
 }

@@ -71,5 +71,9 @@ public class MyBatisAdminDao implements AdminDao{
 	public int getUserTotal(Criteria cri) {
 		return adminMapper.getUserTotal(cri);
 	}
+	@Override
+	public int getReportedUserId(int reportId) {
+		return adminMapper.getReportedUserId(reportId);
+	}
 
 }

@@ -39,8 +39,22 @@
 	</resultMap>
 	
 	<!-- 모든 신고 내용 보기 -->
-	<select id="getAllReports" resultMap="reportResult">
-		SELECT * FROM report
+	<select id="getAllReports" resultType="HashMap">
+		SELECT report_id as reportId, report_user_id as reportUserId,reported_user_id as reportedUserId,
+		report_content as reportContent,reported_date as reportedDate
+		FROM report
+	</select>
+	
+	<!-- 신고 번호로 신고자 id 가져 옴 -->
+	<select id="getReportUserId">
+		select report_user_id from report
+		where report_id=#{reportId}
+	</select>
+	
+	<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
+	<select id="getReportedUserId">
+		select reported_user_id from report
+		where report_id=#{reportId}
 	</select>
 	
 	<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->

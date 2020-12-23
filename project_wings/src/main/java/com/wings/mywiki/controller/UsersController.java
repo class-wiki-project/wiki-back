@@ -6,16 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.wings.mywiki.model.BoardVO;
@@ -42,10 +40,7 @@ public class UsersController {
 	private FavService favService;
 	
 	private BCryptPasswordEncoder pwdEncoder;
-	
-	private static Logger logger = LoggerFactory.getLogger(UsersController.class);
-	
-	// 메인 페이지
+	//메인 페이지
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, Object> main(HttpServletResponse response,
@@ -62,69 +57,71 @@ public class UsersController {
 			put_user.setUnivName(user.getUnivName());
 			put_user.setUserId(user.getUserId());
 			map.put("user", put_user);
-			map.put("favorites", favService.selectAll(user.getUserId()));
+			map.put("favorite", favService.selectAll(user.getUserId()));
+			
 		}
-		
-		logger.info("세션 아이디: " + session.getId());
-		logger.info("세션 check: " + String.valueOf(session.getAttribute("LOGIN")));
-		
 		return map;
 	}
-	
-	// 회원가입
+	//회원가입
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String, String> userRegister(@RequestBody UsersVO userVO,
+	public Map<String, Object> userRegister(@RequestBody UsersVO userVO,
 			HttpServletResponse response) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, Object> map = new HashMap<String, Object>();
+		System.out.println("됬네");
 		String tmp = userVO.getPassword();
-		System.out.println(tmp);
+		
 		pwdEncoder = new BCryptPasswordEncoder();
 		String pwd = pwdEncoder.encode(tmp);
 		System.out.println(pwd);
 		
 		userVO.setPassword(pwd);
 		userService.insert(userVO);
+		
+		
 		map.put("msg", "회원가입이 완료되었습니다.");
-
 		return map;
 	}	
 	
-	// Email Redundancy check
+	//회원 가입시 id 중복 체크
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
-	public Map<String, String> emailCheck(@RequestBody LoginVO loginVO,
-				HttpServletResponse response) throws IOException {
+	public Map<String, Object> emailCheck(@RequestBody LoginVO loginVO,
+				HttpServletResponse response) {
 		System.out.println(loginVO.getEmail());
+		System.out.println("이게진짜임");
+		Map<String, Object> map = new HashMap<String, Object>();
 		
-		Map<String, String> map = new HashMap<String, String>();
 		if(userService.checkId(loginVO.getEmail()) == 1) {
-			map.put("msg", "중복된 이메일입니다");
-			response.sendError(HttpServletResponse.SC_CONFLICT); //409 에러
+			map.put("msg", "이미 존재하는 E-mail 입니다.");
+			
 		}
 		else {
-			map.put("msg", "사용가능한 이메일입니다");
+		map.put("msg", "사용가능한 아이디입니다.");
 		}
 		
 		return map;
 	}	
-	//
+	//로그인 처리
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
-	public Map<String, Object> Login(@RequestBody LoginVO loginVO,
+	public Map<String, Object> Login(@RequestBody LoginVO loginVO, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException {
 		UsersVO check = userService.checkLogin(loginVO.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		
 		pwdEncoder = new BCryptPasswordEncoder();
 		String pwd = pwdEncoder.encode(loginVO.getPassword());
-		System.out.println(pwd);
+		String ck = pwdEncoder.encode(loginVO.getEmail());
+		System.out.println(loginVO.getPassword());
+		System.out.println(check.getPassword());
+		Cookie cookie = new Cookie("set-cookie", ck);
+		response.addCookie(cookie);
 		if(check != null) {
 			if(pwdEncoder.matches(loginVO.getPassword(),check.getPassword())) {
-			session.setAttribute("LOGIN", check);
+			
+				System.out.println("로그인성공~");
+			
 			UserOutVO put_user = new UserOutVO();
 			put_user.setEmail(check.getEmail());
 			put_user.setStudentName(check.getStudentName());
@@ -132,34 +129,33 @@ public class UsersController {
 			put_user.setUnivName(check.getUnivName());
 			put_user.setUserId(check.getUserId());
 			
-			map.put("users", put_user);
-			map.put("favorites", favService.selectAll(check.getUserId()));
+			map.put("user", put_user);
+			map.put("favorite", favService.selectAll(check.getUserId()));
+			map.put("msg", "로그인이 되었습니다.");
+			System.out.println("로그인 성공");
 			}
 			else {
-				map.put("msg", "아이디와 비밀번호가 다릅니다.");
-				response.sendError(HttpServletResponse.SC_UNAUTHORIZED); //401에러
+				map.put("msg", "아이디와 비밀번호가 일치하지 않습니다.");
 			}
 		}
-		
-		logger.info("세션 아이디: " + session.getId());
-		logger.info("세션 check: " + String.valueOf(session.getAttribute("LOGIN")));
+	
 		
 		return map;
 	}	
 	
 	
-	//Logout
+	//로그아웃 처리 요청.
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map<String, String> logout(HttpSession session) {
-		System.out.println("/user/logout accepted!");
-		Map<String, String> map = new HashMap<String, String>();
+	public Map<String, Object>  logout(HttpSession session) {
+		System.out.println("/user/logout 요청!");
+		Map<String, Object> map = new HashMap<String, Object>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		
 		if(user != null) {
 			session.removeAttribute("LOGIN");
 			session.invalidate();
-			map.put("msg", "로그아웃되었습니다.");
+			map.put("msg", "로그아웃 되었습니다.");
 		}
 		
 		return map;

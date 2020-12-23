@@ -28,4 +28,5 @@ public interface BoardMapper {
 		int getTotalCount(Criteria cri) throws DataAccessException;
 		//해당 Board 객체 불러오기
 		BoardVO getBoard(int boardId) throws DataAccessException;
+		int getUserIdByBoardId(int boardId);
 }

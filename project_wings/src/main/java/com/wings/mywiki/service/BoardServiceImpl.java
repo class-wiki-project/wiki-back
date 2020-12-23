@@ -69,7 +69,10 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		return boardDao.getBoard(boardId);
 	}
-	
-	
+
+	@Override
+	public int getUserIdByBoardId(int boardId) {
+		return boardDao.getUserIdByBoardId(boardId);
+	}
 	
 }

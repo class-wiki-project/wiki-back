@@ -1,5 +1,6 @@
 package com.wings.mywiki.dao.mybatis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,11 @@ public class MyBatisUsersDao implements UsersDao{
 	public UsersVO checkLogin(String email) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return usersMapper.checkLogin(email);
+	}
+
+	@Override
+	public int report(HashMap<String, Object> map) {
+		return usersMapper.report(map);
 	}
 
 }

@@ -72,5 +72,10 @@ public class AdminServiceImpl implements AdminService{
 	public int getUserTotal(Criteria cri) {
 		return adminDao.getUserTotal(cri);
 	}
+	
+	@Override
+	public int getReportedUserId(int reportId) {
+		return adminDao.getReportedUserId(reportId);
+	}
 
 }

@@ -28,5 +28,7 @@ public interface BoardService {
 		public int getTotalCount(Criteria cri);
 		//해당 Board 객체 불러오기
 		public BoardVO getBoard(int boardId);
+		//신고 ) boardId로 userId 가져오기
+		public int getUserIdByBoardId(int boardId);
 
 }

@@ -31,6 +31,7 @@
 		<result property="studentNumber" column="student_number" />
 		<result property="auth" column="auth" />
 		<result property="univName" column="univ_name" />
+		<result property="reportedNum" column="reported_num" />
 	</association>
  </resultMap>
 
@@ -38,7 +39,7 @@
 <!-- 페이징 처리를 위한 함수. 특정 게시판 특정 페이지 데이터만 list -->
   <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
   SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, 
-  TITLE, TEXT, CREATE_DATE, HIT_NUM
+  TITLE, TEXT, CREATE_DATE, HIT_NUM, REPORTED_NUM
   FROM BOARD
   WHERE CATEGORY_ID = #{categoryId}
   <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
@@ -52,13 +53,13 @@
         	SELECT MAX(BOARD_ID)+1 FROM BOARD      
     </selectKey>  
   	INSERT INTO BOARD VALUES (#{boardId}, #{title}, #{text}, NOW(), #{updateDate}, 
-  	#{userId}, #{subjectId}, #{categoryId}, 0)
+  	#{userId}, #{subjectId}, #{categoryId}, 0, 0)
   </insert>
   
   <!-- 게시글 상세보기 -->
   <select id="viewPostDetail" parameterType="int" resultMap="BoardDetailMap">
   SELECT B.BOARD_ID, B.SUBJECT_ID, B.CATEGORY_ID, B.USER_ID,
-  B.TITLE, B.TEXT, B.CREATE_DATE, B.UPDATE_DATE, B.HIT_NUM,
+  B.TITLE, B.TEXT, B.CREATE_DATE, B.UPDATE_DATE, B.HIT_NUM, B.REPORTED_NUM,
   U.USER_ID, U.STUDENT_NUMBER, U.STUDENT_NAME, U.AUTH, U.UNIV_NAME
   FROM BOARD B, USERS U
   WHERE B.USER_ID = U.USER_ID AND BOARD_ID = #{boardId}
@@ -98,6 +99,12 @@
    <select id="getBoard" parameterType="int" resultMap="BoardMap">
 	SELECT * FROM BOARD
 	WHERE BOARD_ID = #{boardId}
+  </select>
+  
+  <!-- 신고) boardId로 userId 찾기 -->
+  <select id="getUserIdByBoardId" parameterType="int" resultType="int">
+  	select user_id from board
+  	where board_id=#{boardId}
   </select>
   
 </mapper>
