@@ -11,10 +11,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.wings.mywiki.model.BoardVO;
+import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.ReportVO;
+import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.AdminService;
 import com.wings.mywiki.service.BoardService;
 
@@ -26,7 +30,43 @@ public class AdminController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	// 모든 유저 조회하기
+	@GetMapping("getAllUsers")
+	@ResponseStatus(HttpStatus.OK)
+	public HashMap<String, Object> getAllUsers( @RequestParam(value="page") int page, @RequestParam(value="amount") int amount, Criteria cri) {
+		
+		// 파라미터 값으로 criteria 설정
+		cri.setAmount(amount); cri.setPage(page);
+		//해당페이지 시작 인덱스 설정
+		cri.setStartIndex((page-1)*amount);	
+		
+		HashMap<String, Object> userMap = new HashMap<String, Object>();
+		List<UsersVO> userList = adminService.getAllUsers(cri);
+		userMap.put("TotalCount", adminService.getUserTotal(cri));
+		userMap.put("userList", userList);
 
+		return userMap;
+	}
+	
+	// 모든 유저의 게시물들 조회하기
+		@GetMapping("getUsersPost")
+		@ResponseStatus(HttpStatus.OK)
+		public HashMap<String, Object> getUsersPost(@RequestParam(value="userId") int userId, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount, Criteria cri, HttpServletResponse response) {
+			
+			// 파라미터 값으로 criteria 설정
+			cri.setAmount(amount); cri.setPage(page); cri.setUserId(userId);
+			//해당페이지 시작 인덱스 설정
+			cri.setStartIndex((page-1)*amount);	
+			
+			HashMap<String, Object> userBoardMap = new HashMap<String, Object>();
+			List<BoardVO> userBoardList = adminService.getUsersPost(cri);
+			userBoardMap.put("TotalCount", adminService.getTotalCountByUserId(cri));
+			userBoardMap.put("boardList", userBoardList);
+			
+			return userBoardMap;
+		}
+		
 	// 모든 신고 내용 보기
 	@GetMapping("getAllReports")
 	@ResponseStatus(HttpStatus.OK)
@@ -34,7 +74,6 @@ public class AdminController {
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
 		List<ReportVO> reportList = adminService.getAllReports();
 		reportMap.put("reportList", reportList);
-		System.out.println(reportList);
 
 		return reportMap;
 	}
@@ -84,13 +123,5 @@ public class AdminController {
 
 		return insert;
 	}
-
-	// 모든 유저 조회
-	@GetMapping("getAllUsers")
-	@ResponseStatus(HttpStatus.OK)
-	public HashMap<String, Object> getAllUsers() {
-		HashMap<String, Object> map = new HashMap<String, Object>();
-
-		return map;
-	}
 }
+

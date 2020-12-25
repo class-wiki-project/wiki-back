@@ -14,5 +14,6 @@ public class Criteria implements Serializable {
 	private int page;
 	private int startIndex;
 	private int categoryId;
+	private int userId;
 	private Integer subjectId;
 }

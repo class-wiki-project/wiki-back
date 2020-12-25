@@ -12,6 +12,7 @@ import com.wings.mywiki.dao.mybatis.mapper.BoardMapper;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.ReportVO;
+import com.wings.mywiki.model.UsersVO;
 
 @Repository
 public class MyBatisAdminDao implements AdminDao{
@@ -51,6 +52,25 @@ public class MyBatisAdminDao implements AdminDao{
 		adminMapper.deleteReport(reportId);
 	}
 
+	@Override
+	public List<UsersVO> getAllUsers(Criteria cri) {
+		return adminMapper.getAllUsers(cri);
+	}
+
+	@Override
+	public List<BoardVO> getUsersPost(Criteria cri) {
+		return adminMapper.getUsersPost(cri);
+	}
+
+	@Override
+	public int getTotalCountByUserId(Criteria cri) {
+		return adminMapper.getTotalCountByUserId(cri);
+	}
+
+	@Override
+	public int getUserTotal(Criteria cri) {
+		return adminMapper.getUserTotal(cri);
+	}
 	@Override
 	public int getReportedUserId(int reportId) {
 		return adminMapper.getReportedUserId(reportId);

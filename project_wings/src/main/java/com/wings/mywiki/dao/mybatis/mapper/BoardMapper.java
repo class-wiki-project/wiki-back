@@ -19,7 +19,7 @@ public interface BoardMapper {
 		//게시글 수정
 		int updatePost(HashMap<String, Object> map) throws DataAccessException;
 		//게시글 삭제
-		void deletePost(int postId) throws DataAccessException;
+		int deletePost(int postId) throws DataAccessException;
 		//특정 페이지에 해당하는 게시글 목록
 		List<BoardVO> listAll(Criteria cri) throws DataAccessException;
 		//게시글 조회수

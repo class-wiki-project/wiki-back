@@ -12,6 +12,7 @@ import com.wings.mywiki.dao.BoardDao;
 import com.wings.mywiki.model.BoardVO;
 import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.ReportVO;
+import com.wings.mywiki.model.UsersVO;
 
 @Service
 @Transactional
@@ -52,6 +53,26 @@ public class AdminServiceImpl implements AdminService{
 		adminDao.deleteReport(reportId);
 	}
 
+	@Override
+	public List<UsersVO> getAllUsers(Criteria cri) {
+		return adminDao.getAllUsers(cri);
+	}
+
+	@Override
+	public List<BoardVO> getUsersPost(Criteria cri) {
+		return adminDao.getUsersPost(cri);
+	}
+
+	@Override
+	public int getTotalCountByUserId(Criteria cri) {
+		return adminDao.getTotalCountByUserId(cri);
+	}
+
+	@Override
+	public int getUserTotal(Criteria cri) {
+		return adminDao.getUserTotal(cri);
+	}
+	
 	@Override
 	public int getReportedUserId(int reportId) {
 		return adminDao.getReportedUserId(reportId);
