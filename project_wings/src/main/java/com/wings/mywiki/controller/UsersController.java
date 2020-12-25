@@ -31,6 +31,7 @@ import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.LoginVO;
 import com.wings.mywiki.model.UserOutVO;
 import com.wings.mywiki.model.UsersVO;
+import com.wings.mywiki.service.BoardService;
 import com.wings.mywiki.service.FavService;
 import com.wings.mywiki.service.UsersService;
 
@@ -40,18 +41,20 @@ public class UsersController {
 	private UsersService userService;
 	@Autowired
 	private FavService favService;
-	
+	@Autowired
+	private BoardService boardService;
+
 	private BCryptPasswordEncoder pwdEncoder;
-	//메인 페이지
+
+	// 메인 페이지
 	@RequestMapping(value = "/api/main", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map<String, Object> main(HttpServletResponse response,
-										HttpServletRequest request,
-										HttpSession session) throws IOException {
+	public Map<String, Object> main(HttpServletResponse response, HttpServletRequest request, HttpSession session)
+			throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		session = request.getSession();
-		if(session.getAttribute("LOGIN")!=null) {
-			UsersVO user = (UsersVO)session.getAttribute("LOGIN");
+		if (session.getAttribute("LOGIN") != null) {
+			UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 			UserOutVO put_user = new UserOutVO();
 			put_user.setEmail(user.getEmail());
 			put_user.setStudentName(user.getStudentName());
@@ -60,52 +63,53 @@ public class UsersController {
 			put_user.setUserId(user.getUserId());
 			map.put("user", put_user);
 			map.put("favorite", favService.selectAll(user.getUserId()));
-			
+
 		}
 		return map;
 	}
-	//회원가입
+
+	// 회원가입
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String, Object> userRegister(@RequestBody UsersVO userVO,
-			HttpServletResponse response) throws IOException {
+	public Map<String, Object> userRegister(@RequestBody UsersVO userVO, HttpServletResponse response)
+			throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		System.out.println("됬네");
 		String tmp = userVO.getPassword();
-		
+
 		pwdEncoder = new BCryptPasswordEncoder();
 		String pwd = pwdEncoder.encode(tmp);
 		System.out.println(pwd);
-		
+
 		userVO.setPassword(pwd);
 		userService.insert(userVO);
-		
+
 		map.put("msg", "회원가입이 완료되었습니다.");
 		return map;
-	}	
-	
-	//회원 가입시 id 중복 체크
+	}
+
+	// 회원 가입시 id 중복 체크
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
-	public Map<String, String> emailCheck(@RequestBody LoginVO loginVO,
-				HttpServletResponse response) throws IOException {
+	public Map<String, String> emailCheck(@RequestBody LoginVO loginVO, HttpServletResponse response)
+			throws IOException {
 		System.out.println(loginVO.getEmail());
 		System.out.println("이게진짜임");
 		Map<String, String> map = new HashMap<String, String>();
-		
-		if(userService.checkId(loginVO.getEmail()) == 1) {
+
+		if (userService.checkId(loginVO.getEmail()) == 1) {
 			map.put("msg", "중복된 이메일입니다.");
 			response.sendError(HttpServletResponse.SC_CONFLICT);
+		} else {
+			map.put("msg", "사용가능한 이메일입니다.");
 		}
-		else {
-		map.put("msg", "사용가능한 이메일입니다.");
-		}
-		
+
 		return map;
-	}	
-	//로그인 처리
+	}
+
+	// 로그인 처리
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	@ResponseStatus(HttpStatus.OK)
@@ -113,66 +117,72 @@ public class UsersController {
 			HttpServletResponse response, HttpSession session) throws IOException {
 		UsersVO check = userService.checkLogin(loginVO.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
-		
+
 		pwdEncoder = new BCryptPasswordEncoder();
 		String pwd = pwdEncoder.encode(loginVO.getPassword());
 		String ck = pwdEncoder.encode(loginVO.getEmail());
 		System.out.println(loginVO.getPassword());
 		System.out.println(check.getPassword());
 		Cookie cookie = new Cookie("Set-Cookie", ck);
-		cookie.setPath("/");   
+		cookie.setPath("/");
 		cookie.setSecure(false);
 		response.addCookie(cookie);
-		if(check != null) {
-			if(pwdEncoder.matches(loginVO.getPassword(),check.getPassword())) {
-			
+		if (check != null) {
+			if (pwdEncoder.matches(loginVO.getPassword(), check.getPassword())) {
+
 				System.out.println("로그인성공~");
-			
-			UserOutVO put_user = new UserOutVO();
-			put_user.setEmail(check.getEmail());
-			put_user.setStudentName(check.getStudentName());
-			put_user.setStudentNumber(check.getStudentNumber());
-			put_user.setUnivName(check.getUnivName());
-			put_user.setUserId(check.getUserId());
-			
-			map.put("user", put_user);
-			map.put("favorite", favService.selectAll(check.getUserId()));
-			map.put("msg", "로그인 성공");
-			System.out.println("로그인 성공");
-			}
-			else {
+
+				UserOutVO put_user = new UserOutVO();
+				put_user.setEmail(check.getEmail());
+				put_user.setStudentName(check.getStudentName());
+				put_user.setStudentNumber(check.getStudentNumber());
+				put_user.setUnivName(check.getUnivName());
+				put_user.setUserId(check.getUserId());
+
+				map.put("user", put_user);
+				map.put("favorite", favService.selectAll(check.getUserId()));
+				map.put("msg", "로그인 성공");
+				System.out.println("로그인 성공");
+			} else {
 				map.put("msg", "아이디와 비밀번호가 일치하지 않습니다.");
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			}
 		}
-	
-		
+
 		return map;
-	}	
-	
-	
-	//로그아웃 처리 요청.
+	}
+
+	// 로그아웃 처리 요청.
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public Map<String, String> logout(HttpSession session, HttpServletResponse response) throws IOException {
 		System.out.println("/user/logout 요청!");
 		Map<String, String> map = new HashMap<String, String>();
 		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
-		
-		if(user != null) {
+
+		if (user != null) {
 			session.removeAttribute("LOGIN");
 			session.invalidate();
 			map.put("msg", "로그아웃 되었습니다.");
-		}
-		else {
+		} else {
 			map.put("msg", "로그아웃 실패");
 			response.sendError(HttpServletResponse.SC_FORBIDDEN); // 403에러
 		}
-		
+
 		return map;
-		
+
+	}
+
+	// 신고 하기
+	@RequestMapping(value = "/report", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
+	public void report(@RequestBody HashMap<String, Object> map) {
+		// boardId로 게시글 작성자 찾기
+		int reportedUserId = boardService.getUserIdByBoardId((int) map.get("boardId"));
+		map.put("reportedUserId", reportedUserId);
+		if (userService.report(map) == 0) { // 1:성공, 0:실패
+			System.out.println("reporting cannot be done!");
+		} else {
+			System.out.println("Success!");
+		}
 	}
 }
-	
-	
-	
