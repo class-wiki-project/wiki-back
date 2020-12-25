@@ -20,4 +20,8 @@ public class ReportVO implements Serializable{
 	private int reportId,reportUserId,reportedUserId;
 	private String reportContent;
 	private String reportedDate;
+	//private String reportUserEmail,reportedUserEmail;
+	private UsersVO usersVO1;
+	private UsersVO usersVO2;
+	//private int reportedNum;
 }

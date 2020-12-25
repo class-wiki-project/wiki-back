@@ -34,6 +34,7 @@ public class AdminController {
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
 		List<ReportVO> reportList = adminService.getAllReports();
 		reportMap.put("reportList", reportList);
+		System.out.println(reportList);
 
 		return reportMap;
 	}

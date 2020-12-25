@@ -4,7 +4,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.wings.mywiki.dao.mybatis.mapper.AdminMapper">
-	
+
 	<resultMap id="reportResult"
 		type="com.wings.mywiki.model.ReportVO">
 		<result property="reportId" column="report_id" />
@@ -13,7 +13,7 @@
 		<result property="reportContent" column="report_content" />
 		<result property="reportedDate" column="reported_date" />
 	</resultMap>
-	
+
 	<resultMap id="usersResult"
 		type="com.wings.mywiki.model.UsersVO">
 		<result property="userId" column="user_id" />
@@ -26,48 +26,87 @@
 		<result property="reportedNum" column="reported_num" />
 	</resultMap>
 	
+	<resultMap id="usersReportResult" type="com.wings.mywiki.model.ReportVO">
+		<result property="reportId" column="report_id" />
+		<result property="reportUserId" column="report_user_id" />
+		<result property="reportedUserId" column="reported_user_id" />
+		<result property="reportContent" column="report_content" />
+		<result property="reportedDate" column="reported_date" />
+		<association property="usersVO1" javaType="com.wings.mywiki.model.UsersVO">
+			  <result property="email" column="email" />
+		</association>
+		<association property="usersVO2" javaType="com.wings.mywiki.model.UsersVO">
+			  <result property="email" column="email" />
+		</association>
+		<!-- <association property="reportUserEmail" column="email" select="getReportUserEmail"/> -->
+		<!-- <association property="reportedUserEmail" column="email" select="getReportedUserEmail"/> -->
+		<!--  <association property="reportedNum" column="reported_num" select="getReportedNum"/>-->
+	</resultMap>
 	
-	<!-- 모든 신고 내용 보기 -->
-	<select id="getAllReports" resultType="HashMap">
-		SELECT report_id as reportId, report_user_id as reportUserId,reported_user_id as reportedUserId,
-		report_content as reportContent,reported_date as reportedDate
-		FROM report
+	<!-- 신고자 email 가져 옴 -->
+	<select id="getReportUserEmail" parameterType="String">
+		select email from users
+		where report_user_id=#{reportUserEmail} or reported_user_id=#{reportedUserId}
 	</select>
 	
+	<!-- 신고 된 사람 email 가져 옴 -->
+	<select id="getReportedUserEmail" parameterType="String">
+		select email from users
+		where report_user_id=#{reportedUserEmail}
+	</select>
+	
+	<!-- 신고 된 횟수 가져 옴 -->
+<!-- 	<select id="getReportedNum" parameterType="int">
+		select reported_num from users
+		where report_user_id=#{reportedUserEmail}
+	</select>
+	 -->
+
+	<!-- 모든 신고 내용 보기 -->
+	<select id="getAllReports" resultMap="usersReportResult">
+		SELECT report_id, report_user_id,reported_user_id,
+		report_content,reported_date
+		FROM report
+	</select>
+
 	<!-- 신고 번호로 신고자 id 가져 옴 -->
 	<select id="getReportUserId">
 		select report_user_id from report
-		where report_id=#{reportId}
+		where
+		report_id=#{reportId}
 	</select>
-	
+
 	<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
 	<select id="getReportedUserId">
 		select reported_user_id from report
-		where report_id=#{reportId}
+		where
+		report_id=#{reportId}
 	</select>
-	
+
 	<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->
 	<update id="updateReportedNum" parameterType="int">
 		update users
-		set reported_num=reported_num+1
+		set
+		reported_num=reported_num+1
 		where user_id=#{reportedUserId}
 	</update>
-	
+
 	<!-- 신고 횟수 가져 옴 -->
 	<select id="getReportedNum" parameterType="int" resultType="int">
 		select reported_num from users
 		where user_id=#{reportedUserId}
 	</select>
-	
+
 	<!-- 유저 탈퇴 시킴 -->
 	<delete id="deleteUser" parameterType="int">
-		delete from users 
+		delete from users
 		where user_id=#{reportedUserId}
 	</delete>
-	
+
 	<!-- 처리 완료 후, 요청 기록 삭제 -->
 	<delete id="deleteReport" parameterType="int">
-		delete from report 
+		delete from report
 		where report_id=#{reportId}
 	</delete>
+
 </mapper> 
