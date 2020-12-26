@@ -119,6 +119,8 @@ public class UsersController {
 		String ck = pwdEncoder.encode(loginVO.getEmail());
 		System.out.println(loginVO.getPassword());
 		System.out.println(check.getPassword());
+		
+		//쿠키 관련 설정
 		Cookie cookie = new Cookie("Set-Cookie", ck);
 		cookie.setPath("/");   
 		cookie.setSecure(false);
