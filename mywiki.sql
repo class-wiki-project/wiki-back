@@ -117,6 +117,7 @@ CREATE TABLE `report`(
 CREATE TABLE `online` (
   `online_id` int NOT NULL AUTO_INCREMENT,
   `key_id` varchar(100) NOT NULL,
+  'user_id' int NOT NULL,
   PRIMARY KEY (`online_id`)
 )
 
