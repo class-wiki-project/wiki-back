@@ -81,22 +81,19 @@
 	<!-- 신고 번호로 신고자 id 가져 옴 -->
 	<select id="getReportUserId">
 		select report_user_id from report
-		where
-		report_id=#{reportId}
+		where report_id=#{reportId}
 	</select>
 
 	<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
-	<select id="getReportedUserId">
+	<select id="getReportedUserId" resultType="int">
 		select reported_user_id from report
-		where
-		report_id=#{reportId}
+		where report_id=#{reportId}
 	</select>
 
 	<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->
 	<update id="updateReportedNum" parameterType="int">
 		update users
-		set
-		reported_num=reported_num+1
+		set reported_num=reported_num+1
 		where user_id=#{reportedUserId}
 	</update>
 
@@ -107,17 +104,14 @@
 	</select>
 
 	<!-- 유저 목록 가져오기 -->
-	<select id="getAllUsers"
-		parameterType="com.wings.mywiki.model.Criteria"
-		resultMap="usersResult">
+	<select id="getAllUsers" parameterType="com.wings.mywiki.model.Criteria" resultMap="usersResult">
 		select * from users
 		ORDER BY USER_ID DESC
 		limit #{startIndex}, #{amount}
 	</select>
 
 	<!-- 해당 유저 게시글 목록 가져오기 -->
-	<select id="getUsersPost"
-		parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
+	<select id="getUsersPost" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
 		SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID,
 		TITLE, TEXT, CREATE_DATE, HIT_NUM
 		FROM BOARD
@@ -140,15 +134,13 @@
 
 
 	<!-- 해당 유저의 전체 게시물 수 계산 -->
-	<select id="getTotalCountByUserId"
-		parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+	<select id="getTotalCountByUserId" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
 		select count(*) from BOARD
 		WHERE USER_ID = #{userId}
 	</select>
 
 	<!-- 해당 유저의 전체 게시물 수 계산 -->
-	<select id="getUserTotal"
-		parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+	<select id="getUserTotal" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
 		select count(*) from USERS
 	</select>
 
