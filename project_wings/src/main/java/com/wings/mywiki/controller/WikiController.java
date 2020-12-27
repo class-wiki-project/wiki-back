@@ -21,9 +21,8 @@ import com.wings.mywiki.service.WikiService;
 public class WikiController {
 	@Autowired
 	private WikiService wikiService;
-	//private boolean flag=false;
 
-	//wiki 내용보기
+	// wiki 내용보기
 	@RequestMapping(value = "/showWiki", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public HashMap<String, Object> showWiki(@RequestParam int subjectId) {
@@ -40,41 +39,29 @@ public class WikiController {
 	}
 
 	// wiki 수정
-	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") //***PUT占쏙옙占쏙옙 占쏙옙占쏙옙!
-	public @ResponseBody HashMap<String,Object> editWiki(@RequestBody HashMap<String, String> map){
+	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") // ***PUT占쏙옙占쏙옙
+																													// 占쏙옙占쏙옙!
+	public @ResponseBody HashMap<String, Object> editWiki(@RequestBody HashMap<String, String> map) {
 		if (wikiService.editWiki(map) == 0) { // �꽦怨�:1, �떎�뙣:0
 			System.out.println("Updating wiki cannot be done!");
-		}else {
+		} else {
 			System.out.println("Success!!!");
 		}
-		
+
 		HashMap<String, Object> wikiMap = new HashMap<String, Object>();
 		int wikiId = Integer.parseInt(map.get("wikiId"));
 		WikiVO wikiVO = wikiService.getWikiByWikiId(wikiId);
 		List<ClassificationVO> classificationList = wikiService.getClassification(wikiId);
 		wikiMap.put("wikiVO", wikiVO);
 		wikiMap.put("classificationList", classificationList);
+
+		return wikiMap;
+	}
+
+	// classification is added on wiki
+	@RequestMapping(value = "/addWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
+	public @ResponseBody HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
 		
-		
-		/*if(flag==true) {
-			System.out.println("fail!!!");
-			HashMap<String, String> failMap = new HashMap<>();
-			failMap.put("fail", "already in use");
-			
-			return failMap;
-		}else {
-			flag=true;
-			
-			if (WikiService.editWiki(map) == 0) { �꽦怨�:1, �떎�뙣:0
-				System.out.println("Updating wiki cannot be done!");
-			}else {
-				System.out.println("Success!!!");
-			}
-			flag=false;
-			
-			return map;
-			}
-			*/
-			return wikiMap;
+		return map;
 	}
 }
