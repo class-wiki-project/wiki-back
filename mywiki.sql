@@ -116,6 +116,15 @@ CREATE TABLE `report`(
     FOREIGN KEY (`report_user_id`) REFERENCES `users` (`user_id`),
     FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+<<<<<<< HEAD
+=======
+CREATE TABLE `online` (
+  `online_id` int NOT NULL AUTO_INCREMENT,
+  `key_id` varchar(100) NOT NULL,
+  'user_id' int NOT NULL,
+  PRIMARY KEY (`online_id`)
+)
+>>>>>>> branch 'develop' of https://github.com/class-wiki-project/wiki-back
 
 --
 -- `users`

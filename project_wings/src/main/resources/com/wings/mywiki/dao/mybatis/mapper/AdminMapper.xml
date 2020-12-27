@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper
 	namespace="com.wings.mywiki.dao.mybatis.mapper.AdminMapper">
 
@@ -32,48 +32,43 @@
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportContent" column="report_content" />
 		<result property="reportedDate" column="reported_date" />
-		<association property="usersVO1"
-			javaType="com.wings.mywiki.model.UsersVO">
-			<result property="email" column="email" />
-		</association>
-		<association property="usersVO2"
-			javaType="com.wings.mywiki.model.UsersVO">
-			<result property="email" column="email" />
-		</association>
-		<!-- <association property="reportUserEmail" column="email" select="getReportUserEmail"/> -->
-		<!-- <association property="reportedUserEmail" column="email" select="getReportedUserEmail"/> -->
-		<!-- <association property="reportedNum" column="reported_num" select="getReportedNum"/> -->
-		</resultMap>
+		<association property="reportUserEmail" column="report_user_id" select="getReportUserEmail" />
+		<association property="reportedUserEmail" column="reported_user_id" select="getReportedUserEmail" />
+		<association property="reportedNum" column="reported_user_id" select="getReportedNum2" />
+	</resultMap>
 
-		<resultMap id="BoardMap"
-			type="com.wings.mywiki.model.BoardVO">
-			<id property="boardId" column="BOARD_ID" />
-			<result property="userId" column="USER_ID" />
-			<result property="subjectId" column="SUBJECT_ID" />
-			<result property="categoryId" column="CATEGORY_ID" />
-			<result property="title" column="TITLE" />
-			<result property="text" column="TEXT" />
-			<result property="createDate" column="CREATE_DATE" />
-			<result property="updateDate" column="UPDATE_DATE" />
-			<result property="hitNum" column="HIT_NUM" />
-		</resultMap>
+	<resultMap id="BoardMap"
+		type="com.wings.mywiki.model.BoardVO">
+		<id property="boardId" column="BOARD_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="subjectId" column="SUBJECT_ID" />
+		<result property="categoryId" column="CATEGORY_ID" />
+		<result property="title" column="TITLE" />
+		<result property="text" column="TEXT" />
+		<result property="createDate" column="CREATE_DATE" />
+		<result property="updateDate" column="UPDATE_DATE" />
+		<result property="hitNum" column="HIT_NUM" />
+	</resultMap>
 
-		<!-- 신고자 email 가져 옴 -->
-		<select id="getReportUserEmail" parameterType="String">
-			select email from users
-			where report_user_id=#{reportUserEmail} or
-			reported_user_id=#{reportedUserId}
-		</select>
+	<!-- 신고자 email 가져 옴 -->
+	<select id="getReportUserEmail"
+		parameterType="com.wings.mywiki.model.UsersVO" resultType="String">
+		select DISTINCT email from users,report
+		where report_user_id=user_id and report_user_id=#{reportUserId}
+	</select>
 
-		<!-- 신고 된 사람 email 가져 옴 -->
-		<select id="getReportedUserEmail" parameterType="String">
-			select email from users
-			where report_user_id=#{reportedUserEmail}
-		</select>
+	<!-- 신고 된 사람 email 가져 옴 -->
+	<select id="getReportedUserEmail"
+		parameterType="com.wings.mywiki.model.UsersVO" resultType="String">
+		select DISTINCT email from users,report
+		where reported_user_id=user_id and reported_user_id=#{reportedUserId}
+	</select>
 
-		<!-- 신고 된 횟수 가져 옴 -->
-		<!-- <select id="getReportedNum" parameterType="int"> select reported_num 
-			from users where report_user_id=#{reportedUserEmail} </select> -->
+	<!-- 신고 된 횟수 가져 옴 -->
+	<select id="getReportedNum2" resultType="int"> 
+		select reported_num 
+		from users where user_id=#{reportedUserId} 
+	</select>
 
 		<!-- 모든 신고 내용 보기 -->
 		<select id="getAllReports" parameterType="com.wings.mywiki.model.Criteria" resultMap="usersReportResult">
@@ -84,85 +79,75 @@
 			limit #{startIndex}, #{amount}
 		</select>
 
-		<!-- 신고 번호로 신고자 id 가져 옴 -->
-		<select id="getReportUserId">
-			select report_user_id from report
-			where
-			report_id=#{reportId}
-		</select>
+	<!-- 신고 번호로 신고자 id 가져 옴 -->
+	<select id="getReportUserId">
+		select report_user_id from report
+		where report_id=#{reportId}
+	</select>
 
-		<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
-		<select id="getReportedUserId">
-			select reported_user_id from report
-			where
-			report_id=#{reportId}
-		</select>
+	<!-- 신고 번호로 신고 된 사람 id 가져 옴 -->
+	<select id="getReportedUserId" resultType="int">
+		select reported_user_id from report
+		where report_id=#{reportId}
+	</select>
 
-		<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->
-		<update id="updateReportedNum" parameterType="int">
-			update users
-			set
-			reported_num=reported_num+1
-			where user_id=#{reportedUserId}
-		</update>
+	<!-- 신고 승인 후, 신고된 사람의 신고 된 횟수 +1 -->
+	<update id="updateReportedNum" parameterType="int">
+		update users
+		set reported_num=reported_num+1
+		where user_id=#{reportedUserId}
+	</update>
 
-		<!-- 신고 횟수 가져 옴 -->
-		<select id="getReportedNum" parameterType="int"
-			resultType="int">
-			select reported_num from users
-			where user_id=#{reportedUserId}
-		</select>
+	<!-- 신고 횟수 가져 옴 -->
+	<select id="getReportedNum" parameterType="int" resultType="int">
+		select reported_num from users
+		where user_id=#{reportedUserId}
+	</select>
+	
+	<!-- 유저 목록 가져오기 -->
+	<select id="getAllUsers" parameterType="com.wings.mywiki.model.Criteria" resultMap="usersResult">
+		select * from users
+		ORDER BY USER_ID DESC
+		limit #{startIndex}, #{amount}
+	</select>
 
-		<!-- 유저 목록 가져오기 -->
-		<select id="getAllUsers"
-			parameterType="com.wings.mywiki.model.Criteria"
-			resultMap="usersResult">
-			select user_id, email, student_name, univ_name, student_number, auth, reported_num from users
-			ORDER BY USER_ID DESC
-			limit #{startIndex}, #{amount}
-		</select>
+	<!-- 해당 유저 게시글 목록 가져오기 -->
+	<select id="getUsersPost" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
+		SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID,
+		TITLE, TEXT, CREATE_DATE, HIT_NUM
+		FROM BOARD
+		WHERE USER_ID = #{userId}
+		ORDER BY BOARD_ID DESC
+		limit #{startIndex}, #{amount}
+	</select>
 
-		<!-- 해당 유저 게시글 목록 가져오기 -->
-		<select id="getUsersPost"
-			parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
-			SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID,
-			TITLE, TEXT, CREATE_DATE, HIT_NUM
-			FROM BOARD
-			WHERE USER_ID = #{userId}
-			ORDER BY BOARD_ID DESC
-			limit #{startIndex}, #{amount}
-		</select>
+	<!-- 유저 탈퇴 시킴 -->
+	<delete id="deleteUser" parameterType="int">
+		delete from users
+		where user_id=#{reportedUserId}
+	</delete>
 
-		<!-- 유저 탈퇴 시킴 -->
-		<delete id="deleteUser" parameterType="int">
-			delete from users
-			where user_id=#{reportedUserId}
-		</delete>
-
-		<!-- 처리 완료 후, 요청 기록 삭제 -->
-		<delete id="deleteReport" parameterType="int">
-			delete from report
-			where report_id=#{reportId}
-		</delete>
+	<!-- 처리 완료 후, 요청 기록 삭제 -->
+	<delete id="deleteReport" parameterType="int">
+		delete from report
+		where report_id=#{reportId}
+	</delete>
 
 
-		<!-- 해당 유저의 전체 게시물 수 계산 -->
-		<select id="getTotalCountByUserId"
-			parameterType="com.wings.mywiki.model.Criteria" resultType="int">
-			select count(*) from BOARD
-			WHERE USER_ID = #{userId}
-		</select>
+	<!-- 해당 유저의 전체 게시물 수 계산 -->
+	<select id="getTotalCountByUserId" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+		select count(*) from BOARD
+		WHERE USER_ID = #{userId}
+	</select>
 
 		<!-- 해당 유저의 전체 게시물 수 계산 -->
-		<select id="getUserTotal"
-			parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+		<select id="getUserTotal" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
 			select count(*) from USERS
 		</select>
 		
 		<!-- 신고 게시물 수 계산 -->
-		<select id="getReportTotal"
-			parameterType="com.wings.mywiki.model.Criteria" resultType="int">
-			select count(*) from REPORT
+		<select id="getReportTotal" parameterType="com.wings.mywiki.model.Criteria" resultType="int">
+		select count(*) from REPORT
 		</select>
 		
 </mapper> 

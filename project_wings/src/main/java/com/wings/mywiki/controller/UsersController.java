@@ -2,17 +2,14 @@ package com.wings.mywiki.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,20 +19,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
-import com.wings.mywiki.model.BoardVO;
-import com.wings.mywiki.model.Criteria;
 import com.wings.mywiki.model.LoginVO;
+import com.wings.mywiki.model.OnlinVO;
 import com.wings.mywiki.model.UserOutVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.BoardService;
 import com.wings.mywiki.service.FavService;
+import com.wings.mywiki.service.OnlineService;
 import com.wings.mywiki.service.UsersService;
 
 @Controller
@@ -44,6 +40,8 @@ public class UsersController {
 	private UsersService userService;
 	@Autowired
 	private FavService favService;
+	@Autowired
+	private OnlineService onlineService;
 	@Autowired
 	private BoardService boardService;
 
@@ -69,9 +67,7 @@ public class UsersController {
 	// 회원가입
 	@RequestMapping(value = "/api/user/register", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.CREATED)
-	public Map<String, Object> userRegister(@RequestBody UsersVO userVO, HttpServletResponse response)
-			throws IOException {
+	public Map<String, Object> userRegister(@RequestBody UsersVO userVO, HttpServletResponse response) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		String tmp = userVO.getPassword();
 
@@ -79,7 +75,6 @@ public class UsersController {
 		String pwd = pwdEncoder.encode(tmp);
 		System.out.println(pwd);
 		userVO.setPassword(pwd);
-		
 		userService.insert(userVO);
 		map.put("msg", "회원가입이 완료되었습니다.");
 		
@@ -89,9 +84,7 @@ public class UsersController {
 	// 회원 가입시 id 중복 체크
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
-	public Map<String, String> emailCheck(@RequestBody LoginVO loginVO, HttpServletResponse response)
-			throws IOException {
+	public Map<String, String> emailCheck(@RequestBody LoginVO loginVO, HttpServletResponse response) throws IOException {
 		System.out.println(loginVO.getEmail());
 		Map<String, String> map = new HashMap<String, String>();
 
@@ -99,7 +92,7 @@ public class UsersController {
 			map.put("msg", "중복된 이메일입니다.");
 			response.sendError(HttpServletResponse.SC_CONFLICT); // 409 Error
 		} else {
-			map.put("msg", "사용가능한 이메일입니다.");
+			map.put("msg", "사용가능한 아이디입니다.");
 		}
 
 		return map;
@@ -108,7 +101,6 @@ public class UsersController {
 	// 로그인 처리
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	@ResponseStatus(HttpStatus.OK)
 	public Map<String, Object> Login(@RequestBody LoginVO loginVO, HttpServletRequest request,
 			HttpServletResponse response, HttpSession session, Model model) throws IOException {
 		
@@ -118,19 +110,16 @@ public class UsersController {
 		}
 		UsersVO check = userService.checkLogin(loginVO.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
-
+		OnlinVO push = new OnlinVO();
 		pwdEncoder = new BCryptPasswordEncoder();
-		
 		if (check != null) {
 			if (pwdEncoder.matches(loginVO.getPassword(), check.getPassword())) {
-				
 				
 //				  // 로그인 시 자동로그인 관련 설정 
 //				Cookie loginCookie = new Cookie("loginCookie",
 //				  check.getEmail()); loginCookie.setPath("/"); loginCookie.setSecure(false);
 //				  response.addCookie(loginCookie);
 				 
-				
 				map.put("user", check);
 				map.put("favorites", favService.selectAll(check.getUserId()));
 				map.put("msg", "로그인 성공");
@@ -149,7 +138,7 @@ public class UsersController {
 	// 로그아웃 처리 요청.
 	@RequestMapping(value = "/api/user/logout", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public Map<String, String> logout(HttpSession session, HttpServletResponse response) throws IOException {
+	public Map<String, String> logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 		System.out.println("/user/logout 요청!");
 		Map<String, String> map = new HashMap<String, String>();
 		UsersVO user = (UsersVO) session.getAttribute("loginSession");
