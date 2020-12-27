@@ -8,13 +8,15 @@
 
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(100) DEFAULT NULL,
-  `password` varchar(100) DEFAULT NULL,
-  `student_name` varchar(100) DEFAULT NULL,
-  `student_number` varchar(100) DEFAULT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `student_name` varchar(100) NOT NULL,
+  `nick_name` varchar(100) DEFAULT NULL,
+  `student_number` varchar(100) NOT NULL,
   `auth` int NOT NULL,
   `univ_name` varchar(100) NOT NULL,
   `reported_num` INT(11),
+  `register_date` datetime NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
@@ -114,25 +116,16 @@ CREATE TABLE `report`(
     FOREIGN KEY (`report_user_id`) REFERENCES `users` (`user_id`),
     FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-<<<<<<< HEAD
-
-=======
-CREATE TABLE `online` (
-  `online_id` int NOT NULL AUTO_INCREMENT,
-  `key_id` varchar(100) NOT NULL,
-  PRIMARY KEY (`online_id`)
-)
->>>>>>> refs/remotes/origin/develop
 
 --
 -- `users`
 --
 
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('1', 'elice123@naver.com', 'elice123', '김태연', '1891012', '2', '한국대학교',0);
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('2', 'bob222@naver.com', 'bob222', '박윤호', '1642022', '2', '한국대학교',2);
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '1784062', '2', '한국대학교',1);
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '190817', '2', '한국대학교',0);
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `student_number`, `auth`, `univ_name`,`reported_num`) VALUES ('5', 'rhksflwk@naver.com', 'rhksflwk12', '나는관리자', '10101010', '1', '한국대학교교수여',0);
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`, `student_number`, `auth`, `univ_name`,`reported_num`,`register_date` ) VALUES ('1', 'elice123@naver.com', 'elice123', '김태연', '요건별명','1891012', '2', '한국대학교',0, '2020-11-02 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('2', 'bob222@naver.com', 'bob222', '박윤호', '요건별명2','1642022', '2', '한국대학교',2, '2020-11-03 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '요명','1784062', '2', '한국대학교',1,'2020-11-12 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '요건별','190817', '2', '한국대학교',0,'2020-12-02 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('5', 'rhksflwk@naver.com', 'rhksflwk12', '요건별명','나는관리자', '10101010', '1', '한국대학교교수여',0,'2020-12-22 15:02:30');
 
 --
 -- `subjects`
