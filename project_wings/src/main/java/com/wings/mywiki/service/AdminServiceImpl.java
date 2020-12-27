@@ -24,8 +24,8 @@ public class AdminServiceImpl implements AdminService{
 	private BoardDao boardDao;
 
 	@Override
-	public List<ReportVO> getAllReports() {
-		return adminDao.getAllReports();
+	public List<ReportVO> getAllReports(Criteria cri) {
+		return adminDao.getAllReports(cri);
 	}
 
 	@Override
@@ -76,6 +76,12 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public int getReportedUserId(int reportId) {
 		return adminDao.getReportedUserId(reportId);
+	}
+
+	@Override
+	public int getReportTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminDao.getReportTotal(cri);
 	}
 
 }

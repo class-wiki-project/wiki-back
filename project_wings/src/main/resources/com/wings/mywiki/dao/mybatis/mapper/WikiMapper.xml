@@ -36,11 +36,24 @@
 		select * from
 		wiki where subject_id=#{subjectId}
 	</select>
+	
+	<!-- 위키 내용 가져 옴 -->
+	<select id="getWikiByWikiId" parameterType="int" resultMap="wikiResult">
+		select * from
+		wiki where wiki_id=#{wikiId}
+	</select>
 
-	<!-- 위키 안 분류 내용 가져 옴 -->
+	<!-- 위키 안 분류 내용 모두 가져 옴 -->
 	<select id="getClassification" parameterType="int"
 		resultMap="classificationResult">
 		select * from classification where wiki_id=#{wikiId}
+		ORDER BY group_id ASC;
+	</select>
+	
+	<!-- 위키 안 분류 내용 한 개 가져 옴 -->
+	<select id="getOneClassification" parameterType="int"
+		resultMap="classificationResult">
+		select * from classification where classification_id=#{classificationId}
 	</select>
 
 	<!-- 위키 내용 수정 -->
@@ -48,9 +61,7 @@
 		update classification
 		set text=#{text}
 		where classification_id=#{classificationId} 
-		and wiki_id=
-			(select wiki_id from wiki
-			where subject_id=#{subjectId})
+		and wiki_id=#{wikiId}
 	</update> 
 	
 	<!-- 과목 정보 가져 옴 -->

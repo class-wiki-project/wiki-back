@@ -15,4 +15,6 @@ public interface WikiService {
 	public List<ClassificationVO> getClassification(int wikiId);
 	public int editWiki(HashMap<String, String> map);
 	public SubjectVO getSubject(int subjectId);
+	public WikiVO getWikiByWikiId(int wikiId);
+	public ClassificationVO getOneClassification(int wikiId);
 }

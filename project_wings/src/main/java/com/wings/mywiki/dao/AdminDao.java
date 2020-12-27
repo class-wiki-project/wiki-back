@@ -10,7 +10,7 @@ import com.wings.mywiki.model.UsersVO;
 
 public interface AdminDao {
 
-	public List<ReportVO> getAllReports();
+	public List<ReportVO> getAllReports(Criteria cri);
 	public int createNotice(HashMap<String, Object> map);
 	public void updateReportedNum(int reportUserId);
 	public int getReportedNum(int reportUserId);
@@ -21,5 +21,6 @@ public interface AdminDao {
 	public int getTotalCountByUserId(Criteria cri);
 	public int getUserTotal(Criteria cri);
 	public int getReportedUserId(int reportId);
+	public int getReportTotal(Criteria cri);
 
 }

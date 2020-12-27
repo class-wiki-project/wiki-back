@@ -7,27 +7,20 @@
 
 	<resultMap id="resultMap_users"
 		type="com.wings.mywiki.model.UsersVO">
-		<result property="userId" column="user_id" />
+		<id property="userId" column="user_id" />
 		<result property="email" column="email" />
 		<result property="studentName" column="student_name" />
+		<result property="nickName" column="nick_name" />
 		<result property="studentNumber" column="student_number" />
 		<result property="auth" column="auth" />
 		<result property="univName" column="univ_name" />
 		<result property="reportedNum" column="reported_num" />
+		<result property="registerDate" column="register_date" />
 	</resultMap>
-	
-	<resultMap id="resultMap_users2"
-		type="com.wings.mywiki.model.UserOutVO">
-		<result property="userId" column="user_id" />
-		<result property="email" column="email" />
-		<result property="studentName" column="student_name" />
-		<result property="studentNumber" column="student_number" />
-		<result property="univName" column="univ_name" />
-	</resultMap>
-	
+
 	<resultMap id="reportResult"
 		type="com.wings.mywiki.model.ReportVO">
-		<result property="reportId" column="report_id" />
+		<id property="reportId" column="report_id" />
 		<result property="reportUserId" column="report_user_id" />
 		<result property="reportedUserId" column="reported_user_id" />
 		<result property="reportContent" column="report_content" />
@@ -36,26 +29,24 @@
 	
 
 	<insert id="insert">
-		INSERT INTO users (user_id, email, password, student_name,
-		student_number, auth, univ_name, reported_num) values (#{userId},
-		#{email}, #{password}, #{studentName}, #{studentNumber}, 1,
-		#{univName},0)
+		INSERT INTO users values (#{userId}, #{email}, #{password}, #{studentName}, #{nickName}, #{studentNumber}, 1, #{univName}, 0, NOW())
 	</insert>
 	
 	<select id="selectAll" resultMap="resultMap_users">
-		select user_id, email, student_name, student_number, univ_name from
+		select * from
 		users
 	</select>
 
-	<select id="selectOne" resultMap="resultMap_users2">
-		select user_id, email, student_name, student_number, univ_name from users
+	<select id="selectOne" resultMap="resultMap_users">
+		select * from users
 		where user_id=#{userId}
 	</select>
 
 	<update id="update">
 		update users set email=#{email}, password=#{password},
 		student_name=#{studentName}, student_number=#{studentNumber},
-		univ_name=#{univName} where user_id=#{userId}
+		univ_name=#{univName} 
+		where user_id=#{userId}
 	</update>
 
 	<delete id="delete">

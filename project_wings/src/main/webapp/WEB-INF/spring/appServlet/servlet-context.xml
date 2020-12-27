@@ -54,7 +54,6 @@
 			<mvc:mapping path="/board/inputComment" />
 			<mvc:mapping path="/board/updateComment" />
 			<mvc:mapping path="/board/deleteComment" />
-			
 			<mvc:mapping path="/wiki/editWiki" /> 
 			<ref bean="LoginIntercepter" /> 
 		</mvc:interceptor>

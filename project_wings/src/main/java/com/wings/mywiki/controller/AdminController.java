@@ -21,6 +21,7 @@ import com.wings.mywiki.model.ReportVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.AdminService;
 import com.wings.mywiki.service.BoardService;
+import com.wings.mywiki.service.UsersService;
 
 @RestController
 @RequestMapping("/admin")
@@ -30,6 +31,9 @@ public class AdminController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private UsersService userService;
 	
 	// 모든 유저 조회하기
 	@GetMapping("getAllUsers")
@@ -63,6 +67,7 @@ public class AdminController {
 			List<BoardVO> userBoardList = adminService.getUsersPost(cri);
 			userBoardMap.put("TotalCount", adminService.getTotalCountByUserId(cri));
 			userBoardMap.put("boardList", userBoardList);
+			userBoardMap.put("userInfo", userService.selectOne(userId));
 			
 			return userBoardMap;
 		}
@@ -70,10 +75,17 @@ public class AdminController {
 	// 모든 신고 내용 보기
 	@GetMapping("getAllReports")
 	@ResponseStatus(HttpStatus.OK)
-	public HashMap<String, Object> getAllReports() {
+	public HashMap<String, Object> getAllReports(@RequestParam(value="page") int page, @RequestParam(value="amount") int amount, Criteria cri) {
+		
+		// 파라미터 값으로 criteria 설정
+		cri.setAmount(amount); cri.setPage(page);
+		//해당페이지 시작 인덱스 설정
+		cri.setStartIndex((page-1)*amount);	
+		
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
-		List<ReportVO> reportList = adminService.getAllReports();
+		List<ReportVO> reportList = adminService.getAllReports(cri);
 		reportMap.put("reportList", reportList);
+		reportMap.put("TotalCount", adminService.getReportTotal(cri));
 
 		return reportMap;
 	}
@@ -81,7 +93,7 @@ public class AdminController {
 	//신고 승인 & 거부
 	@PostMapping("approveReport")
 	@ResponseStatus(HttpStatus.OK)
-	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map) {
+	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map, Criteria cri) {
 		int approve = (int)map.get("approve");	//1:승인, 0:거절
 		
 		if(approve==1) {
@@ -99,9 +111,9 @@ public class AdminController {
 		
 		//신고 리스트에서 삭제
 		adminService.deleteReport((int) map.get("reportId"));
-		
+				
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
-		List<ReportVO> reportList = adminService.getAllReports();
+		List<ReportVO> reportList = adminService.getAllReports(cri);
 		reportMap.put("reportList", reportList);
 
 		return reportMap;
@@ -124,3 +136,4 @@ public class AdminController {
 		return insert;
 	}
 }
+

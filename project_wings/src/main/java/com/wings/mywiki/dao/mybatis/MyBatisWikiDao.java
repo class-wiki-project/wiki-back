@@ -37,4 +37,14 @@ public class MyBatisWikiDao implements WikiDao{
 	public SubjectVO getSubject(int subjectId) {
 		return wikiMapper.getSubject(subjectId);
 	}
+
+	@Override
+	public WikiVO getWikiByWikiId(int wikiId) {
+		return wikiMapper.getWikiByWikiId(wikiId);
+	}
+
+	@Override
+	public ClassificationVO getOneClassification(int wikiId) {
+		return wikiMapper.getOneClassification(wikiId);
+	}
 }

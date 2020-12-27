@@ -36,4 +36,12 @@ public class WikiServiceImpl implements WikiService{
 	public SubjectVO getSubject(int subjectId) {
 		return wikiDao.getSubject(subjectId);
 	}
+	@Override
+	public WikiVO getWikiByWikiId(int wikiId) {
+		return wikiDao.getWikiByWikiId(wikiId);
+	}
+	@Override
+	public ClassificationVO getOneClassification(int wikiId) {
+		return wikiDao.getOneClassification(wikiId);
+	}
 }

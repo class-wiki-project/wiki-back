@@ -52,8 +52,7 @@
   	<selectKey resultType="integer" keyProperty="boardId" order="BEFORE">
         	SELECT MAX(BOARD_ID)+1 FROM BOARD      
     </selectKey>  
-  	INSERT INTO BOARD VALUES (#{boardId}, #{title}, #{text}, NOW(), #{updateDate}, 
-  	#{userId}, #{subjectId}, #{categoryId}, 0)
+  	INSERT INTO BOARD VALUES (#{boardId}, #{title}, #{text}, NOW(), #{updateDate}, #{userId}, #{subjectId}, #{categoryId}, 0)
   </insert>
   
   <!-- 게시글 상세보기 -->

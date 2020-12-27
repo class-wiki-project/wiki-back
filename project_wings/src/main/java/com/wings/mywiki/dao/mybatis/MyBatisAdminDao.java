@@ -23,8 +23,8 @@ public class MyBatisAdminDao implements AdminDao{
 	private BoardMapper boardMapper;
 	
 	@Override
-	public List<ReportVO> getAllReports() {
-		return adminMapper.getAllReports();
+	public List<ReportVO> getAllReports(Criteria cri) {
+		return adminMapper.getAllReports(cri);
 	}
 
 	@Override
@@ -74,6 +74,12 @@ public class MyBatisAdminDao implements AdminDao{
 	@Override
 	public int getReportedUserId(int reportId) {
 		return adminMapper.getReportedUserId(reportId);
+	}
+
+	@Override
+	public int getReportTotal(Criteria cri) {
+		// TODO Auto-generated method stub
+		return adminMapper.getReportTotal(cri);
 	}
 
 }

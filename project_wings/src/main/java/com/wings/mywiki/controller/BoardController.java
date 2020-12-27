@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.util.WebUtils;
 
 import com.wings.mywiki.model.BoardVO;
@@ -146,7 +147,7 @@ public class BoardController {
 			
 			
 		if (boardServiceImpl.updatePost(map) == 1) { // 성공 1, 실패 0
-			System.out.println("board �Խù� " + map.get("boardId") + " updated.");
+			System.out.println("board " + map.get("boardId") + " updated.");
 		}
 		else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -172,7 +173,7 @@ public class BoardController {
 				
 		}
 		else {
-				response.sendError(HttpServletResponse.SC_FORBIDDEN); //403 에런
+				response.sendError(HttpServletResponse.SC_FORBIDDEN); //403 에러
 		}
 			
 	}
