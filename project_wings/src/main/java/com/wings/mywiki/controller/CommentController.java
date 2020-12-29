@@ -71,10 +71,7 @@ public class CommentController {
 
 // �뙎湲� �궘�젣
    @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE, produces = "application/json; charset=utf8")
-   public @ResponseBody HashMap<String, Object> deleteComment(@RequestBody HashMap<String, Object> map) {
-      int commentId = (int) map.get("commentId");
-      int boardId = (int) map.get("boardId");
-
+   public @ResponseBody HashMap<String, Object> deleteComment(@RequestParam int commentId,@RequestParam int boardId) {
       if (commentService.deleteComment(commentId) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("deleting comment cannot be done!");
       } else {
