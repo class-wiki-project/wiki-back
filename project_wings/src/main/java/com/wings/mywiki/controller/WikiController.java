@@ -59,9 +59,61 @@ public class WikiController {
 	}
 
 	// classification is added on wiki
-	@RequestMapping(value = "/addWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
+	@RequestMapping(value = "/addClassification", method = RequestMethod.PUT, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
 	public @ResponseBody HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
+		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
+		String groupId = (String) map.get("groupId");
 		
-		return map;
+		int isAble = isAbleMakeToGroup(groupId);	//생성 가능한 적합한 목록인지 확인
+		
+		if (isAble==1) {	//생성 가능 한 그룹
+			if (wikiService.addClassification(map) == 0) { 
+				System.out.println("Fail to add classification");
+			} else {
+				System.out.println("Success!!!");
+			}
+			List<ClassificationVO> classificationList = wikiService.getClassification((int)map.get("wikiId"));
+			wikiMap.put("isAble", 1);
+			wikiMap.put("classificationList", classificationList);
+			
+			return wikiMap;
+		}
+		wikiMap.put("isAble", 0);
+		
+		return wikiMap;
+	}
+	
+	//생성 가능한 적합한 목록인지 확인
+	public int isAbleMakeToGroup(String groupId) {
+		String[] groupIdArray = groupId.split("\\.");
+		List<String> groupList = wikiService.getAllGroupId();
+		int isAble=0;
+		int len = groupIdArray.length;
+
+		for(String g : groupList) {   //만약 이미 있는 그룹이라면 생성 불가
+	        if(g.equals(groupId))
+	           return 0;
+	     }
+		if(len>4)	// a.b.c.d형태 까지만 가능
+			return 0;
+		
+		for(String g : groupList) {	//원래 있던 groupId+.1은 생성 가능
+			if((g+".1").equals(groupId)) {
+				isAble=1;	//가능
+				break;
+			}
+		}
+		
+		for(String g : groupList) {	
+			String[] gList=g.split("\\.");
+			if(len==gList.length) {
+				if((Integer.parseInt(gList[gList.length-1])+1)==Integer.parseInt(groupIdArray[groupIdArray.length-1])) {
+					isAble=1;
+					break;
+				}
+			}
+		}
+		
+		return isAble;
 	}
 }

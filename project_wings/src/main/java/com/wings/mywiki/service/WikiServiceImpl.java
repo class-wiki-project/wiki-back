@@ -44,4 +44,12 @@ public class WikiServiceImpl implements WikiService{
 	public ClassificationVO getOneClassification(int wikiId) {
 		return wikiDao.getOneClassification(wikiId);
 	}
+	@Override
+	public int addClassification(HashMap<String, Object> map) {
+		return wikiDao.addClassification(map);
+	}
+	@Override
+	public List<String> getAllGroupId() {
+		return wikiDao.getAllGroupId();
+	}
 }

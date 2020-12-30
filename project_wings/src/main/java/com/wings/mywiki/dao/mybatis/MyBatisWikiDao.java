@@ -47,4 +47,14 @@ public class MyBatisWikiDao implements WikiDao{
 	public ClassificationVO getOneClassification(int wikiId) {
 		return wikiMapper.getOneClassification(wikiId);
 	}
+
+	@Override
+	public int addClassification(HashMap<String, Object> map) {
+		return wikiMapper.addClassification(map);
+	}
+
+	@Override
+	public List<String> getAllGroupId() {
+		return wikiMapper.getAllGroupId();
+	}
 }

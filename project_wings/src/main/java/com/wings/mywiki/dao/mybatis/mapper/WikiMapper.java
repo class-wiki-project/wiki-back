@@ -14,4 +14,6 @@ public interface WikiMapper {
 	public SubjectVO getSubject(int subjectId);
 	public WikiVO getWikiByWikiId(int wikiId);
 	public ClassificationVO getOneClassification(int wikiId);
+	public int addClassification(HashMap<String, Object> map);
+	public List<String> getAllGroupId();
 }
