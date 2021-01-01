@@ -116,15 +116,14 @@ CREATE TABLE `report`(
     FOREIGN KEY (`report_user_id`) REFERENCES `users` (`user_id`),
     FOREIGN KEY (`reported_user_id`) REFERENCES `users` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
-<<<<<<< HEAD
-=======
+
 CREATE TABLE `online` (
   `online_id` int NOT NULL AUTO_INCREMENT,
   `key_id` varchar(100) NOT NULL,
-  'user_id' int NOT NULL,
-  PRIMARY KEY (`online_id`)
-)
->>>>>>> branch 'develop' of https://github.com/class-wiki-project/wiki-back
+  `user_id` int NOT NULL,
+  PRIMARY KEY (`online_id`),
+  FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`)
+);
 
 --
 -- `users`
@@ -132,11 +131,12 @@ CREATE TABLE `online` (
 
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`, `student_number`, `auth`, `univ_name`,`reported_num`,`register_date` ) VALUES ('1', 'elice123@naver.com', 'elice123', '김태연', '요건별명','1891012', '2', '한국대학교',0, '2020-11-02 15:02:30');
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('2', 'bob222@naver.com', 'bob222', '박윤호', '요건별명2','1642022', '2', '한국대학교',2, '2020-11-03 15:02:30');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '요명','1784062', '2', '한국대학교',1,'2020-11-12 15:02:30');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '요건별','190817', '2', '한국대학교',0,'2020-12-02 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('3', 'zzz321@naver.com', 'zzz321', '최사랑', '요명','1784062', '2', '한국대학교',1,'2019-11-12 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '요건별','1908017', '2', '한국대학교',0,'2020-12-02 15:02:30');
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('5', 'rhksflwk@naver.com', 'rhksflwk12', '요건별명','나는관리자', '10101010', '1', '한국대학교교수여',0,'2020-12-22 15:02:30');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('6', 'jin789@naver.com', 'jin789', '김진원', '김말이','1727011', '2', '한국대학교',0,'2020-12-22 19:02:04');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('6', 'swing@naver.com', 'swing', '이스윙', '스윙스','1927018', '2', '한국대학교',0,'2020-02-13 22:02:04');
 
---
 -- `subjects`
 --
 INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('1', '알고리즘', '김성동', '2019', '1');
@@ -146,14 +146,19 @@ INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `sub
 INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('5', '창의적 글쓰기', '이희영', '2020', '1');
 INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('6', '중국어 기초', '김삿갓', '2020', '1');
 INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('7', '모바일 시스템', '한원수', '2018', '2');
+INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('8', '기본 영어 회화1', 'Tony', '2020', '2');
+INSERT INTO `mywiki`.`subjects` (`subject_id`, `subject_name`, `professor`, `subject_year`, `semester`) VALUES ('9', '운영체제', '황기택', '2018', '1');
 
 --
 -- `wiki`
 --
 INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('1', '2020-11-02 15:02:30', '1');
-INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('2', '2020-09-18 11:48:00', '1');
+INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('2', '2020-09-18 11:48:00', '3');
 INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('3', '2020-03-13 18:55:30', '2');
-
+INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('5', '2019-09-04 12:35:30', '4');
+INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('6', '2020-03-21 22:31:10', '5');
+INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('7', '2020-04-01 02:11:50', '6');
+INSERT INTO `mywiki`.`wiki` (`wiki_id`, `update_date`, `subject_id`) VALUES ('8', '2020-10-21 22:15:05', '7');
 
 --
 -- `category`
@@ -169,10 +174,11 @@ INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `updat
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('2', '이거 어케 품?', '하나도 모르겠음', '2020-04-11 18:19:20', '2020-04-11 18:19:20', '2', '1', '1', '20');
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `subject_id`, `category_id`, `hit_num`) VALUES ('3', '도와줘요ㅠㅠ', '글쓰기 하나도 못해요', '2020-05-02 13:00:33', '2020-05-12 17:00:33', '3', '5', '1', '13');
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('4', '아ㅏㅏ하기싫다', 'ㅏㅏㅏㅏㅏㅏㅏ', '2020-09-16 00:33:12', null, '4', '2', '23');
-INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('5', '알고르즘 교수님', '대머리', '2020-12-03 20:20:54', '2020-12-03 20:20:54', '3', '2', '35');
+INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`, `category_id`, `hit_num`) VALUES ('5', '알고리즘 교수님', '대머리', '2020-12-03 20:20:54', '2020-12-03 20:20:54', '3', '2', '35');
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`category_id`, `hit_num`) VALUES ('6', '자체휴강', '자체휴강했당^,^', '2020-09-28 10:30:11', '2020-09-28 10:30:11', '2', '2', '22');
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`category_id`, `hit_num`) VALUES ('7', '공지하노라', '코로나 조심 사람 조심^,^', '2020-12-24 10:30:11', null, '5', '3', '25');
 INSERT INTO `mywiki`.`board` (`board_id`, `title`, `text`, `create_date`, `update_date`, `user_id`,`category_id`, `hit_num`) VALUES ('8', '돌아온 공지타임', '코로나 조심 사람 조심^,^22222', '2020-12-24 10:30:11', null, '5', '3', '100');
+
 --
 -- `<classification>`
 --
@@ -184,6 +190,7 @@ INSERT INTO `mywiki`.`classification` (`classification_id`, `title`, `text`, `gr
 INSERT INTO `mywiki`.`classification` (`classification_id`, `title`, `group_id`, `user_id`, `wiki_id`) VALUES ('6', '1주차', '1.1', '1', '2');
 INSERT INTO `mywiki`.`classification` (`classification_id`, `title`, `text`, `group_id`, `user_id`, `wiki_id`) VALUES ('7', '창의적 글쓰기를 하기 위해서', '무조건 많이 읽어라', '1.1.1', '1', '2');
 INSERT INTO `mywiki`.`classification` (`classification_id`, `title`, `text`, `group_id`, `user_id`, `wiki_id`) VALUES ('8', '모바일 시스템 족보', '족보!!', '2', '3', '3');
+
 --
 -- favorite
 --

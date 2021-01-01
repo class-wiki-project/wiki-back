@@ -158,14 +158,21 @@ public class UsersController {
 
 	// 신고 하기
 	@RequestMapping(value = "/report", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
-	public void report(@RequestBody HashMap<String, Object> map) {
+	@ResponseBody
+	public HashMap<String, Object> report(@RequestBody HashMap<String, Object> map) {
+		HashMap<String, Object> successMap= new HashMap<String,Object>();
 		// boardId로 게시글 작성자 찾기
 		int reportedUserId = boardService.getUserIdByBoardId((int) map.get("boardId"));
 		map.put("reportedUserId", reportedUserId);
+		
 		if (userService.report(map) == 0) { // 1:성공, 0:실패
 			System.out.println("reporting cannot be done!");
+			successMap.put("success", 0);
 		} else {
 			System.out.println("Success!");
+			successMap.put("success", 1);
 		}
+		
+		return successMap;
 	}
 }
