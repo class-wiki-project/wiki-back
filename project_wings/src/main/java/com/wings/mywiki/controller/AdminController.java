@@ -93,9 +93,14 @@ public class AdminController {
 	//신고 승인 & 거부
 	@PostMapping("approveReport")
 	@ResponseStatus(HttpStatus.OK)
-	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map, Criteria cri) {
+	public HashMap<String, Object> approveReport(@RequestBody HashMap<String, Object> map, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount, Criteria cri) {
 		int approve = (int)map.get("approve");	//1:승인, 0:거절
 		
+		// 파라미터 값으로 criteria 설정
+		cri.setAmount(amount); cri.setPage(page);
+		//해당페이지 시작 인덱스 설정
+		cri.setStartIndex((page-1)*amount);	
+				
 		if(approve==1) {
 			int reportedUserId = adminService.getReportedUserId((int)map.get("reportId"));
 			
@@ -115,6 +120,7 @@ public class AdminController {
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
 		List<ReportVO> reportList = adminService.getAllReports(cri);
 		reportMap.put("reportList", reportList);
+		reportMap.put("TotalCount", adminService.getReportTotal(cri));
 
 		return reportMap;
 	}

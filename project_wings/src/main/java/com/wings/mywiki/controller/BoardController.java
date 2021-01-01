@@ -88,7 +88,6 @@ public class BoardController {
 	@ResponseStatus(HttpStatus.OK)
 	public List<SubjectVO> getPostForm(HttpSession session, HttpServletResponse response) throws IOException {
 			
-		UsersVO user = (UsersVO) session.getAttribute("LOGIN");
 		List<SubjectVO> subject = subjectServiceImpl.selectAll();
 		if (subject != null) { // subjectList를 성공적으로 받아오면
 			System.out.println("Getting subjectList success!!!");

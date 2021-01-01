@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.wings.mywiki.model.SubjectVO;
-import com.wings.mywiki.model.UserOutVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.SubjectService;
 
