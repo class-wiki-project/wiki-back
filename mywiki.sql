@@ -215,7 +215,6 @@ INSERT INTO `mywiki`.`comment` (`comment_id`, `board_id`, `user_id`, `notice_dat
 --
 -- `report`
 --
-
 INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('1', '1', '3', '게시글을 도배 함', '2020-12-03 12:33:11');
 INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('2', '1', '2', '광고성 글을 올렸습니다', '2020-12-21 18:11:45');
 INSERT INTO `mywiki`.`report` (`report_id`, `report_user_id`, `reported_user_id`, `report_content`, `reported_date`) VALUES ('3', '2', '3', '비방 글', '2020-12-21 20:20:33');
