@@ -39,4 +39,10 @@ public class MyBatisSubjectDao implements SubjectDao{
 		// TODO Auto-generated method stub
 		subjectMapper.delete(SubjectId);
 	}
+
+	@Override
+	public SubjectVO selectOne(int SubjectId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return subjectMapper.selectOne(SubjectId);
+	}
 }

@@ -18,6 +18,10 @@
    semester) values ( #{subjectName}, #{professor}, #{year}, #{semester}
   )
   </insert>
+  <select id="selectOne" resultMap="resultMap_sub">
+  	select * from 
+  	subjects where subject_id=#{subjectId}
+  </select>
   <select id="selectAll" resultMap="resultMap_sub">
   	select * from 
   	subjects

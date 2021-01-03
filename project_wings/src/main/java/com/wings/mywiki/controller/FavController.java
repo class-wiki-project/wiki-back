@@ -2,6 +2,7 @@ package com.wings.mywiki.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,25 +20,56 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wings.mywiki.model.FavVO;
+import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.FavService;
+import com.wings.mywiki.service.SubjectService;
+import com.wings.mywiki.service.UsersService;
 
 @Controller
 public class FavController {
 	@Autowired
 	private FavService favService;
-	
+	@Autowired
+	private UsersService userService; 
+	@Autowired
+	private SubjectService subService;
 	//즐겨찾기 추가하기
-	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.GET, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> insert(@RequestBody FavVO favVO,
+	public Map<String, Object> insert(@RequestParam(value="userId") int userId,
+									  @RequestParam(value="subjectId") int subjectId,
+									  @RequestParam(value="iconName") String iconName,
 										HttpServletResponse response
 										) throws IOException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("받은 즐찾과목id: " + favVO.getFavSubjectId());
-		favService.insert(favVO);
-		map.put("favorite", favService.selectAll(favVO.getUserId()));
-		map.put("msg", "즐겨찾기에 추가되었습니다.");
+		//유저id로 
+		System.out.println("즐겨찾기 삽입 호출");
+		UsersVO user = userService.selectOne(userId);
+		SubjectVO subject = subService.selectOne(subjectId);
+		List<FavVO> check = favService.selectAll(userId);
+		for(int i=0; i<check.size(); i++) {
+			if(check.get(i).getSubjectId() == subjectId) {
+				response.sendError(HttpServletResponse.SC_CONFLICT);
+				map.put("msg", "중복된 과목입니다.");
+				return map;
+			}
+		}
+		if(user != null) {
+		FavVO result = new FavVO();
+		result.setUserId(userId);
+		result.setSubjectId(subjectId);
+		result.setSubjectName(subject.getSubjectName());
+		result.setProfessor(subject.getProfessor());
+		result.setIconName(iconName);
+		favService.insert(result);
+		map.put("favorites", favService.selectAll(userId));
+		map.put("msg", "즐겨찾기 등록이 완료되었습니다.");
+		}
+		else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND);
+			map.put("msg", "등록 실패");
+		}
 		return map;
 	}
 	

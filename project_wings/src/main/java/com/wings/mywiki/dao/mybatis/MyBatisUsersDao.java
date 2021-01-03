@@ -68,4 +68,10 @@ public class MyBatisUsersDao implements UsersDao{
 		return usersMapper.report(map);
 	}
 
+	@Override
+	public UsersVO selectWithoutPw(int userId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return usersMapper.selectWithoutPw(userId);
+	}
+
 }

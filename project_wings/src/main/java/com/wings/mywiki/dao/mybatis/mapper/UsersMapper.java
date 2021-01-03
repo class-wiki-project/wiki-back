@@ -8,21 +8,22 @@ import org.springframework.dao.DataAccessException;
 import com.wings.mywiki.model.UsersVO;
 
 public interface UsersMapper {
-	//»ðÀÔ
+	//ï¿½ï¿½ï¿½ï¿½
 	void insert(UsersVO usersVO) throws DataAccessException;
-	//ÀüÃ¼ Á¶È¸
+	//ï¿½ï¿½Ã¼ ï¿½ï¿½È¸
 	List<UsersVO> selectAll() throws DataAccessException;
-	//ÇÑ¸í Á¶È¸
+	//ï¿½Ñ¸ï¿½ ï¿½ï¿½È¸
 	UsersVO selectOne(int UserId) throws DataAccessException;
-	//¼öÁ¤
+	//ï¿½ï¿½ï¿½ï¿½
 	void update(UsersVO usersVO) throws DataAccessException;
-	//»èÁ¦
+	//ï¿½ï¿½ï¿½ï¿½
 	void delete(int UserId) throws DataAccessException;
-	//ÀüÃ¼ È¸¿ø ¼ö Á¶È¸
+	//ï¿½ï¿½Ã¼ È¸ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½È¸
 	int ViewCount() throws DataAccessException;
-	//¾ÆÀÌµð Ã¼Å©
+	//ï¿½ï¿½ï¿½Ìµï¿½ Ã¼Å©
 	int checkId(String email) throws DataAccessException;
-	//·Î±×ÀÎ Ã¼Å©
+	//ï¿½Î±ï¿½ï¿½ï¿½ Ã¼Å©
 	UsersVO checkLogin(String email) throws DataAccessException;
 	int report(HashMap<String, Object> map);
+	UsersVO selectWithoutPw(int userId) throws DataAccessException;
 }
