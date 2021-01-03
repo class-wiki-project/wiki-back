@@ -15,5 +15,5 @@ public interface WikiDao {
 	public WikiVO getWikiByWikiId(int wikiId);
 	public ClassificationVO getOneClassification(int wikiId);
 	public int addClassification(HashMap<String, Object> map);
-	public List<String> getAllGroupId();
+	public List<String> getAllGroupId(int wikiId);
 }

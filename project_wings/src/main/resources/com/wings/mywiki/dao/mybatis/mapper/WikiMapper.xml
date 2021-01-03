@@ -85,8 +85,9 @@
 	</insert>
 	
 	<!-- classification안에 있는 group_id들을 다 가져 옴 -->
-	<select id="getAllGroupId" resultType="String">
+	<select id="getAllGroupId" parameterType="int" resultType="String">
 		select DISTINCT group_id from classification
+		where wiki_id=#{wikiId}
 	</select>
 
 </mapper> 
