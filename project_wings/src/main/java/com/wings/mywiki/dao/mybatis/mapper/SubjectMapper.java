@@ -10,4 +10,5 @@ public interface SubjectMapper {
 	List<SubjectVO> selectAll() throws DataAccessException;
 	void update(SubjectVO subjectVO) throws DataAccessException;
 	void delete(int SubjectId) throws DataAccessException;
+	SubjectVO selectOne(int SubjectId) throws DataAccessException;
 }

@@ -14,4 +14,5 @@ public interface SubjectService {
 	public List<SubjectVO> selectAll() throws DataAccessException;
 	public void update(SubjectVO subjectVO) throws DataAccessException;
 	public void delete(int SubjectId) throws DataAccessException;
+	public SubjectVO selectOne(int SubjectId) throws DataAccessException;
 }
