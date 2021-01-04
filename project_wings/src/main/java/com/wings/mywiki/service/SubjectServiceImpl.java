@@ -39,4 +39,10 @@ public class SubjectServiceImpl implements SubjectService{
 		subjectDao.delete(SubjectId);
 	}
 
+	@Override
+	public SubjectVO selectOne(int SubjectId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return subjectDao.selectOne(SubjectId);
+	}
+
 }

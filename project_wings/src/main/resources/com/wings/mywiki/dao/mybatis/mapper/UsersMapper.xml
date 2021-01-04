@@ -36,7 +36,11 @@
 		select * from
 		users
 	</select>
-
+	<select id="selectWithoutPw" parameterType="int" resultMap="resultMap_users">
+		select email, student_name, nick_name, student_number, auth, univ_name, 
+		reported_num, register_date from users 
+		where user_id=#{userId}
+	</select>
 	<select id="selectOne" resultMap="resultMap_users">
 		select * from users
 		where user_id=#{userId}
@@ -45,7 +49,7 @@
 	<update id="update">
 		update users set email=#{email}, password=#{password},
 		student_name=#{studentName}, student_number=#{studentNumber},
-		univ_name=#{univName} 
+		univ_name=#{univName}, nick_name=#{nickName}, reported_num=#{reportedNum} 
 		where user_id=#{userId}
 	</update>
 

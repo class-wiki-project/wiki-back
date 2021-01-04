@@ -22,4 +22,5 @@ public class BoardVO implements Serializable {
 	private LocalDateTime updateDate;
 	private int hitNum;
 	private UsersVO usersVO;
+	private SubjectVO subjectVO;
 }

@@ -84,6 +84,7 @@ public class AdminController {
 		
 		HashMap<String, Object> reportMap = new HashMap<String, Object>();
 		List<ReportVO> reportList = adminService.getAllReports(cri);
+	
 		reportMap.put("reportList", reportList);
 		reportMap.put("TotalCount", adminService.getReportTotal(cri));
 

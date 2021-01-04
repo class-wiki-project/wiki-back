@@ -17,4 +17,5 @@ public interface UsersDao {
 		public int checkId(String email) throws DataAccessException;
 		public UsersVO checkLogin(String email) throws DataAccessException;
 		public int report(HashMap<String, Object> map);
+		public UsersVO selectWithoutPw(int userId) throws DataAccessException;
 }

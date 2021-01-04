@@ -57,6 +57,19 @@ public class WikiController {
 
 		return wikiMap;
 	}
+	
+	// check classification
+	@RequestMapping(value = "/checkClassification", method = RequestMethod.POST, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
+	public @ResponseBody HashMap<String, Object> checkClassification(@RequestBody HashMap<String, Object> map) {
+		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
+		String groupId = (String) map.get("groupId");
+		int wikiId = (int) map.get("wikiId");
+		
+		int isAble = isAbleMakeToGroup(groupId,wikiId);	//생성 가능한 적합한 목록인지 확인
+		wikiMap.put("isAble", isAble);
+		
+		return wikiMap;
+	}
 
 	// classification is added on wiki
 	@RequestMapping(value = "/addClassification", method = RequestMethod.PUT, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
@@ -64,29 +77,22 @@ public class WikiController {
 		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
 		String groupId = (String) map.get("groupId");
 		
-		int isAble = isAbleMakeToGroup(groupId);	//생성 가능한 적합한 목록인지 확인
-		
-		if (isAble==1) {	//생성 가능 한 그룹
-			if (wikiService.addClassification(map) == 0) { 
-				System.out.println("Fail to add classification");
-			} else {
-				System.out.println("Success!!!");
-			}
-			List<ClassificationVO> classificationList = wikiService.getClassification((int)map.get("wikiId"));
-			wikiMap.put("isAble", 1);
-			wikiMap.put("classificationList", classificationList);
-			
-			return wikiMap;
+		if (wikiService.addClassification(map) == 0) { 
+			System.out.println("Fail to add classification");
+		} else {
+			System.out.println("Success!!!");
 		}
-		wikiMap.put("isAble", 0);
 		
+		List<ClassificationVO> classificationList = wikiService.getClassification((int)map.get("wikiId"));
+		wikiMap.put("classificationList", classificationList);
+			
 		return wikiMap;
 	}
 	
 	//생성 가능한 적합한 목록인지 확인
-	public int isAbleMakeToGroup(String groupId) {
+	public int isAbleMakeToGroup(String groupId,int wikiId) {
 		String[] groupIdArray = groupId.split("\\.");
-		List<String> groupList = wikiService.getAllGroupId();
+		List<String> groupList = wikiService.getAllGroupId(wikiId);
 		int isAble=0;
 		int len = groupIdArray.length;
 

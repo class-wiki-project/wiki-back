@@ -66,4 +66,10 @@ public class UsersServiceImpl implements UsersService{
 		return usersDao.report(map);
 	}
 
+	@Override
+	public UsersVO selectWithoutPw(int userId) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return usersDao.selectWithoutPw(userId);
+	}
+
 }

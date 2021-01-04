@@ -49,7 +49,7 @@ public class WikiServiceImpl implements WikiService{
 		return wikiDao.addClassification(map);
 	}
 	@Override
-	public List<String> getAllGroupId() {
-		return wikiDao.getAllGroupId();
+	public List<String> getAllGroupId(int wikiId) {
+		return wikiDao.getAllGroupId(wikiId);
 	}
 }

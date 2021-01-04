@@ -85,7 +85,30 @@ public class UsersController {
 
 		return map;
 	}
-
+	//비밀번호 재확인 
+		@RequestMapping(value = "/api/user/repassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public Map<String, Object> repassword(@RequestBody String password,
+				HttpServletRequest request, HttpServletResponse response) throws IOException {
+			Map<String, Object> map = new HashMap<String, Object>();
+			UsersVO check = (UsersVO)WebUtils.getSessionAttribute(request, "loginSession"); 
+					
+			pwdEncoder = new BCryptPasswordEncoder();
+			
+			if (pwdEncoder.matches(password, check.getPassword())) {
+				//비밀번호가 맞다면
+				UsersVO push = userService.selectWithoutPw(check.getUserId());
+				map.put("user", push);
+				map.put("msg", "비밀번호 재확인 성공");
+				
+			}
+			else {
+				response.sendError(HttpServletResponse.SC_NOT_FOUND);
+				map.put("msg", "틀림");
+			}
+			
+			return map;
+		}
 	// 로그인 처리
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
@@ -101,7 +124,7 @@ public class UsersController {
 		if (check != null) {
 			if (pwdEncoder.matches(loginVO.getPassword(), check.getPassword())) {
 				 
-				map.put("user", check);
+				map.put("user", userService.selectWithoutPw(check.getUserId()));
 				map.put("favorites", favService.selectAll(check.getUserId()));
 				map.put("msg", "로그인 성공");
 				session.setAttribute("loginSession", check);
@@ -137,14 +160,21 @@ public class UsersController {
 
 	// 신고 하기
 	@RequestMapping(value = "/report", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
-	public void report(@RequestBody HashMap<String, Object> map) {
+	@ResponseBody
+	public HashMap<String, Object> report(@RequestBody HashMap<String, Object> map) {
+		HashMap<String, Object> successMap= new HashMap<String,Object>();
 		// boardId로 게시글 작성자 찾기
 		int reportedUserId = boardService.getUserIdByBoardId((int) map.get("boardId"));
 		map.put("reportedUserId", reportedUserId);
+		
 		if (userService.report(map) == 0) { // 1:성공, 0:실패
 			System.out.println("reporting cannot be done!");
+			successMap.put("success", 0);
 		} else {
 			System.out.println("Success!");
+			successMap.put("success", 1);
 		}
+	
+		return successMap;
 	}
 }

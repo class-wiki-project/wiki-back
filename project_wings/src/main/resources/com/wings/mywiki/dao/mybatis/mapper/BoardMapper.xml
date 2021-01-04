@@ -15,6 +15,13 @@
 	<result property="createDate" column="CREATE_DATE" />
 	<result property="updateDate" column="UPDATE_DATE" />
 	<result property="hitNum" column="HIT_NUM" />
+	<association javaType="SubjectVO" property="subjectVO">
+		<id property="subjectId" column="subject_id"/>
+		<result property="subjectName" column="subject_name"/>
+		<result property="professor" column="professor"/>
+		<result property="year" column="subject_year"/>
+		<result property="semester" column="semester"/>
+	</association>
 	</resultMap>
 	
   <resultMap id="BoardDetailMap" type="com.wings.mywiki.model.BoardVO" extends="BoardMap">
@@ -32,17 +39,18 @@
 		<result property="auth" column="auth" />
 		<result property="univName" column="univ_name" />
 		<result property="reportedNum" column="reported_num" />
+		<result property="registerDate" column="register_date" />
 	</association>
  </resultMap>
 
 
 <!-- 페이징 처리를 위한 함수. 특정 게시판 특정 페이지 데이터만 list -->
   <select id="listAll" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMap">
-  SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, 
-  TITLE, TEXT, CREATE_DATE, HIT_NUM
-  FROM BOARD
+  SELECT BOARD_ID, USER_ID, BOARD.SUBJECT_ID, CATEGORY_ID, 
+  TITLE, TEXT, CREATE_DATE, HIT_NUM, SUBJECTS.SUBJECT_NAME, SUBJECTS.PROFESSOR, SUBJECTS.SUBJECT_YEAR, SUBJECTS.SEMESTER
+  FROM BOARD JOIN SUBJECTS ON (BOARD.SUBJECT_ID = SUBJECTS.SUBJECT_ID)
   WHERE CATEGORY_ID = #{categoryId}
-  <if test="subjectId > 0"> AND SUBJECT_ID = #{subjectId} </if>
+  <if test="subjectId > 0"> AND BOARD.SUBJECT_ID = #{subjectId}</if>
   ORDER BY BOARD_ID DESC
   limit #{startIndex}, #{amount}
   </select>
