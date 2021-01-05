@@ -13,21 +13,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.wings.mywiki.model.CommentVO;
 import com.wings.mywiki.service.CommentService;
 
-@Controller
+@RestController
 @RequestMapping("/board")
 @SessionAttributes("loginSession")
 public class CommentController {
    @Autowired
    private CommentService commentService;
 
- //紐⑤뱺 �뙎湲� 蹂닿린
+   //모든 댓글 보기
    @RequestMapping(value = "/showComments", method = RequestMethod.GET, produces = "application/json; charset=utf8")
-   @ResponseBody
    public HashMap<String, Object> getComments(@RequestParam int boardId) {
       HashMap<String, Object> map = new HashMap<String, Object>();
       List<CommentVO> commentList= commentService.getComments(boardId);
@@ -37,9 +37,9 @@ public class CommentController {
       return map;
    }
 
-// �뙎湲� �엯�젰
+   //댓글 작성
    @RequestMapping(value = "/inputComment", method = RequestMethod.POST, produces = "application/json; charset=utf8")
-   public @ResponseBody HashMap<String, Object> inputComment(@RequestBody HashMap<String, Object> map) {
+   public HashMap<String, Object> inputComment(@RequestBody HashMap<String, Object> map) {
 	   if (commentService.inputComment(map) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("inputing comment cannot be done!");
       } else {
@@ -53,9 +53,9 @@ public class CommentController {
       return commentMap;
    }
    
-// �뙎湲� �닔�젙
+   //댓글 수정
    @RequestMapping(value = "/updateComment", method = RequestMethod.PUT, produces = "application/json; charset=utf8")
-   public @ResponseBody HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
+   public HashMap<String, Object> updateComment(@RequestBody HashMap<String, Object> map) {
       if (commentService.updateComment(map) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("Updating comment cannot be done!");
       } else {
@@ -69,9 +69,9 @@ public class CommentController {
       return commentMap;
    }
 
-// �뙎湲� �궘�젣
+   //댓글 삭제
    @RequestMapping(value = "/deleteComment", method = RequestMethod.DELETE, produces = "application/json; charset=utf8")
-   public @ResponseBody HashMap<String, Object> deleteComment(@RequestParam int commentId,@RequestParam int boardId) {
+   public HashMap<String, Object> deleteComment(@RequestParam int commentId,@RequestParam int boardId) {
       if (commentService.deleteComment(commentId) == 0) { // �꽦怨�:1, �떎�뙣:0
          System.out.println("deleting comment cannot be done!");
       } else {
@@ -84,7 +84,6 @@ public class CommentController {
 
       commentMap.put("commentList", commentList);
 
-    //�궘�젣 �썑 蹂�寃� �맂 comments�뱾 諛섑솚
       return commentMap;
    }
    
