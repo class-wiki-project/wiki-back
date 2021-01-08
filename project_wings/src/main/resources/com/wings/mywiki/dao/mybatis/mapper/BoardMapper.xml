@@ -3,8 +3,7 @@
 
 <mapper namespace="com.wings.mywiki.dao.mybatis.mapper.BoardMapper">
   <cache />
-	
-	
+  
 	<resultMap id="BoardMap" type="com.wings.mywiki.model.BoardVO">
 	<id property="boardId" column="BOARD_ID" />
 	<result property="userId" column="USER_ID" />
