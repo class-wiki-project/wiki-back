@@ -35,7 +35,7 @@ public class FavController {
 	@Autowired
 	private SubjectService subService;
 	//즐겨찾기 추가하기
-	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.GET, produces = "application/json")
+	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
 	public Map<String, Object> insert(@RequestParam(value="userId") int userId,
 									  @RequestParam(value="subjectId") int subjectId,

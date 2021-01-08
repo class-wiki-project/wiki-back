@@ -86,7 +86,7 @@ public class UsersController {
 		return map;
 	}
 	//비밀번호 재확인 
-		@RequestMapping(value = "/api/user/repassword", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@RequestMapping(value = "/api/user/passcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
 		public Map<String, Object> repassword(@RequestBody String password,
 				HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -118,6 +118,7 @@ public class UsersController {
 		if (session.getAttribute("loginSession") != null) {
 			session.removeAttribute("loginSession");
 		}
+		
 		UsersVO check = userService.checkLogin(loginVO.getEmail());
 		Map<String, Object> map = new HashMap<String, Object>();
 		pwdEncoder = new BCryptPasswordEncoder();
@@ -132,6 +133,9 @@ public class UsersController {
 				map.put("msg", "아이디와 비밀번호가 일치하지 않습니다.");
 				response.sendError(HttpServletResponse.SC_UNAUTHORIZED); // 401 에러
 			}
+		}
+		else {
+			response.sendError(HttpServletResponse.SC_NOT_FOUND); // 404 에러
 		}
 
 		return map;
