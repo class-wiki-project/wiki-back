@@ -77,4 +77,10 @@ public class MyBatisBoardDao implements BoardDao {
 	public int getUserIdByBoardId(int boardId) {
 		return boardMapper.getUserIdByBoardId(boardId);
 	}
+
+	@Override
+	public List<BoardVO> listAllWithoutSubjectId(Criteria cri) throws DataAccessException {
+		// TODO Auto-generated method stub
+		return boardMapper.listAllWithoutSubjectId(cri);
+	}
 }

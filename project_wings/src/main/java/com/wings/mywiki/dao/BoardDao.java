@@ -17,6 +17,7 @@ public interface BoardDao {
 	public int updatePost(HashMap<String, Object> map) throws DataAccessException;
 	public int deletePost(int postId) throws DataAccessException;
 	public List<BoardVO> listAll(Criteria cri) throws DataAccessException;
+	public List<BoardVO> listAllWithoutSubjectId(Criteria cri) throws DataAccessException;
 	public void increaseViewCnt(int postId) throws DataAccessException;
 	public int getTotalCount(Criteria cri) throws DataAccessException;
 	public BoardVO getBoard(int boardId) throws DataAccessException;

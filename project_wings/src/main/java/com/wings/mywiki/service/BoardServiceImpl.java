@@ -74,5 +74,11 @@ public class BoardServiceImpl implements BoardService {
 	public int getUserIdByBoardId(int boardId) {
 		return boardDao.getUserIdByBoardId(boardId);
 	}
+
+	@Override
+	public List<BoardVO> listAllWithoutSubjectId(Criteria cri) {
+		// TODO Auto-generated method stub
+		return boardDao.listAllWithoutSubjectId(cri);
+	}
 	
 }

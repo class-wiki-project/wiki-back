@@ -22,6 +22,8 @@ public interface BoardMapper {
 		int deletePost(int postId) throws DataAccessException;
 		//특정 페이지에 해당하는 게시글 목록
 		List<BoardVO> listAll(Criteria cri) throws DataAccessException;
+		// 과목 정보 필요없는 게시글들 출력
+		public List<BoardVO> listAllWithoutSubjectId(Criteria cri) throws DataAccessException;
 		//게시글 조회수
 		void increaseViewCnt(int postId) throws DataAccessException;
 		//전체 게시글 갯수 계산

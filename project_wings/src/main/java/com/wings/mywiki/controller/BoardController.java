@@ -59,17 +59,26 @@ public class BoardController {
 	public HashMap<String, Object> list(@RequestParam(value="subjectId", required=false) Integer subjectId, @RequestParam(value="categoryId") int categoryId, @RequestParam(value="page") int page, @RequestParam(value="amount") int amount,
 			Criteria cri, HttpServletResponse response) throws IOException {
 		
+		List<BoardVO> boardList;
+		
 		// 파라미터 값으로 criteria 설정
-		cri.setAmount(amount); cri.setPage(page); cri.setCategoryId(categoryId); cri.setSubjectId(subjectId);
+		cri.setAmount(amount); cri.setPage(page); cri.setCategoryId(categoryId);
 		//해당페이지 시작 인덱스 설정
 		cri.setStartIndex((page-1)*amount); 
 		
 		System.out.println("/board/list?subjectId=" + cri.getSubjectId() + "&categoryId=" + categoryId + "&page=" + page + "&amount=" + cri.getAmount() + "&startIndex=" + cri.getStartIndex() +" request accepted");
 		
-		// 해당 게시판 전체 게시글 불러오기
-		List<BoardVO> boardList = boardServiceImpl.listAll(cri);
+		// categoryId에 따른 subjectId 설정/ 1만 subjectId 비교 필요, 2,3 필요 x
+		if (categoryId == 1) {
+			cri.setSubjectId(subjectId);
+			boardList = boardServiceImpl.listAll(cri);
+		}
+		else {
+			cri.setSubjectId(null);
+			boardList = boardServiceImpl.listAllWithoutSubjectId(cri);
+		}
 		
-		if (boardList == null) {
+		if (boardList == null || boardList.size()  == 0) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
 			return null;
 		}

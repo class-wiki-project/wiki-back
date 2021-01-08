@@ -20,8 +20,10 @@ public interface BoardService {
 		public int updatePost(HashMap<String, Object> map);
 		//게시글 삭제
 		public int deletePost(int postId);
-		//특정 페이지에 해당하는 게시글 목록
+		//특정 페이지에 해당하는 질문게시판 게시글 목록
 		public List<BoardVO> listAll(Criteria cri);
+		// 과목 정보가 필요없는 게시판 게시글 목록
+		public List<BoardVO> listAllWithoutSubjectId(Criteria cri);
 		//게시글 조회수
 		public void increaseViewCnt(int postId);
 		//게시글 전체 데이터수

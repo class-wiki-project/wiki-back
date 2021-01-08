@@ -23,6 +23,18 @@
 	</association>
 	</resultMap>
 	
+	<resultMap id="BoardMapWithoutSubject" type="com.wings.mywiki.model.BoardVO">
+	<id property="boardId" column="BOARD_ID" />
+	<result property="userId" column="USER_ID" />
+	<result property="subjectId" column="SUBJECT_ID" />
+	<result property="categoryId" column="CATEGORY_ID" />
+	<result property="title" column="TITLE" />
+	<result property="text" column="TEXT" />
+	<result property="createDate" column="CREATE_DATE" />
+	<result property="updateDate" column="UPDATE_DATE" />
+	<result property="hitNum" column="HIT_NUM" />
+	</resultMap>
+	
   <resultMap id="BoardDetailMap" type="com.wings.mywiki.model.BoardVO" extends="BoardMap">
 	<!-- 1 : 다 관계의 경우 데이터 매핑시켜준다. 
 			association => 1 : 1 관계 
@@ -50,6 +62,15 @@
   FROM BOARD JOIN SUBJECTS ON (BOARD.SUBJECT_ID = SUBJECTS.SUBJECT_ID)
   WHERE CATEGORY_ID = #{categoryId}
   <if test="subjectId > 0"> AND BOARD.SUBJECT_ID = #{subjectId}</if>
+  ORDER BY BOARD_ID DESC
+  limit #{startIndex}, #{amount}
+  </select>
+  
+    <select id="listAllWithoutSubjectId" parameterType="com.wings.mywiki.model.Criteria" resultMap="BoardMapWithoutSubject">
+  SELECT BOARD_ID, USER_ID, SUBJECT_ID, CATEGORY_ID, 
+  TITLE, TEXT, CREATE_DATE, HIT_NUM
+  FROM BOARD
+  WHERE CATEGORY_ID = #{categoryId}
   ORDER BY BOARD_ID DESC
   limit #{startIndex}, #{amount}
   </select>
