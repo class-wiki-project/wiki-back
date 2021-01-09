@@ -135,7 +135,7 @@ INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `n
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('4', 'han890@naver.com', 'han890', '이서연', '요건별','1908017', '2', '한국대학교',0,'2020-12-02 15:02:30');
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('5', 'rhksflwk@naver.com', 'rhksflwk12', '요건별명','나는관리자', '10101010', '1', '한국대학교교수여',0,'2020-12-22 15:02:30');
 INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('6', 'jin789@naver.com', 'jin789', '김진원', '김말이','1727011', '2', '한국대학교',0,'2020-12-22 19:02:04');
-INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('6', 'swing@naver.com', 'swing', '이스윙', '스윙스','1927018', '2', '한국대학교',0,'2020-02-13 22:02:04');
+INSERT INTO `mywiki`.`users` (`user_id`, `email`, `password`, `student_name`, `nick_name`,`student_number`, `auth`, `univ_name`,`reported_num`,`register_date`) VALUES ('7', 'swing@naver.com', 'swing', '이스윙', '스윙스','1927018', '2', '한국대학교',0,'2020-02-13 22:02:04');
 
 -- `subjects`
 --

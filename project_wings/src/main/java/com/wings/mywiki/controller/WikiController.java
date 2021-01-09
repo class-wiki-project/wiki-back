@@ -72,7 +72,7 @@ public class WikiController {
 	}
 
 	// classification is added on wiki
-	@RequestMapping(value = "/addClassification", method = RequestMethod.PUT, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
+	@RequestMapping(value = "/addClassification", method = RequestMethod.POST, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
 	public @ResponseBody HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
 		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
 		String groupId = (String) map.get("groupId");
