@@ -5,26 +5,29 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.wings.mywiki.model.ClassificationVO;
 import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.WikiVO;
 import com.wings.mywiki.service.WikiService;
 
-@Controller
+@RestController
 @RequestMapping("/wiki")
 public class WikiController {
 	@Autowired
 	private WikiService wikiService;
 
 	// wiki 내용보기
-	@RequestMapping(value = "/showWiki", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-	@ResponseBody
+	@GetMapping(value = "/showWiki")
 	public HashMap<String, Object> showWiki(@RequestParam int subjectId) {
 		WikiVO wikiVO = wikiService.getWiki(subjectId);
 		List<ClassificationVO> classificationList = wikiService.getClassification(wikiVO.getWikiId());
@@ -39,9 +42,8 @@ public class WikiController {
 	}
 
 	// wiki 수정
-	@RequestMapping(value = "/editWiki", method = RequestMethod.PUT, produces = "application/json; charset=utf8") // ***PUT占쏙옙占쏙옙
-																													// 占쏙옙占쏙옙!
-	public @ResponseBody HashMap<String, Object> editWiki(@RequestBody HashMap<String, String> map) {
+	@PutMapping(value = "/editWiki")
+	public HashMap<String, Object> editWiki(@RequestBody HashMap<String, String> map) {
 		if (wikiService.editWiki(map) == 0) { // �꽦怨�:1, �떎�뙣:0
 			System.out.println("Updating wiki cannot be done!");
 		} else {
@@ -59,8 +61,8 @@ public class WikiController {
 	}
 	
 	// check classification
-	@RequestMapping(value = "/checkClassification", method = RequestMethod.POST, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
-	public @ResponseBody HashMap<String, Object> checkClassification(@RequestBody HashMap<String, Object> map) {
+	@PostMapping(value = "/checkClassification")
+	public HashMap<String, Object> checkClassification(@RequestBody HashMap<String, Object> map) {
 		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
 		String groupId = (String) map.get("groupId");
 		int wikiId = (int) map.get("wikiId");
@@ -72,8 +74,8 @@ public class WikiController {
 	}
 
 	// classification is added on wiki
-	@RequestMapping(value = "/addClassification", method = RequestMethod.POST, produces = "application/json; charset=utf8")																					// 占쏙옙占쏙옙!
-	public @ResponseBody HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
+	@PostMapping(value = "/addClassification")
+	public HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
 		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
 		String groupId = (String) map.get("groupId");
 		
@@ -95,13 +97,18 @@ public class WikiController {
 		List<String> groupList = wikiService.getAllGroupId(wikiId);
 		int isAble=0;
 		int len = groupIdArray.length;
-
+		
 		for(String g : groupList) {   //만약 이미 있는 그룹이라면 생성 불가
 	        if(g.equals(groupId))
 	           return 0;
 	     }
 		if(len>4)	// a.b.c.d형태 까지만 가능
 			return 0;
+		
+		if(groupList.size()==0) {	//아예 처음 목록 생성
+			if(groupId.equals("1.1") || groupId.equals("2"))
+				isAble=1;	//가능
+		}
 		
 		for(String g : groupList) {	//원래 있던 groupId+.1은 생성 가능
 			if((g+".1").equals(groupId)) {
