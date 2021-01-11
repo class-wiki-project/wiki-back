@@ -37,40 +37,39 @@ public class FavController {
 	//즐겨찾기 추가하기
 	@RequestMapping(value = "/api/fav/insert", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> insert(@RequestParam(value="userId") int userId,
-									  @RequestParam(value="subjectId") int subjectId,
-									  @RequestParam(value="iconName") String iconName,
+	public Map<String, Object> insert(@RequestBody HashMap<String, Object> map,
 										HttpServletResponse response
 										) throws IOException {
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> push = new HashMap<String, Object>();
 		//유저id로 
 		System.out.println("즐겨찾기 삽입 호출");
-		UsersVO user = userService.selectOne(userId);
-		SubjectVO subject = subService.selectOne(subjectId);
-		List<FavVO> check = favService.selectAll(userId);
+		UsersVO user = userService.selectOne((int)map.get("userId"));
+		SubjectVO subject = subService.selectOne((int)map.get("subjectId"));
+		List<FavVO> check = favService.selectAll((int)map.get("userId"));
+		
 		for(int i=0; i<check.size(); i++) {
-			if(check.get(i).getSubjectId() == subjectId) {
+			if(check.get(i).getSubjectId() == (int)map.get("subjectId")) {
 				response.sendError(HttpServletResponse.SC_CONFLICT);
-				map.put("msg", "중복된 과목입니다.");
-				return map;
+				push.put("msg", "중복된 과목입니다.");
+				return push;
 			}
 		}
 		if(user != null) {
 		FavVO result = new FavVO();
-		result.setUserId(userId);
-		result.setSubjectId(subjectId);
+		result.setUserId((int)map.get("userId"));
+		result.setSubjectId((int)map.get("subjectId"));
 		result.setSubjectName(subject.getSubjectName());
 		result.setProfessor(subject.getProfessor());
-		result.setIconName(iconName);
+		result.setIconName((String)map.get("iconName"));
 		favService.insert(result);
-		map.put("favorites", favService.selectAll(userId));
-		map.put("msg", "즐겨찾기 등록이 완료되었습니다.");
+		push.put("favorites", favService.selectAll((int)map.get("userId")));
+		push.put("msg", "즐겨찾기 등록이 완료되었습니다.");
 		}
 		else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-			map.put("msg", "등록 실패");
+			push.put("msg", "등록 실패");
 		}
-		return map;
+		return push;
 	}
 	
 	//즐겨찾기 수정하기

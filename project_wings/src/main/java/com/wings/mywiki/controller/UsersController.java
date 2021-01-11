@@ -88,26 +88,27 @@ public class UsersController {
 	//비밀번호 재확인 
 		@RequestMapping(value = "/api/user/passcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 		@ResponseBody
-		public Map<String, Object> repassword(@RequestBody String password,
+		public Map<String, Object> passcheck(@RequestBody HashMap<String, Object> map,
 				HttpServletRequest request, HttpServletResponse response) throws IOException {
-			Map<String, Object> map = new HashMap<String, Object>();
+			Map<String, Object> obj = new HashMap<String, Object>();
 			UsersVO check = (UsersVO)WebUtils.getSessionAttribute(request, "loginSession"); 
-					
+			
+			System.out.println(check.getEmail());
 			pwdEncoder = new BCryptPasswordEncoder();
 			
-			if (pwdEncoder.matches(password, check.getPassword())) {
+			if (pwdEncoder.matches((String)map.get("password"), check.getPassword())) {
 				//비밀번호가 맞다면
 				UsersVO push = userService.selectWithoutPw(check.getUserId());
-				map.put("user", push);
-				map.put("msg", "비밀번호 재확인 성공");
+				obj.put("user", push);
+				obj.put("msg", "비밀번호 재확인 성공");
 				
 			}
 			else {
 				response.sendError(HttpServletResponse.SC_NOT_FOUND);
-				map.put("msg", "틀림");
+				obj.put("msg", "틀림");
 			}
 			
-			return map;
+			return obj;
 		}
 	// 로그인 처리
 	@RequestMapping(value = "/api/user/login", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
