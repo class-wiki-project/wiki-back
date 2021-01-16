@@ -52,4 +52,8 @@ public class WikiServiceImpl implements WikiService{
 	public List<String> getAllGroupId(int wikiId) {
 		return wikiDao.getAllGroupId(wikiId);
 	}
+	@Override
+	public int addWiki(HashMap<String, Object> map) {
+		return wikiDao.addWiki(map);
+	}
 }

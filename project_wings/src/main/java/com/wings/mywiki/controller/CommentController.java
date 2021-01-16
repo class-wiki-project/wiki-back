@@ -40,7 +40,7 @@ public class CommentController {
    //댓글 작성
    @RequestMapping(value = "/inputComment", method = RequestMethod.POST, produces = "application/json; charset=utf8")
    public HashMap<String, Object> inputComment(@RequestBody HashMap<String, Object> map) {
-	   if (commentService.inputComment(map) == 0) { // �꽦怨�:1, �떎�뙣:0
+	   if (commentService.inputComment(map) == 0) { 
          System.out.println("inputing comment cannot be done!");
       } else {
          System.out.println("Success!!!");

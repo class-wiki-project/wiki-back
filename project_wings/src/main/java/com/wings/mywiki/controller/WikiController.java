@@ -73,7 +73,7 @@ public class WikiController {
 		return wikiMap;
 	}
 
-	// classification is added on wiki
+	// classification is added into wiki
 	@PostMapping(value = "/addClassification")
 	public HashMap<String, Object> addWiki(@RequestBody HashMap<String, Object> map) {
 		HashMap<String, Object> wikiMap = new HashMap<String,Object>();
@@ -106,7 +106,7 @@ public class WikiController {
 			return 0;
 		
 		if(groupList.size()==0) {	//아예 처음 목록 생성
-			if(groupId.equals("1.1") || groupId.equals("2"))
+			if(groupId.equals("1") || groupId.equals("2"))
 				isAble=1;	//가능
 		}
 		

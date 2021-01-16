@@ -1,5 +1,6 @@
 package com.wings.mywiki.dao.mybatis;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +17,6 @@ public class MyBatisSubjectDao implements SubjectDao{
 	@Autowired
 	private SubjectMapper subjectMapper;
 	
-	@Override
-	public void insert(SubjectVO subjectVO) throws DataAccessException {
-		subjectMapper.insert(subjectVO);
-		
-	}
 
 	@Override
 	public List<SubjectVO> selectAll() throws DataAccessException {
@@ -44,5 +40,15 @@ public class MyBatisSubjectDao implements SubjectDao{
 	public SubjectVO selectOne(int SubjectId) throws DataAccessException {
 		// TODO Auto-generated method stub
 		return subjectMapper.selectOne(SubjectId);
+	}
+
+	@Override
+	public int addSubject(HashMap<String, Object> map) {
+		return subjectMapper.addSubject(map);
+	}
+
+	@Override
+	public int getSubjectId(HashMap<String, Object> map) {
+		return subjectMapper.getSubjectId(map);
 	}
 }

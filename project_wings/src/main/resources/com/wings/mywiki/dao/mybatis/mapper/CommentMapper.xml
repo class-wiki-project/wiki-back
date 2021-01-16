@@ -38,8 +38,7 @@
 	</resultMap>
 
 	<insert id="inputComment" parameterType="HashMap">
-		<selectKey resultType="integer" keyProperty="commentId"
-			order="BEFORE">
+		<selectKey resultType="integer" keyProperty="commentId" order="BEFORE">
 			select MAX(comment_id)+1 from comment
 		</selectKey>
 		insert into comment values

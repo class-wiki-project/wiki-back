@@ -1,5 +1,6 @@
 package com.wings.mywiki.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,6 @@ public class SubjectServiceImpl implements SubjectService{
 	@Autowired
 	private SubjectDao subjectDao;
 	
-	@Override
-	public void insert(SubjectVO subjectVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		subjectDao.insert(subjectVO);
-	}
 
 	@Override
 	public List<SubjectVO> selectAll() throws DataAccessException {
@@ -45,4 +41,13 @@ public class SubjectServiceImpl implements SubjectService{
 		return subjectDao.selectOne(SubjectId);
 	}
 
+	@Override
+	public int addSubject(HashMap<String, Object> map) {
+		return subjectDao.addSubject(map);
+	}
+
+	@Override
+	public int getSubjectId(HashMap<String, Object> map) {
+		return subjectDao.getSubjectId(map);
+	}
 }

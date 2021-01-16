@@ -30,6 +30,14 @@
 		<result property="updateDate" column="update_date" />
 		<result property="subjectId" column="subject_id" />
 	</resultMap>
+	
+	<!-- 위키 추가 (과목 생성 시 자동 생성) -->
+	<insert id="addWiki" parameterType="HashMap">
+		<selectKey resultType="integer" keyProperty="wikiId" order="BEFORE">
+			select MAX(wiki_id)+1 from wiki
+		</selectKey>
+		insert into wiki values (#{wikiId},NOW(),#{subjectId})
+	</insert>
 
 	<!-- 위키 내용 가져 옴 -->
 	<select id="getWiki" parameterType="int" resultMap="wikiResult">

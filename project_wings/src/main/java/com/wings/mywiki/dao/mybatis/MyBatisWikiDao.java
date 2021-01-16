@@ -57,4 +57,9 @@ public class MyBatisWikiDao implements WikiDao{
 	public List<String> getAllGroupId(int wikiId) {
 		return wikiMapper.getAllGroupId(wikiId);
 	}
+
+	@Override
+	public int addWiki(HashMap<String, Object> map) {
+		return wikiMapper.addWiki(map);
+	}
 }

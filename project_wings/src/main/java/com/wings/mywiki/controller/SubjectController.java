@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,11 +20,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.wings.mywiki.model.SubjectVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.SubjectService;
+import com.wings.mywiki.service.WikiService;
 
 @Controller
 public class SubjectController {
 	@Autowired
 	private SubjectService subService;
+	@Autowired
+	private WikiService wikiService;
 	
 	//1) 과목 정보 가져오기
 	@RequestMapping(value = "/api/subject/select", method = RequestMethod.GET, produces = "application/json")
@@ -50,15 +54,20 @@ public class SubjectController {
 		return map;
 	}
 	// 3) 과목 추가하기
-	@RequestMapping(value = "/api/subject/insert", method = RequestMethod.POST, produces = "application/json")
+	@RequestMapping(value = "/api/subject/addSubject", method = RequestMethod.POST, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> insert(SubjectVO subjectVO) throws IOException {
-		Map<String, Object> map = new HashMap<String, Object>();
+	public Map<String, Object> insert(@RequestBody HashMap<String, Object> map) throws IOException {
+		 subService.addSubject(map);
+	
+		int subjectId = subService.getSubjectId(map);
+		HashMap<String, Object> subjectMap = new HashMap<String, Object>();
+		subjectMap.put("subjectId", subjectId);
+		wikiService.addWiki(subjectMap);
 		
-		subService.insert(subjectVO);
-		map.put("msg", "추가되었습니다.");
+		Map<String, Object> successMap = new HashMap<String, Object>();
+		successMap.put("msg", "추가되었습니다.");
 		
-		return map;
+		return successMap;
 	}
 	// 4) 과목 삭제하기
 	@RequestMapping(value = "/api/subject/delete", method = RequestMethod.DELETE, produces = "application/json")

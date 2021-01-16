@@ -19,4 +19,5 @@ public interface WikiService {
 	public ClassificationVO getOneClassification(int wikiId);
 	public int addClassification(HashMap<String, Object> map);
 	public List<String> getAllGroupId(int wikiId);
+	public int addWiki(HashMap<String, Object> map);
 }
