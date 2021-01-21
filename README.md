@@ -20,6 +20,8 @@
 추가할 거 있으면 메일 보내주세요.
 
 [API 명세서] https://www.notion.so/9dd4c906891945029f2ad4a2affd0596
+[ERD_DIAGRAM]
+  <img src="./img/wings_erd_diagram.JPG"
 
 [Sujin](https://github.com/SujinJeong)
 - Blog : https://blog.naver.com/lovesujin051
