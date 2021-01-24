@@ -64,8 +64,9 @@ public class SubjectController {
 		subjectMap.put("subjectId", subjectId);
 		wikiService.addWiki(subjectMap);
 		
+		List<SubjectVO> subjectList = subService.selectAll();
 		Map<String, Object> successMap = new HashMap<String, Object>();
-		successMap.put("msg", "추가되었습니다.");
+		successMap.put("subjectList", subjectList);
 		
 		return successMap;
 	}
