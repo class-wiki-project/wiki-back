@@ -66,7 +66,7 @@ public class SubjectController {
 		
 		List<SubjectVO> subjectList = subService.selectAll();
 		Map<String, Object> successMap = new HashMap<String, Object>();
-		successMap.put("subjectList", subjectList);
+		successMap.put("subjects", subjectList);
 		
 		return successMap;
 	}
