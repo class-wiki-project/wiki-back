@@ -89,17 +89,27 @@ public class FavController {
 	//즐겨찾기 삭제하기
 	@RequestMapping(value = "/api/fav/delete", method = RequestMethod.DELETE, produces = "application/json")
 	@ResponseBody
-	public Map<String, Object> delete(@RequestParam(value="favSubjectId") int favSubjectId,
+	public Map<String, Object> delete(@RequestBody HashMap<String, Object> get,
 										HttpServletResponse response
 										) throws IOException {
+		
 		Map<String, Object> map = new HashMap<String, Object>();
-		System.out.println("favSubjectId: " + favSubjectId);
-		favService.delete(favSubjectId);
-		FavVO temp = favService.selectAll2(favSubjectId);
+		System.out.println("favSubjectId: " + (int)get.get("favSubjectId"));
+		FavVO temp = favService.selectAll2((int)get.get("favSubjectId"));
+		favService.delete((int)get.get("favSubjectId"));
+		System.out.println("1");
+		System.out.println("2");
+		//fav에서 temp의 userid인 모든 애들을 불러옴
 		if(temp != null) {
-		map.put("favorite", favService.selectAll(temp.getUserId()));
+			System.out.println("3");
+		map.put("favorites", favService.selectAll(temp.getUserId()));
+		System.out.println("4");
 		map.put("msg", "즐겨찾기가 삭제되었습니다.");
 		}
+		else {
+			map.put("msg", "즐겨찾기가 삭제되었습니다.");
+		}
+		System.out.println("5");
 		return map;
 	}
 	
