@@ -28,3 +28,6 @@
 [Sujin](https://github.com/SujinJeong)
 - Blog : https://blog.naver.com/lovesujin051
 - E-mail : lovesujin05173@gmail.com
+
+[Yunji] (https://github.com/dbswl4951)
+- E-mail : dbswl31024@naver.com
