@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.WebUtils;
 
 import com.wings.mywiki.model.LoginVO;
+import com.wings.mywiki.model.UserNoPassVO;
+import com.wings.mywiki.model.UserUpdateVO;
 import com.wings.mywiki.model.UsersVO;
 import com.wings.mywiki.service.BoardService;
 import com.wings.mywiki.service.FavService;
@@ -68,7 +70,38 @@ public class UsersController {
 		
 		return map;
 	}
-
+	
+	// 회원정보 수정
+		@RequestMapping(value = "/api/user/update", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+		@ResponseBody
+		public Map<String, Object> userRegister(@RequestBody HashMap<String, Object> map, HttpServletResponse response) {
+			// (int)map.get("boardId")
+			UserUpdateVO user = new UserUpdateVO();
+			user.setUserId((int)map.get("userId"));
+			user.setPassword((String)map.get("password"));
+			user.setNickName((String)map.get("nickName"));
+			user.setStudentName((String)map.get("studentName"));
+			user.setStudentNumber((String)map.get("studentNumber"));
+			user.setUnivName((String)map.get("univName"));
+			
+			userService.update(user);
+			UserNoPassVO users = new UserNoPassVO();
+			UsersVO tmp = userService.selectOne((int)map.get("userId"));
+			users.setAuth(tmp.getAuth());
+			users.setEmail(tmp.getEmail());
+			users.setNickName(tmp.getNickName());
+			users.setRegisterDate(tmp.getRegisterDate());
+			users.setReportedNum(tmp.getReportedNum());
+			users.setStudentName(tmp.getStudentName());
+			users.setStudentNumber(tmp.getStudentNumber());
+			users.setUnivName(tmp.getUnivName());
+			users.setUserId(tmp.getUserId());
+			
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("users", users);
+			return result;
+			
+		}
 	// 회원 가입시 id 중복 체크
 	@RequestMapping(value = "/api/user/emailcheck", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody

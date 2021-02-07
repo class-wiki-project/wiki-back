@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
+import com.wings.mywiki.model.UserUpdateVO;
 import com.wings.mywiki.model.UsersVO;
 
 public interface UsersMapper {
@@ -15,7 +16,7 @@ public interface UsersMapper {
 	//�Ѹ� ��ȸ
 	UsersVO selectOne(int UserId) throws DataAccessException;
 	//����
-	void update(UsersVO usersVO) throws DataAccessException;
+	void update(UserUpdateVO usersVO) throws DataAccessException;
 	//����
 	void delete(int UserId) throws DataAccessException;
 	//��ü ȸ�� �� ��ȸ

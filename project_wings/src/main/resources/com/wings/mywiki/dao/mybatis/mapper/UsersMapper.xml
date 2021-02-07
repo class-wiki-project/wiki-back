@@ -47,9 +47,9 @@
 	</select>
 
 	<update id="update">
-		update users set email=#{email}, password=#{password},
+		update users set password=#{password},
 		student_name=#{studentName}, student_number=#{studentNumber},
-		univ_name=#{univName}, nick_name=#{nickName}, reported_num=#{reportedNum} 
+		univ_name=#{univName}, nick_name=#{nickName} 
 		where user_id=#{userId}
 	</update>
 

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.wings.mywiki.dao.UsersDao;
 import com.wings.mywiki.dao.mybatis.mapper.UsersMapper;
+import com.wings.mywiki.model.UserUpdateVO;
 import com.wings.mywiki.model.UsersVO;
 
 @Repository
@@ -35,7 +36,7 @@ public class MyBatisUsersDao implements UsersDao{
 	}
 
 	@Override
-	public void update(UsersVO usersVO) throws DataAccessException {
+	public void update(UserUpdateVO usersVO) throws DataAccessException {
 		usersMapper.update(usersVO);
 		
 	}

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.wings.mywiki.dao.UsersDao;
+import com.wings.mywiki.model.UserUpdateVO;
 import com.wings.mywiki.model.UsersVO;
 @Service
 @Transactional
@@ -33,7 +34,7 @@ public class UsersServiceImpl implements UsersService{
 	}
 
 	@Override
-	public void update(UsersVO usersVO) throws DataAccessException {
+	public void update(UserUpdateVO usersVO) throws DataAccessException {
 		// TODO Auto-generated method stub
 		usersDao.update(usersVO);
 	}
