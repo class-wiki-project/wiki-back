@@ -7,6 +7,9 @@
 
 수업 내용을 함께 만들어 나가요.
 
+- Spring MVC, REST API
+- MyBatis, MySQL
+- AWS EC2
 
 <p align="center">
   <img src="./img/Spring.png">
